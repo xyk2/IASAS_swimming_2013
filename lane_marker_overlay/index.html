@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US" style="height: 100%;background: url(background/DSC00015.JPG) -200px 0;" onmousemove=SetValues()>
+	<head>
+		<title>Lane Markers</title>
+		<meta http-equiv="content-type" content="text/html; charset=us-ascii">
+		
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<script type="text/javascript">
+			function SetValues()
+			{
+				var s = 'X=' + window.event.clientX +  ' Y=' + window.event.clientY ;
+				document.getElementById('divCoord').innerText = s;
+			}  
+
+		</script>
+
+	</head>
+
+	<body style="height:100%;">
+		<div id="divCoord" style='position:absolute;'></div>
+		
+		
+		<div style='-webkit-perspective:1000;-webkit-perspective-origin: 0% 0%;margin-left:440px;              display:none;'>
+			<img src='helloworld.png' style='-webkit-transform: rotateX(60deg);'>
+		</div>
+		
+		<ul style='list-style-type: none;font-family:iasas;background-color:#0F48FF;width:400px;-webkit-transform: rotate(-0.7deg); display:none;'>
+			<li style='height:90px;font-size:60px;color:white;text-shadow: 3px 3px #000;-webkit-transform: rotateX(50deg);margin-top:335px;'>Phillip Teng</li>
+			<li style='height:90px;font-size:60px;color:white;text-shadow: 3px 3px #000;-webkit-transform: rotateX(50deg);position:absolute:margin-top:241px;'>Daryl Tong</li>
+		</ul>
+		
+		<ul style='position:absolute;list-style-type: none;font-family:iasas;margin-left:420px;margin-top:70px;'>
+			<li>Phillip Teng</li>
+	
+		</ul>
+		
+	</body>
+</html>

@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US" style="height: 100%;">
+	<head>
+		<title>IASAS Swimming 2013</title>
+		<meta http-equiv="content-type" content="text/html; charset=us-ascii">
+		
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<script>
+			function update() {
+				//$("#name_list li").html(value);
+				//$("#name_list").css('display', 'block');
+				
+				for(var x = 0; x<7; x++) {
+					text = $(".name").eq(x).val().toUpperCase();
+					$("#name_list li").eq(x).html(text);
+				}
+				
+				for(var x = 0; x<7; x++) {
+					school = $(".school").eq(x).val();
+					$("#school_list li").eq(x).html(school);
+					$("#img_list li img").eq(x).attr('src', school.toLowerCase() + ".png");
+				}
+
+				for(var x = 0; x<7; x++) {
+					text = $(".time").eq(x).val();
+					$("#time_list li").eq(x).html(text);
+				}
+				
+				$("#name_list").show();
+			}
+			
+			function clear_list() {
+				$("#name_list").hide();
+			}
+			
+			function show() {
+				$("#name_list").show();
+			}			
+		</script>
+		
+	</head>
+
+	<body style="background-color: lime;">
+		<div id="img_container" style="background: url(swimming_text_removed_single.png) no-repeat;height: 768px;width: 1024px;">
+		</div>
+		
+		<div id='console_container' style='font-family:Arial;position: absolute;margin-top:0px;margin-left:100px;'>
+			<form>
+				Swimmer #1: <input type="text" class="school" value="TAS" size='2'><input type="text" class="name" value="John Smith"><input type="text" class="time" value="00.00" size='2'></br>
+				Swimmer #2: <input type="text" class="school" value="TAS" size='2'><input type="text" class="name" value="NAME"><input type="text" class="time" value="00.00" size='2'></br>
+				Swimmer #3: <input type="text" class="school" value="TAS" size='2'><input type="text" class="name" value="NAME"><input type="text" class="time" value="00.00" size='2'></br>
+				Swimmer #4: <input type="text" class="school" value="TAS" size='2'><input type="text" class="name" value="NAME"><input type="text" class="time" value="00.00" size='2'></br>
+				Swimmer #5: <input type="text" class="school" value="TAS" size='2'><input type="text" class="name" value="NAME"><input type="text" class="time" value="00.00" size='2'></br>
+				Swimmer #6: <input type="text" class="school" value="TAS" size='2'><input type="text" class="name" value="NAME"><input type="text" class="time" value="00.00" size='2'></br>
+				Swimmer #7: <input type="text" class="school" value="TAS" size='2'><input type="text" class="name" value="NAME"><input type="text" class="time" value="00.00" size='2'></br>
+				
+			</form>
+			<button type="button" onclick="update()">Update Graphics</button>
+			<button type="button" onclick="clear_list()">Hide</button>			
+			<button type="button" onclick="show()">Show</button>
+
+		</div>
+		
+		<ul id='name_list' style='display:block;'>
+			<li>Swimmer 1</li>
+			<li>Swimmer 2</li>
+			<li>Swimmer 3</li>
+			<li>Swimmer 4</li>
+			<li>Swimmer 5</li>
+			<li>Swimmer 6</li>
+			<li>Swimmer 7</li>
+		</ul>
+
+		<ul id='school_list' style='display:block;'>
+			<li>TAS</li>
+			<li>ISKL</li>
+			<li>SAS</li>
+			<li>ISM</li>
+			<li>ISB</li>
+			<li>JIS</li>
+			<li>TAS</li>
+		</ul>
+
+		<ul id='img_list' style='display:block;'>
+			<li><img src='tas.png'></li>
+			<li><img src='iskl.png'></li>
+			<li><img src='sas.png'></li>
+			<li><img src='ism.png'></li>
+			<li><img src='isb.png'></li>
+			<li><img src='jis.png'></li>
+			<li><img src='tas.png'></li>
+		</ul>
+		
+		
+		<ul id='time_list' style='display:block;width:200px;'>
+			<li>20.00</li>
+			<li>00.00</li>
+			<li>00.00</li>
+			<li>00.00</li>		
+			<li>00.00</li>
+			<li>00.00</li>
+			<li>00.00</li>		
+		</ul>
+	</body>
+</html>

@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<IASAS_swimming>
+	<first>
+		<name>J Woldring</name>
+		<school>IS Manila</school>
+		<time>23.47</time>
+	</first>
+	<second>
+		<name>J Theuer</name>
+		<school>IS Manila</school>
+		<time>23.62</time>
+	</second>
+	<third>
+		<name>K Holt</name>
+		<school>SAS</school>
+		<time>23.63</time>
+	</third>
+	<fourth>
+		<name>A Kaul</name>
+		<school>SAS</school>
+		<time>23.65</time>
+	</fourth>
+	<fifth>
+		<name>O Fouda</name>
+		<school>JIS</school>
+		<time>23.83</time>
+	</fifth>
+	<sixth>
+		<name>T Jaya Gopan</name>
+		<school>ISKL</school>
+		<time>24.13</time>
+	</sixth>
+	<seventh>
+		<name>M Crabtree</name>
+		<school>JIS</school>
+		<time>1:13.93</time>
+	</seventh>
+</IASAS_swimming>

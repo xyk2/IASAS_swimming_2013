@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html style='overflow:hidden;'>
+	<head>
+		<title>IASAS Swimming 2013 Graphics Displayer</title>
+		<script src='js/jquery.min.js'></script>
+		<script src="js/jquery.csv-0.71.min.js" type="text/javascript"></script>
+		
+		<link rel="stylesheet/less" type="text/css" href="style.less">
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+		<script src="js/less-1.3.1.min.js" type="text/javascript"></script>
+
+ 
+		<script>
+		
+			/* 
+			PERMANENT NAMES for GRAPHICS
+				results.png
+				start_list.png
+				nameplate.png		
+				winner.png				
+				race_intro.png
+
+			*/
+			$(document).ready(function() { 
+				draw_new_graphic_handler("live.csv");
+				setInterval(function() {draw_new_graphic_handler("live.csv")}, 500);
+			});
+			
+			function draw_new_graphic_handler(filename) {
+				csv = "";
+				$.ajax({url:filename, cache: false}).done(function(csv) {
+					csv = $.csv.toArrays(csv);
+					clear_all_xept(csv[0][0]); // clear all graphics except requested one 
+					switch(csv[0][0]) { // redirect to separate graphic handlers
+						case "results":
+							results_handler(csv); break;
+						case "start_list":
+							start_list_handler(csv); break;
+						case "nameplate":
+							nameplate_handler(csv); break;
+						case "winner":
+							winner_handler(csv); break;
+						case "race_intro":
+							race_intro_handler(csv); break;	
+					}
+				});
+			}
+			
+			
+			function results_handler(csv) {
+				console.log("Graphics -> results_handler()...");
+				$("#results h1").html(csv[1][0]); // Line 2, Cell 1 (race title)
+				$("#results h2").html("Results - " + csv[1][1]); // Line 2, Cell 2 (race type/match)
+				$("#results ul li").each(function(index) {
+					$(this).attr("class", csv[index+2][1].toLowerCase()); // Line n Cell 2 (school name)
+					$(this).find("h3").html(csv[index+2][1]); // Line n Cell 2 (school name)
+					$(this).find("h4").html(csv[index+2][2]); // Line n Cell 3 (swimmer name)
+					$(this).find("h5").html(csv[index+2][3]); // Line n Cell 4 (time)
+				});
+			}
+			
+			function start_list_handler(csv) {
+				console.log("Graphics -> start_list_handler()...");			
+				$("#start_list h1").html(csv[1][0]); // Line 2, Cell 1 (race title)
+				$("#start_list h2").html("Start List - " + csv[1][1]); // Line 2, Cell 2 (race type/match)
+				$("#start_list ul li").each(function(index) {
+					$(this).attr("class", csv[index+2][1].toLowerCase()); // Line n Cell 2 (school name)
+					$(this).find("h3").html(csv[index+2][1]); // Line n Cell 2 (school name)
+					$(this).find("h4").html(csv[index+2][2]); // Line n Cell 3 (swimmer name)
+				});
+			}
+			
+			function nameplate_handler(csv) {
+				console.log("Graphics -> nameplate_handler()...");		
+				$("#nameplate h3").html(csv[1][0]); // Line 2, Cell 1 (lane number)
+				$("#nameplate h2").html(csv[1][1]); // Line 2, Cell 2 (school name)
+				$("#nameplate h1").html(csv[1][2]); // Line 2, Cell 3 (swimmer name)
+				new_img_src = "img/" + csv[1][1].toLowerCase() + ".png";
+				$("#nameplate img").attr("src", new_img_src);
+			}
+			
+			function winner_handler(csv) {
+				console.log("Graphics -> winner_handler()...");		
+				$("#winner h1").html(csv[1][0]); // Line 2, Cell 1 (race title)
+				$("#winner h2").html("Winner - " + csv[1][1]); // Line 2, Cell 2 (race type/match)
+				$("#winner h6").html(csv[2][0]); // Line 2, Cell 1 (lane number)
+				$("#winner ul li").attr("class", csv[2][1].toLowerCase()); // Line n Cell 2 (school graphic)
+				$("#winner ul li").find("h3").html(csv[2][1]); // Line n Cell 2 (school name)
+				$("#winner ul li").find("h4").html(csv[2][2]); // Line n Cell 3 (swimmer name)
+				$("#winner ul li").find("h5").html(csv[2][3]); // Line n Cell 4 (time)
+			}
+
+			function race_intro_handler(csv) {
+				console.log("Graphics -> race_intro_handler()...");		
+				$("#race_intro h1").html(csv[1][0]); // Line 2, Cell 1 (race title)
+				$("#race_intro h2").html(csv[1][1]); // Line 2, Cell 2 (race type/match)
+			}
+			
+			function clear_all_xept(shown_img) { // Clear all graphics except argument
+				$('div').each(function(index) {
+					$(this).hide();
+				});
+				$("#" + shown_img).show();
+			}
+		</script>
+	</head>
+	
+	<body style='background:rgb(0,255,33);'>
+	
+		<div id='results' style='display:none'>
+			<h1>Race</h1>
+			<h2>Results</h2>
+			<ul class='results_list'>
+				<li class='tas'>
+					<h3>TAS</h3>
+					<h4>PHILLIP TENG</h4>
+					<h5>47.36</h5>
+				</li>
+				<li class='sas'>
+					<h3>SAS</h3>
+					<h4>NATHAN ADRIAN</h4>
+					<h5>47.52</h5>
+				</li>
+				<li class='isb'>
+					<h3>ISB</h3>
+					<h4>BRENT HAYDEN</h4>
+					<h5>47.80</h5>
+				</li>
+				<li class='ism'>
+					<h3>ISM</h3>
+					<h4>YANNICK AGNEL</h4>
+					<h5>47.84</h5>
+				</li>
+				<li class='iskl'>
+					<h3>ISKL</h3>
+					<h4>SEBASTIAAN VERSCHUREN</h4>
+					<h5>47.88</h5>
+				</li>
+				<li class='jis'>
+					<h3>JIS</h3>
+					<h4>CESAR CIELO</h4>
+					<h5>47.92</h5>
+				</li>
+				<li class='tas'>
+					<h3>TAS</h3>
+					<h4>HANSER GARCIA</h4>
+					<h5>48.04</h5>
+				</li>
+			</ul>
+		</div>
+		
+		<div id='start_list' style='display:none'>
+			<h1>Race</h1>
+			<h2>Start List</h2>
+			<ul class='results_list'>
+				<li class='tas'>
+					<h3>TAS</h3>
+					<h4>PHILLIP TENG</h4>
+				</li>
+				<li class='sas'>
+					<h3>SAS</h3>
+					<h4>NATHAN ADRIAN</h4>
+				</li>
+				<li class='isb'>
+					<h3>ISB</h3>
+					<h4>BRENT HAYDEN</h4>
+				</li>
+				<li class='ism'>
+					<h3>ISM</h3>
+					<h4>YANNICK AGNEL</h4>
+				</li>
+				<li class='iskl'>
+					<h3>ISKL</h3>
+					<h4>SEBASTIAAN VERSCHUREN</h4>
+				</li>
+				<li class='jis'>
+					<h3>JIS</h3>
+					<h4>CESAR CIELO</h4>
+				</li>
+				<li class='tas'>
+					<h3>TAS</h3>
+					<h4>HANSER GARCIA</h4>
+				</li>
+			</ul>
+		</div>
+		
+		<div id='nameplate' style='display:none'>
+			<h3>1</h3>
+			<img src='img/iskl.png'>
+			<h2>ISKL</h2>
+			<h1>PHILLIP TENG</h1>
+		</div>
+		
+		<div id='winner' style='display:none'>
+			<h1>Boys 100m Freestyle</h1>
+			<h2>Start List</h2>
+			<h6>1</h6>
+			<ul class='results_list winner_override'>
+				<li class='tas'>
+					<h3>TAS</h3>
+					<h4>SWIMMER</h4>
+					<h5>10.0</h5>
+				</li>
+			</ul>
+		</div>
+		
+		<div id='race_intro' style='display:none'>
+			<h1>Boys 100m Freestyle</h1>
+			<h2>Preliminaries</h2>
+		</div>
+		
+		
+		
+		
+	</body>
+
+
+</html>

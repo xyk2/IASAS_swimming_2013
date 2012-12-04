@@ -1,0 +1,228 @@
+html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,a, abbr, acronym, address, big, cite, code,del, dfn, em, img, ins, kbd, q, s, samp,small, strike, strong, sub, sup, tt, var,b, u, i, center,dl, dt, dd, ol, ul, li,fieldset, form, label, legend,table, caption, tbody, tfoot, thead, tr, th, td,article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary,time, mark, audio, video {	margin: 0;	padding: 0;	border: 0;	font-size: 100%;	font: inherit;	vertical-align: baseline;}
+article, aside, details, figcaption, figure,footer, header, hgroup, menu, nav, section {display: block;}
+body {line-height:1;font-family:Open Sans;}
+
+@results_url: "base_graphics/results.png";
+@start_list_url: "base_graphics/start_list.png";
+@nameplate_url: "base_graphics/nameplate.png";
+@winner_url: "base_graphics/winner.png";
+@race_intro_url: "base_graphics/race_intro.png";
+
+@row_height: 34px;
+@school_icon_paddingX: 10px;
+@school_icon_paddingY: 6px;
+@school_name_font_size: 15pt;
+@swimmer_name_font_size: 16pt;
+
+.global_reset {
+	position: absolute;
+	top: 0;
+}
+.global_text_blur {
+	text-shadow: 1px 0px 7px rgba(0, 0, 0, 0.81);
+}
+.global_WxH {
+	width:1024px;
+	height:768px;
+}
+
+.results_start_list_h1_h2 {
+	h1 {
+		.global_reset;
+		font-family: London2012;
+		font-size: 22pt;
+		margin-top: 290px;
+		margin-left: 255px;
+		color: white;
+		text-shadow: 2px 2px 8px black;
+	}
+	h2 {
+		.global_reset;
+		font-family: Open Sans;
+		font-weight:700;
+		font-size: 18pt;
+		margin-top: 330px;
+		margin-left: 245px;
+		color: #6B6B6B;
+	}
+}
+
+.results_list {
+	.global_reset;
+	list-style-type: none;
+	margin-top:358px;
+	margin-left:259px;
+	width:603px;
+	font-family: Open Sans;
+	color:#EEE;
+	li {
+		height: @row_height;
+		//border-top:1px solid red;
+		line-height: @row_height;
+	}
+	h3 { /* School Name */
+		.global_text_blur;
+		margin-left:40px;
+		font-weight:400;
+		font-size: @school_name_font_size;
+		float:left;
+	}
+	h4 { /* Swimmer Name */
+		.global_text_blur;
+		margin-left:95px;
+		font-size: @swimmer_name_font_size;
+		font-weight:600;
+		position:absolute;
+	}
+	h5 { /* Time */
+		.global_text_blur;
+		font-size: @swimmer_name_font_size;
+		font-weight:600;
+		float:right;
+		margin-right:15px;
+	}
+}
+
+@font-face {
+font-family: London2012;
+src: url('fonts/LONDON_FONT.TTF');
+}
+
+#results {
+	.global_WxH;
+	.results_start_list_h1_h2;
+	background-image:url(@results_url);
+}
+
+#start_list {
+	.global_WxH;
+	.results_start_list_h1_h2;
+	background-image:url(@start_list_url);
+}
+
+
+#nameplate {
+	.global_WxH;
+	background-image:url(@nameplate_url);
+	color:white;
+	position:absolute;	
+	h3 {
+		position:absolute;	
+		font-size:16pt;
+		margin-top:582px;
+		margin-left:215px;
+	}
+	img {
+		position:absolute;
+		margin-left:250px;
+		margin-top:580px;
+		font-weight:600;
+	}
+	h2 {
+		position:absolute;
+		font-size:17pt;
+		margin-top:581px;
+		margin-left:279px;
+		color:#EEEEEE;
+		font-weight:600;
+	}
+	h1 {
+		position:absolute;
+		font-family:London2012;
+		font-weight:normal;
+		font-size:20pt;
+		margin-top:580px;
+		margin-left:355px;
+		text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.81);
+	}
+}
+
+#winner {
+	.global_WxH;
+	background-image:url(@winner_url);
+	color:white;
+	position:absolute;	
+	h1 {
+		.global_reset;
+		font-family: London2012;
+		font-size: 22pt;
+		margin-top: 525px;
+		margin-left: 255px;
+		color: white;
+		text-shadow: 2px 2px 8px black;
+	}
+	h2 {
+		.global_reset;
+		font-family: Open Sans;
+		font-weight:700;
+		font-size: 18pt;
+		margin-top: 565px;
+		margin-left: 245px;
+		color: #6B6B6B;
+	}
+	.winner_override { /* Override default margin-top */
+		margin-top:593px !important;
+	}
+	h6 {
+		.global_reset;
+		font-weight:600;
+		font-size: 18pt;
+		margin-top: 598px;
+		margin-left: 232px;
+	}
+}
+
+
+#race_intro {
+	.global_WxH;
+	background-image:url(@race_intro_url);
+	color:white;
+	position:absolute;	
+	@margin-top_offset: 23px;
+	@margin-left_offset: 15px;
+	h1 {
+		.global_reset;
+		font-family: London2012;
+		font-size: 22pt;
+		margin-top: 525px+@margin-top_offset;
+		margin-left: 255px+@margin-left_offset;
+		color: white;
+		text-shadow: 2px 2px 8px black;
+	}
+	h2 {
+		.global_reset;
+		font-family: Open Sans;
+		font-weight:700;
+		font-size: 18pt;
+		margin-top: 565px+@margin-top_offset;
+		margin-left: 245px+@margin-left_offset;
+		color: #6B6B6B;
+	}
+	
+}
+
+
+.tas {
+	background:url(img/tas.png) no-repeat;
+	background-position:@school_icon_paddingX @school_icon_paddingY;
+}
+.sas {
+	background:url(img/sas.png) no-repeat;
+	background-position:@school_icon_paddingX @school_icon_paddingY;
+}
+.isb {
+	background:url(img/isb.png) no-repeat;
+	background-position:@school_icon_paddingX @school_icon_paddingY;
+}
+.ism {
+	background:url(img/ism.png) no-repeat;
+	background-position:@school_icon_paddingX @school_icon_paddingY;
+}
+.iskl {
+	background:url(img/iskl.png) no-repeat;
+	background-position:@school_icon_paddingX @school_icon_paddingY;
+}
+.jis {
+	background:url(img/jis.png) no-repeat;
+	background-position:@school_icon_paddingX @school_icon_paddingY;
+}
