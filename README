@@ -1,1 +1,2 @@
-The graphics keying and overlay engine for the IASAS 2013 swimming broadcast.
+The graphics keying and overlay engine for the IASAS 2013 swimming broadcast. Runs with a custom external hardware serial decoder and HTML5 WebSockets.
+
