@@ -1,0 +1,3 @@
+[submodule "daktronics"]
+	path = daktronics
+	url = https://github.com/xyk2/daktronics.git
