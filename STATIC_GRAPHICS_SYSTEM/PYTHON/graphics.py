@@ -1,9 +1,13 @@
 from Tkinter import *
 import numpy #sort times
+import time
+from time import gmtime, strftime
+import platform
+import socket
 
 school_name = [""]*7
 swimmer_name = [""]*7
-time = [""]*7
+race_time = [""]*7
 
 
 master = Tk()
@@ -36,9 +40,9 @@ for x in range(0, 7):
 	swimmer_name[x] = Entry(master, width=30)
 	swimmer_name[x].config(borderwidth=2)
 	swimmer_name[x].grid(row=x+5, column=3, padx=(4,0),pady=(2,2),ipady=1, columnspan=4, sticky='w')
-	time[x] = Entry(master, width=9)
-	time[x].config(borderwidth=2)
-	time[x].grid(row=x+5, column=10, padx=(4,0),pady=(2,2),ipady=1,columnspan=4, sticky='w')
+	race_time[x] = Entry(master, width=9)
+	race_time[x].config(borderwidth=2)
+	race_time[x].grid(row=x+5, column=10, padx=(4,0),pady=(2,2),ipady=1,columnspan=4, sticky='w')
 	
 graphic_type = IntVar()
 Radiobutton(master,  variable=graphic_type, text="Race Introduction", value="0").grid(row=5,column=14, padx=(10,15),sticky='w')
@@ -47,6 +51,24 @@ Radiobutton(master,  variable=graphic_type, text="Nameplate", value="2").grid(ro
 Radiobutton(master,  variable=graphic_type, text="Winner", value="3").grid(row=8,column=14, padx=(10,0), sticky='w')
 Radiobutton(master,  variable=graphic_type, text="Results", value="4").grid(row=9, column=14, padx=(10,0), sticky='w')
 
+
+def log_to_file(filename, gfx_type, race_title_val, match_val): #logfile function; logs to file with ip, network name, race title, type, and match
+	current_time = strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+	ip_address = socket.gethostbyname(socket.gethostname())
+	network_name = platform.node()
+	csv_string = ip_address + "," + network_name + "," + current_time + ',' + gfx_type + "," + race_title_val + "," + match_val + '\n'
+	file = open(filename, 'a') #open logfile in append mode
+	file.write(csv_string)
+	file.close()
+
+	
+def save_event_to_file(gfx_type, race_title_val, match_val, csv_string): #saves all live.csv files in timestamped files
+	filename = strftime("%Y-%m-%d-%H_%M_%S", time.localtime()) + "_" + gfx_type + "_" + race_title_val + "_" + match_val + ".csv"
+	print filename
+	file = open(r"logs/%s"%filename, "w+")
+	file.write(csv_string)
+	file.close()
+	
 def sort_list_by_time(list):
 	for x in range(0,7): #convert time str to float
 		if(len(list[x][3])>0 and list[x][3].find(":") == -1 and list[x][3].find(".") != -1): #skip empty times, >1 min times, and DNFs
@@ -80,7 +102,7 @@ def gfx_live_pusher():
 		dataset[x][0] = str(x+1)
 		dataset[x][1] = school_name[x].get()
 		dataset[x][2] = swimmer_name[x].get()
-		dataset[x][3] = time[x].get()
+		dataset[x][3] = race_time[x].get()
 	print dataset
 	csv_string = csv_string + gfx_type + '\n' #line 1, gfx type command
 	
@@ -109,6 +131,8 @@ def gfx_live_pusher():
 	file.write(csv_string)
 	file.close()
 	print csv_string
+	log_to_file("logfile.log", gfx_type, race_title_val, match_val) #log to logfile
+	save_event_to_file(gfx_type, race_title_val, match_val, csv_string) #save event to .csv
 	
 Button(master, pady=3, text="Daktronics Console").grid(row=12,column=0, columnspan=4,pady=(10,15),padx=(15,0),sticky="w")
 Button(master, pady=3, text="Open GFX Displayer").grid(row=12,column=4, ipadx=5, columnspan=2,pady=(10,15),padx=(15,0),sticky="w")
