@@ -1,29 +1,46 @@
 from Tkinter import *
 import numpy #sort times
-import time
-from time import gmtime, strftime
-import platform
-import socket
+import time #timestamps
+from time import gmtime, strftime #timestamps
+import platform #IP + computer name
+import socket #IP + computer name
+import tkFileDialog
+import webbrowser #open URL
+import Image, ImageTk
 
 school_name = [""]*7
 swimmer_name = [""]*7
 race_time = [""]*7
 
+school_name_value = [""]*7
+swimmer_name_value = [""]*7
+race_time_value = [""]*7
 
+
+	
 master = Tk()
 master.resizable(0,0)
 master.wm_title("IASAS Swimming 2013 Graphics Generator") #program title
-master.wm_iconbitmap('icon.ico')
+master.wm_iconbitmap('img/icon.ico')
 
-
+img_list = [ImageTk.PhotoImage(Image.open('img/race_intro.png')), ImageTk.PhotoImage(Image.open('img/start_list.png')),
+	ImageTk.PhotoImage(Image.open('img/nameplate.png')),ImageTk.PhotoImage(Image.open('img/winner.png')),
+	ImageTk.PhotoImage(Image.open('img/results.png'))]
+	
+for x in range(0, 7):
+	school_name_value[x] = StringVar()
+	swimmer_name_value[x] = StringVar()
+	race_time_value[x] = StringVar()
+	
+race_title_entry_value = StringVar()
 Label(master, text='Race Title').grid(row=0,column=1,columnspan=5,sticky='w')
-race_title = Entry(master, width=35)
+race_title = Entry(master, width=35, textvariable=race_title_entry_value)
 race_title.config(borderwidth=2)
 race_title.grid(row=1, column=1,ipady=3,columnspan=5)
 
-
+match_entry_value = StringVar()
 Label(master, text='Match').grid(row=2,column=1,pady=(10,0),columnspan=5,sticky='w')
-match = Entry(master, width=35)
+match = Entry(master, width=35, textvariable=match_entry_value)
 match.config(borderwidth=2)
 match.grid(row=3, column=1,ipady=3,pady=(0,10),columnspan=5)
 
@@ -34,22 +51,26 @@ Label(master, text='Time').grid(row=4,column=10,padx=(5,0),sticky='w')
 lane_number = IntVar()
 for x in range(0, 7):
 	Radiobutton(master,  variable=lane_number, value=x).grid(row=x+5,column=0,pady=2,sticky='e')
-	school_name[x] = Entry(master, width=5)
+	school_name[x] = Entry(master, width=5, textvariable=school_name_value[x])
 	school_name[x].config(borderwidth=2)
 	school_name[x].grid(row=x+5, column=1, pady=(2,2),ipady=1, columnspan=2, sticky='w')
-	swimmer_name[x] = Entry(master, width=30)
+	swimmer_name[x] = Entry(master, width=30, textvariable=swimmer_name_value[x])
 	swimmer_name[x].config(borderwidth=2)
 	swimmer_name[x].grid(row=x+5, column=3, padx=(4,0),pady=(2,2),ipady=1, columnspan=4, sticky='w')
-	race_time[x] = Entry(master, width=9)
+	race_time[x] = Entry(master, width=9, textvariable=race_time_value[x])
 	race_time[x].config(borderwidth=2)
 	race_time[x].grid(row=x+5, column=10, padx=(4,0),pady=(2,2),ipady=1,columnspan=4, sticky='w')
 	
+def change_img(): #change image based on gfx_type radiobutton
+	int(graphic_type.get())
+	image_label.config(image=img_list[int(graphic_type.get())])
+	
 graphic_type = IntVar()
-Radiobutton(master,  variable=graphic_type, text="Race Introduction", value="0").grid(row=5,column=14, padx=(10,15),sticky='w')
-Radiobutton(master,  variable=graphic_type, text="Start List", value="1").grid(row=6,column=14,  padx=(10,0),sticky='w')
-Radiobutton(master,  variable=graphic_type, text="Nameplate", value="2").grid(row=7,column=14, padx=(10,0), sticky='w')
-Radiobutton(master,  variable=graphic_type, text="Winner", value="3").grid(row=8,column=14, padx=(10,0), sticky='w')
-Radiobutton(master,  variable=graphic_type, text="Results", value="4").grid(row=9, column=14, padx=(10,0), sticky='w')
+Radiobutton(master, variable=graphic_type, text="Race Introduction", value="0", command=change_img).grid(row=5,column=14, padx=(10,15),sticky='w')
+Radiobutton(master, variable=graphic_type, text="Start List", value="1", command=change_img).grid(row=6,column=14,  padx=(10,0),sticky='w')
+Radiobutton(master, variable=graphic_type, text="Nameplate", value="2", command=change_img).grid(row=7,column=14, padx=(10,0), sticky='w')
+Radiobutton(master, variable=graphic_type, text="Winner", value="3", command=change_img).grid(row=8,column=14, padx=(10,0), sticky='w')
+Radiobutton(master, variable=graphic_type, text="Results", value="4", command=change_img).grid(row=9, column=14, padx=(10,0), sticky='w')
 
 
 def log_to_file(filename, gfx_type, race_title_val, match_val): #logfile function; logs to file with ip, network name, race title, type, and match
@@ -94,8 +115,8 @@ def gfx_live_pusher():
 	gfx_type_num = ["race_intro", "start_list", "nameplate", "winner", "results"]
 	
 	gfx_type = gfx_type_num[graphic_type.get()] # graphic type; race_intro, results... etc
-	race_title_val = race_title.get() #race title value
-	match_val = match.get() #match value
+	race_title_val = race_title_entry_value.get() #race title value
+	match_val = match_entry_value.get() #match value
 	
 	dataset = [['', '', '', ''], ['', '', '', ''], ['', '', '', ''], ['', '', '', ''], ['', '', '', ''], ['', '', '', ''], ['', '', '', '']]
 	for x in range(0,7):
@@ -125,8 +146,7 @@ def gfx_live_pusher():
 		csv_string = csv_string + race_title_val + "," + match_val + '\n' #race title + match name
 		for x in range(0,7):
 			csv_string = csv_string + sorted_list[x][0] + ',' + sorted_list[x][1] + ',' + sorted_list[x][2] + ',' + sorted_list[x][3] + '\n'
-	
-	
+					
 	file = open('../live.csv', 'w')
 	file.write(csv_string)
 	file.close()
@@ -134,9 +154,53 @@ def gfx_live_pusher():
 	log_to_file("logfile.log", gfx_type, race_title_val, match_val) #log to logfile
 	save_event_to_file(gfx_type, race_title_val, match_val, csv_string) #save event to .csv
 	
-Button(master, pady=3, text="Daktronics Console").grid(row=12,column=0, columnspan=4,pady=(10,15),padx=(15,0),sticky="w")
-Button(master, pady=3, text="Open GFX Displayer").grid(row=12,column=4, ipadx=5, columnspan=2,pady=(10,15),padx=(15,0),sticky="w")
+	
+def loadtemplate(): 
+	filename = tkFileDialog.askopenfilename()
+	if filename: 
+		file = open(filename, 'r')
+		data_list = file.readlines() #read file into a list
+		data_list = map(lambda s: s.rstrip(), data_list) #remove newline
+		if(data_list[0] == 'race_intro'): graphic_type.set("0")
+		if(data_list[0] == 'start_list'): graphic_type.set("1")
+		if(data_list[0] == 'nameplate'): 
+			graphic_type.set("2")
+			return
+		if(data_list[0] == 'winner'): graphic_type.set("3")
+		if(data_list[0] == 'results'): graphic_type.set("4")
+		change_img() #change image after gfx_type is set
+		race_title_entry_value.set(data_list[1].split(',')[0])  #set race title to line 2, cell 1
+		match_entry_value.set(data_list[1].split(',')[1]) #set match to line 2, cell 2
+		for x in range(0, 7):
+			try:
+				school_name_value[x].set(data_list[x+2].split(',')[1])
+				swimmer_name_value[x].set(data_list[x+2].split(',')[2])
+				race_time_value[x].set(data_list[x+2].split(',')[3])
+			except: #if out of index (ie no time data), skip
+				pass
+		
+		
+def next_swimmer(): #simple function to increment lane number
+		current_num = int(lane_number.get())
+		if(current_num == 6): 
+			lane_number.set("0")
+			return
+		lane_number.set(str(current_num+1))
+		
+#Button(master, pady=3, text="Daktronics Console").grid(row=12,column=0, columnspan=4,pady=(10,15),padx=(15,0),sticky="w")
+Button(master, pady=3, text="Open GFX Displayer", command=lambda: webbrowser.open('http://localhost', new=1)).grid(row=12,column=0, ipadx=5, columnspan=4,pady=(10,15),padx=(15,0),sticky="w")
+Button(master, pady=3, text="Import File...", command=loadtemplate).grid(row=12,column=4, ipadx=5, columnspan=2,pady=(10,15),padx=(0,0),sticky="w")
 Button(master, pady=3, text="Live", command=gfx_live_pusher).grid(row=10,column=14,ipadx=10,ipady=4, columnspan=2,rowspan=2)
+Button(master, pady=3, text="Next Swimmer", command=next_swimmer).grid(row=12,column=14, pady=(10,15),columnspan=7,rowspan=2)
+
+
+
+
+	
+
+
+image_label = Label(master, image=img_list[0])
+image_label.grid(row=0, column=10, rowspan=5, columnspan=5)
 
 mainloop()
 
