@@ -17,7 +17,6 @@ swimmer_name_value = [""]*7
 race_time_value = [""]*7
 
 
-	
 master = Tk()
 master.resizable(0,0)
 master.wm_title("IASAS Swimming 2013 Graphics Generator") #program title
