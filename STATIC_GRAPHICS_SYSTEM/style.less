@@ -7,6 +7,8 @@ body {line-height:1;font-family:Open Sans;}
 @nameplate_url: "base_graphics/nameplate.png";
 @winner_url: "base_graphics/winner.png";
 @race_intro_url: "base_graphics/race_intro.png";
+@relay_start_list_url: "base_graphics/relay_start_list.png";
+@relay_results_url: "base_graphics/relay_results.png";
 
 @row_height: 34px;
 @school_icon_paddingX: 10px;
@@ -200,6 +202,38 @@ src: url('fonts/LONDON_FONT.TTF');
 	}
 	
 }
+
+#relay_start_list {
+	.global_WxH;
+	.results_start_list_h1_h2;
+	h1 {
+		margin-top: 324px;
+	}
+	h2 {
+		margin-top: 364px;
+	}
+	.results_list {
+		margin-top:358+@row_height;
+	}
+	background-image:url(@relay_start_list_url);
+}
+
+#relay_results {
+	.global_WxH;
+	.results_start_list_h1_h2;
+		h1 {
+		margin-top: 324px;
+	}
+	h2 {
+		margin-top: 364px;
+	}
+	.results_list {
+		margin-top:358+@row_height;
+	}
+	background-image:url(@relay_results_url);
+}
+
+
 
 
 .tas {

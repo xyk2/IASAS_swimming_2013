@@ -19,7 +19,8 @@
 				nameplate.png		
 				winner.png				
 				race_intro.png
-
+				relay_start_list.png
+				relay_results.png
 			*/
 			$(document).ready(function() { 
 				draw_new_graphic_handler("live.csv");
@@ -42,6 +43,11 @@
 							winner_handler(csv); break;
 						case "race_intro":
 							race_intro_handler(csv); break;	
+						case "relay_start_list":
+							relay_start_list_handler(csv); break;	
+						case "relay_results":
+							relay_results_handler(csv); break;	
+						
 					}
 				});
 			}
@@ -96,6 +102,29 @@
 				$("#race_intro h2").html(csv[1][1]); // Line 2, Cell 2 (race type/match)
 			}
 			
+			function relay_start_list_handler(csv) {
+				console.log("Graphics -> relay_start_list_handler()...");			
+				$("#relay_start_list h1").html(csv[1][0]); // Line 2, Cell 1 (race title)
+				$("#relay_start_list h2").html("Start List - " + csv[1][1]); // Line 2, Cell 2 (race type/match)
+				$("#relay_start_list ul li").each(function(index) {
+					$(this).attr("class", csv[index+2][1].toLowerCase()); // Line n Cell 2 (school name)
+					$(this).find("h3").html(csv[index+2][1]); // Line n Cell 2 (school name)
+					$(this).find("h4").html(csv[index+2][2]); // Line n Cell 3 (swimmer name)
+				});
+			}
+			
+			function relay_results_handler(csv) {
+				console.log("Graphics -> relay_results_handler()...");
+				$("#relay_results h1").html(csv[1][0]); // Line 2, Cell 1 (race title)
+				$("#relay_results h2").html("Results - " + csv[1][1]); // Line 2, Cell 2 (race type/match)
+				$("#relay_results ul li").each(function(index) {
+					$(this).attr("class", csv[index+2][1].toLowerCase()); // Line n Cell 2 (school name)
+					$(this).find("h3").html(csv[index+2][1]); // Line n Cell 2 (school name)
+					$(this).find("h4").html(csv[index+2][2]); // Line n Cell 3 (swimmer name)
+					$(this).find("h5").html(csv[index+2][3]); // Line n Cell 4 (time)
+				});
+			}			
+			
 			function clear_all_xept(shown_img) { // Clear all graphics except argument
 				$('div').each(function(index) {
 					$(this).hide();
@@ -113,38 +142,38 @@
 			<ul class='results_list'>
 				<li class='tas'>
 					<h3>TAS</h3>
-					<h4>PHILLIP TENG</h4>
-					<h5>47.36</h5>
+					<h4>NAME</h4>
+					<h5>0.0</h5>
 				</li>
 				<li class='sas'>
 					<h3>SAS</h3>
-					<h4>NATHAN ADRIAN</h4>
-					<h5>47.52</h5>
+					<h4>NAME</h4>
+					<h5>0.0</h5>
 				</li>
 				<li class='isb'>
 					<h3>ISB</h3>
-					<h4>BRENT HAYDEN</h4>
-					<h5>47.80</h5>
+					<h4>NAME</h4>
+					<h5>0.0</h5>
 				</li>
 				<li class='ism'>
 					<h3>ISM</h3>
-					<h4>YANNICK AGNEL</h4>
-					<h5>47.84</h5>
+					<h4>NAME</h4>
+					<h5>0.0</h5>
 				</li>
 				<li class='iskl'>
 					<h3>ISKL</h3>
-					<h4>SEBASTIAAN VERSCHUREN</h4>
-					<h5>47.88</h5>
+					<h4>NAME</h4>
+					<h5>0.0</h5>
 				</li>
 				<li class='jis'>
 					<h3>JIS</h3>
-					<h4>CESAR CIELO</h4>
-					<h5>47.92</h5>
+					<h4>NAME</h4>
+					<h5>0.0</h5>
 				</li>
 				<li class='tas'>
 					<h3>TAS</h3>
-					<h4>HANSER GARCIA</h4>
-					<h5>48.04</h5>
+					<h4>NAME</h4>
+					<h5>0.0</h5>
 				</li>
 			</ul>
 		</div>
@@ -155,31 +184,31 @@
 			<ul class='results_list'>
 				<li class='tas'>
 					<h3>TAS</h3>
-					<h4>PHILLIP TENG</h4>
+					<h4>NAME</h4>
 				</li>
 				<li class='sas'>
 					<h3>SAS</h3>
-					<h4>NATHAN ADRIAN</h4>
+					<h4>NAME</h4>
 				</li>
 				<li class='isb'>
 					<h3>ISB</h3>
-					<h4>BRENT HAYDEN</h4>
+					<h4>NAME</h4>
 				</li>
 				<li class='ism'>
 					<h3>ISM</h3>
-					<h4>YANNICK AGNEL</h4>
+					<h4>NAME</h4>
 				</li>
 				<li class='iskl'>
 					<h3>ISKL</h3>
-					<h4>SEBASTIAAN VERSCHUREN</h4>
+					<h4>NAME</h4>
 				</li>
 				<li class='jis'>
 					<h3>JIS</h3>
-					<h4>CESAR CIELO</h4>
+					<h4>NAME</h4>
 				</li>
 				<li class='tas'>
 					<h3>TAS</h3>
-					<h4>HANSER GARCIA</h4>
+					<h4>NAME</h4>
 				</li>
 			</ul>
 		</div>
@@ -210,7 +239,74 @@
 		</div>
 		
 		
+		<div id='relay_start_list' style='display:none'>
+			<h1>Race</h1>
+			<h2>Start List</h2>
+			<ul class='results_list'>
+				<li class='tas'>
+					<h3>TAS</h3>
+					<h4>NAME</h4>
+				</li>
+				<li class='sas'>
+					<h3>SAS</h3>
+					<h4>NAME</h4>
+				</li>
+				<li class='isb'>
+					<h3>ISB</h3>
+					<h4>NAME</h4>
+				</li>
+				<li class='ism'>
+					<h3>ISM</h3>
+					<h4>NAME</h4>
+				</li>
+				<li class='iskl'>
+					<h3>ISKL</h3>
+					<h4>NAME</h4>
+				</li>
+				<li class='jis'>
+					<h3>JIS</h3>
+					<h4>NAME</h4>
+				</li>
+			</ul>
+		</div>
 		
+		
+		<div id='relay_results' style='display:none'>
+			<h1>Race</h1>
+			<h2>Results</h2>
+			<ul class='results_list'>
+				<li class='tas'>
+					<h3>TAS</h3>
+					<h4>NAME</h4>
+					<h5>0.0</h5>
+				</li>
+				<li class='sas'>
+					<h3>SAS</h3>
+					<h4>NAME</h4>
+					<h5>0.0</h5>
+				</li>
+				<li class='isb'>
+					<h3>ISB</h3>
+					<h4>NAME</h4>
+					<h5>0.0</h5>
+				</li>
+				<li class='ism'>
+					<h3>ISM</h3>
+					<h4>NAME</h4>
+					<h5>0.0</h5>
+				</li>
+				<li class='iskl'>
+					<h3>ISKL</h3>
+					<h4>NAME</h4>
+					<h5>0.0</h5>
+				</li>
+				<li class='jis'>
+					<h3>JIS</h3>
+					<h4>NAME</h4>
+					<h5>0.0</h5>
+				</li>
+			</ul>
+		</div>
 		
 	</body>
 
