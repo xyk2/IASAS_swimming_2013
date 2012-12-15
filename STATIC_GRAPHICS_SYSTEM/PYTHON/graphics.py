@@ -16,11 +16,27 @@ school_name_value = [""]*7
 swimmer_name_value = [""]*7
 race_time_value = [""]*7
 
+class MyDialog:
+    def __init__(self, parent):
+		top = self.top = Toplevel(parent)
+		top.title("Team Scores")
+		top.iconbitmap("img/icon.ico")
+		Label(top, text="Value").pack()
+
+		self.e = Entry(top)
+		self.e.pack(padx=5)
+
+		b = Button(top, text="OK", command=self.ok)
+		b.pack(pady=5)
+		
+    def ok(self):
+        print "value is", self.e.get()
+        self.top.destroy()
 
 master = Tk()
 master.resizable(0,0)
-master.wm_title("IASAS Swimming 2013 Graphics Generator") #program title
-master.wm_iconbitmap('img/icon.ico')
+master.title("IASAS Swimming 2013 Graphics Generator") #program title
+master.iconbitmap('img/icon.ico')
 
 img_list = [ImageTk.PhotoImage(Image.open('img/race_intro.png')), ImageTk.PhotoImage(Image.open('img/start_list.png')),
 	ImageTk.PhotoImage(Image.open('img/nameplate.png')),ImageTk.PhotoImage(Image.open('img/winner.png')),
@@ -31,6 +47,10 @@ for x in range(0, 7):
 	swimmer_name_value[x] = StringVar()
 	race_time_value[x] = StringVar()
 	
+def test():
+	d=MyDialog(master)
+Button(master, text="Hello!",command=test).grid(row=0,column=0)
+
 race_title_entry_value = StringVar()
 Label(master, text='Race Title').grid(row=0,column=1,columnspan=5,sticky='w')
 race_title = Entry(master, width=35, textvariable=race_title_entry_value)
