@@ -4,9 +4,9 @@ import time #timestamps
 from time import gmtime, strftime #timestamps
 import platform #IP + computer name
 import socket #IP + computer name
-import tkFileDialog
+import tkFileDialog #import dialog
 import webbrowser #open URL
-import Image, ImageTk
+import Image, ImageTk #image preview
 
 school_name = [""]*7
 swimmer_name = [""]*7
@@ -48,7 +48,7 @@ Label(master, text='Name').grid(row=4,column=3,padx=(5,0),sticky='w')
 Label(master, text='Time').grid(row=4,column=10,padx=(5,0),sticky='w')
 
 lane_number = IntVar()
-for x in range(0, 7):
+for x in range(0, 7): #SCHOOL NAME< SWIMMER NAME, TIME
 	Radiobutton(master,  variable=lane_number, value=x).grid(row=x+5,column=0,pady=2,sticky='e')
 	school_name[x] = Entry(master, width=5, textvariable=school_name_value[x])
 	school_name[x].config(borderwidth=2)
@@ -64,7 +64,7 @@ def change_img(): #change image based on gfx_type radiobutton
 	int(graphic_type.get())
 	image_label.config(image=img_list[int(graphic_type.get())])
 	
-graphic_type = IntVar()
+graphic_type = IntVar() #GFX TYPE
 Radiobutton(master, variable=graphic_type, text="Race Introduction", value="0", command=change_img).grid(row=5,column=14, padx=(10,15),sticky='w')
 Radiobutton(master, variable=graphic_type, text="Start List", value="1", command=change_img).grid(row=6,column=14,  padx=(10,0),sticky='w')
 Radiobutton(master, variable=graphic_type, text="Nameplate", value="2", command=change_img).grid(row=7,column=14, padx=(10,0), sticky='w')
@@ -114,6 +114,10 @@ def gfx_live_pusher():
 	gfx_type_num = ["race_intro", "start_list", "nameplate", "winner", "results"]
 	
 	gfx_type = gfx_type_num[graphic_type.get()] # graphic type; race_intro, results... etc
+	if(graphic_type.get() == 1 or graphic_type.get() == 4): #if start_list or results
+		if(is_relay.get() == 1): #and relay is enabled
+			gfx_type = "relay_" + gfx_type 
+	
 	race_title_val = race_title_entry_value.get() #race title value
 	match_val = match_entry_value.get() #match value
 	
@@ -128,7 +132,7 @@ def gfx_live_pusher():
 	
 	if(gfx_type == "race_intro"):
 		csv_string = csv_string + race_title_val + "," + match_val #race title + match name
-	if(gfx_type == "start_list"):
+	if(gfx_type == "start_list" or gfx_type == 'relay_start_list'):
 		csv_string = csv_string + race_title_val + "," + match_val + '\n' #race title + match name
 		for x in range(0,7):
 			csv_string = csv_string + dataset[x][0] + ',' + dataset[x][1] + ',' + dataset[x][2] + '\n'
@@ -140,7 +144,7 @@ def gfx_live_pusher():
 		csv_string = csv_string + race_title_val + "," + match_val + '\n' #race title + match name
 		csv_string = csv_string + sorted_list[0][0] + ',' + sorted_list[0][1] 
 		csv_string = csv_string + ',' + sorted_list[0][2] + ',' + sorted_list[0][3] 
-	if(gfx_type == 'results'):
+	if(gfx_type == 'results' or gfx_type == 'relay_results'):
 		sorted_list = sort_list_by_time(dataset)
 		csv_string = csv_string + race_title_val + "," + match_val + '\n' #race title + match name
 		for x in range(0,7):
@@ -187,19 +191,15 @@ def next_swimmer(): #simple function to increment lane number
 		lane_number.set(str(current_num+1))
 		
 #Button(master, pady=3, text="Daktronics Console").grid(row=12,column=0, columnspan=4,pady=(10,15),padx=(15,0),sticky="w")
+is_relay = IntVar()
+Checkbutton(master, text="Relay", variable=is_relay).grid(row=0, column=5, columnspan=2,padx=(0,10))
 Button(master, pady=3, text="Open GFX Displayer", command=lambda: webbrowser.open('http://localhost', new=1)).grid(row=12,column=0, ipadx=5, columnspan=4,pady=(10,15),padx=(15,0),sticky="w")
 Button(master, pady=3, text="Import File...", command=loadtemplate).grid(row=12,column=4, ipadx=5, columnspan=2,pady=(10,15),padx=(0,0),sticky="w")
 Button(master, pady=3, text="Live", command=gfx_live_pusher).grid(row=10,column=14,ipadx=10,ipady=4, columnspan=2,rowspan=2)
 Button(master, pady=3, text="Next Swimmer", command=next_swimmer).grid(row=12,column=14, pady=(10,15),columnspan=7,rowspan=2)
 
-
-
-
-	
-
-
-image_label = Label(master, image=img_list[0])
-image_label.grid(row=0, column=10, rowspan=5, columnspan=5)
+image_label = Label(master, image=img_list[0]) # image preview
+image_label.grid(row=0, column=10, rowspan=4, columnspan=5)
 
 mainloop()
 

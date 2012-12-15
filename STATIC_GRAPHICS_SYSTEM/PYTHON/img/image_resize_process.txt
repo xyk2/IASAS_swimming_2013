@@ -1,0 +1,3 @@
+resize to 220px width
+crop bottom to 140px
+crop top to 120px
