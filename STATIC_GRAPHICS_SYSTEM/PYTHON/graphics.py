@@ -16,7 +16,7 @@ school_name_value = [""]*7 # value inside textbox; textvalue
 swimmer_name_value = [""]*7
 race_time_value = [""]*7
 
-class MyDialog:
+class edit_team_scores_dialog:
     def __init__(self, parent):
 		top = self.top = Toplevel(parent)
 		top.title("Team Scores")
@@ -41,14 +41,28 @@ class MyDialog:
 		Button(top, text="Save", command=self.save).grid(row=10,column=4,ipadx=4,ipady=2,pady=(3,6),columnspan=2)
 		
     def save(self):
-		print "Boys"
+		boys_list = [['TAS','0'],['SAS','0'],['ISB','0'],['ISM','0'],['ISKL','0'],['JIS','0']]
+		girls_list = [['TAS','0'],['SAS','0'],['ISB','0'],['ISM','0'],['ISKL','0'],['JIS','0']]
 		for x in range(0, 6):
-			print self.team_score_value_boys[x].get()
-			
-		print "\nGirls"
-		for x in range(0, 6):
-			print self.team_score_value_girls[x].get()
-			
+			boys_list[x][1] = self.team_score_value_boys[x].get() #get values and sort into list
+			girls_list[x][1] = self.team_score_value_girls[x].get()
+		boys_list = sorted(boys_list, key=lambda x: x[1]) #sort lists by score
+		girls_list = sorted(girls_list, key=lambda x: x[1])
+		
+		file = open('team_scores.csv', 'w') #rewrite csv file
+		csv_string = 'team_scores\nboys\n'
+		for x in reversed(range(0, 6)): #list is sorted left to right incrementing, we want it decrementing
+			csv_string = csv_string + boys_list[x][0] + ','
+			csv_string = csv_string + boys_list[x][1] + '\n'
+		csv_string = csv_string + 'girls\n'
+		for x in reversed(range(0, 6)): #list is sorted left to right incrementing, we want it decrementing
+			csv_string = csv_string + girls_list[x][0] + ','
+			csv_string = csv_string + girls_list[x][1] + '\n'		
+		print csv_string
+		file.write(csv_string) #write to team_scores
+		log_to_file("logfile.log", 'team_scores', 'null', 'null') #log to logfile
+		save_event_to_file('team_scores', 'team_scores', 'null', csv_string) #save event to .csv
+		
 		self.top.destroy()
 
 
@@ -65,7 +79,7 @@ mbar.add_cascade(label="File", menu=fileMenu)
 fileMenu.add_command(label="Open GFX Displayer", command=lambda: webbrowser.open('http://localhost', new=1)) 
 editMenu = Menu(mbar,tearoff=0) 
 mbar.add_cascade(label="Edit", menu=editMenu) 
-editMenu.add_command(label="Edit Team Scores", command=lambda: MyDialog(master)) 
+editMenu.add_command(label="Edit Team Scores", command=lambda: edit_team_scores_dialog(master)) 
 ############## END MENU
 
 img_list = [ImageTk.PhotoImage(Image.open('img/race_intro.png')), ImageTk.PhotoImage(Image.open('img/start_list.png')),
@@ -241,8 +255,8 @@ is_relay = IntVar()
 Checkbutton(master, text="Relay", variable=is_relay).grid(row=0, column=5, columnspan=2,padx=(0,10))
 Button(master, pady=3, text="Import File...", command=import_file).grid(row=12,column=0, ipadx=5, columnspan=5,pady=(10,15),padx=(10,0),sticky="w")
 
-Button(master, pady=3, text="Live", command=gfx_live_pusher).grid(row=10,column=14,ipadx=10,ipady=4, columnspan=2,rowspan=2)
-Button(master, pady=3, text="Next Swimmer", command=next_swimmer).grid(row=12,column=14, columnspan=7)
+Button(master, pady=3, text="Live", command=gfx_live_pusher).grid(row=11,column=14,ipadx=10,ipady=4, columnspan=2,rowspan=2)
+Button(master, pady=3, text="Next Swimmer", command=next_swimmer).grid(row=12,column=6, columnspan=7)
 
 image_label = Label(master, image=img_list[0]) # image preview
 image_label.grid(row=0, column=10, rowspan=4, columnspan=5)
