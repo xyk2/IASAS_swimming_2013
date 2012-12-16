@@ -195,7 +195,7 @@ def sort_list_by_time(list):
 	
 def gfx_live_pusher():
 	csv_string = "" #complete csv string to be appended
-	gfx_type_num = ["race_intro", "start_list", "nameplate", "winner", "results"]
+	gfx_type_num = ["race_intro", "start_list", "nameplate", "winner", "results", "team_scores"]
 	
 	gfx_type = gfx_type_num[graphic_type.get()] # graphic type; race_intro, results... etc
 	if(graphic_type.get() == 1 or graphic_type.get() == 4): #if start_list or results
@@ -233,7 +233,10 @@ def gfx_live_pusher():
 		csv_string = csv_string + race_title_val + "," + match_val + '\n' #race title + match name
 		for x in range(0,7):
 			csv_string = csv_string + sorted_list[x][0] + ',' + sorted_list[x][1] + ',' + sorted_list[x][2] + ',' + sorted_list[x][3] + '\n'
-					
+	if(gfx_type == 'team_scores'): 
+		file = open('team_scores.csv', 'r') #read from file and append csv_string
+		csv_string = file.read()
+		file.close()
 	file = open('../live.csv', 'w')
 	file.write(csv_string)
 	file.close()
@@ -277,7 +280,6 @@ def next_swimmer(): #simple function to increment lane number
 is_relay = IntVar()
 Checkbutton(master, text="Relay", variable=is_relay).grid(row=0, column=5, columnspan=2,padx=(0,10))
 Button(master, pady=3, text="Import File...", command=import_file).grid(row=12,column=0, ipadx=5, columnspan=5,pady=(10,15),padx=(10,0),sticky="w")
-
 Button(master, pady=3, text="Live", command=gfx_live_pusher).grid(row=11,column=14,ipadx=10,ipady=4, columnspan=2,rowspan=2)
 Button(master, pady=3, text="Next Swimmer", command=next_swimmer).grid(row=12,column=6, columnspan=7)
 
