@@ -9,6 +9,8 @@ body {line-height:1;font-family:Open Sans;}
 @race_intro_url: "base_graphics/race_intro.png";
 @relay_start_list_url: "base_graphics/relay_start_list.png";
 @relay_results_url: "base_graphics/relay_results.png";
+@team_scores_url: "base_graphics/team_scores.png";
+
 
 @row_height: 34px;
 @school_icon_paddingX: 10px;
@@ -233,7 +235,42 @@ src: url('fonts/LONDON_FONT.TTF');
 	background-image:url(@relay_results_url);
 }
 
-
+#team_scores {
+	.global_WxH;
+	.results_start_list_h1_h2;
+	h1 {
+		margin-top: 324px;
+	}
+	h2 {
+		margin-top: 364px;
+	}
+	h3 { /* School Initials */
+		.global_text_blur;
+		margin-left:40px;
+		font-weight:600;
+		font-size: 24px;
+		float:left;
+	}
+	span { /* School Mascot */
+		.global_text_blur;
+		margin-left:5px;
+		font-size: @swimmer_name_font_size;
+		font-weight:400;
+		position:absolute;
+	}
+	h5 { /* Points */
+		.global_text_blur;
+		font-size: @swimmer_name_font_size;
+		font-weight:600;
+		float:right;
+		margin-right:15px;
+	}
+	.results_list {
+		margin-top:358px;
+		width:300px;
+	}
+	background-image:url(@team_scores_url);
+}
 
 
 .tas {

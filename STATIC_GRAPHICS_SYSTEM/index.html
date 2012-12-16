@@ -47,7 +47,8 @@
 							relay_start_list_handler(csv); break;	
 						case "relay_results":
 							relay_results_handler(csv); break;	
-						
+						case "team_scores":
+							team_scores_handler(csv); break;	
 					}
 				});
 			}
@@ -123,7 +124,20 @@
 					$(this).find("h4").html(csv[index+2][2]); // Line n Cell 3 (swimmer name)
 					$(this).find("h5").html(csv[index+2][3]); // Line n Cell 4 (time)
 				});
-			}			
+			}
+			
+			function team_scores_handler(csv) {
+				console.log("Graphics -> team_scores_handler()...");
+				$("#relay_results h1").html(csv[1][0]); // Line 2, Cell 1 (race title)
+				$("#relay_results h2").html("Results - " + csv[1][1]); // Line 2, Cell 2 (race type/match)
+				$("#relay_results ul li").each(function(index) {
+					$(this).attr("class", csv[index+2][1].toLowerCase()); // Line n Cell 2 (school name)
+					$(this).find("h3").html(csv[index+2][1]); // Line n Cell 2 (school name)
+					$(this).find("h4").html(csv[index+2][2]); // Line n Cell 3 (swimmer name)
+					$(this).find("h5").html(csv[index+2][3]); // Line n Cell 4 (time)
+				});
+			}	
+
 			
 			function clear_all_xept(shown_img) { // Clear all graphics except argument
 				$('div').each(function(index) {
@@ -306,6 +320,63 @@
 					<h5>0.0</h5>
 				</li>
 			</ul>
+		</div>
+		
+		
+		<div id='team_scores' style='display:block'>
+			<ul class='results_list' id='boys'>
+				<li class='tas'>
+					<h3>TAS<span>Tigers</span></h3>
+					<h5>0.0</h5>
+				</li>
+				<li class='sas'>
+					<h3>SAS<span>Eagles</span></h3>
+					<h5>0.0</h5>
+				</li>
+				<li class='isb'>
+					<h3>ISB<span>Panthers</span></h3>
+					<h5>0.0</h5>
+				</li>
+				<li class='ism'>
+					<h3>ISM<span>Bearcats</span></h3>
+					<h5>0.0</h5>
+				</li>
+				<li class='iskl'>
+					<h3>ISKL<span>Panthers</span></h3>
+					<h5>0.0</h5>
+				</li>
+				<li class='jis'>
+					<h3>JIS<span>Dragons</span></h3>
+					<h5>0.0</h5>
+				</li>
+			</ul>
+			
+			<ul class='results_list' id='girls' style='margin-left:560px;'>
+				<li class='tas'>
+					<h3>TAS<span>Tigers</span></h3>
+					<h5>0.0</h5>
+				</li>
+				<li class='sas'>
+					<h3>SAS<span>Eagles</span></h3>
+					<h5>0.0</h5>
+				</li>
+				<li class='isb'>
+					<h3>ISB<span>Panthers</span></h3>
+					<h5>0.0</h5>
+				</li>
+				<li class='ism'>
+					<h3>ISM<span>Bearcats</span></h3>
+					<h5>0.0</h5>
+				</li>
+				<li class='iskl'>
+					<h3>ISKL<span>Panthers</span></h3>
+					<h5>0.0</h5>
+				</li>
+				<li class='jis'>
+					<h3>JIS<span>Dragons</span></h3>
+					<h5>0.0</h5>
+				</li>
+			</ul>			
 		</div>
 		
 	</body>
