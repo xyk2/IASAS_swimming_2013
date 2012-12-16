@@ -12,7 +12,7 @@ school_name = [""]*7
 swimmer_name = [""]*7
 race_time = [""]*7
 
-school_name_value = [""]*7
+school_name_value = [""]*7 # value inside textbox; textvalue
 swimmer_name_value = [""]*7
 race_time_value = [""]*7
 
@@ -21,35 +21,61 @@ class MyDialog:
 		top = self.top = Toplevel(parent)
 		top.title("Team Scores")
 		top.iconbitmap("img/icon.ico")
-		Label(top, text="Value").pack()
 
-		self.e = Entry(top)
-		self.e.pack(padx=5)
-
-		b = Button(top, text="OK", command=self.ok)
-		b.pack(pady=5)
+		IASAS_schools = ["TAS Tigers", "SAS Eagles", "ISB Panthers", "ISM Bearcats", "ISKL Panthers", "JIS Dragons"]
+		self.team_score_value_boys = [""]*7
+		self.team_score_value_girls = [""]*7
+		Label(top, text='Boys').grid(row=0,column=3,pady=(6,0))
+		Label(top, text='Girls').grid(row=0,column=5,pady=(6,0))
 		
-    def ok(self):
-        print "value is", self.e.get()
-        self.top.destroy()
+		for x in range(0, 6):
+			Label(top, text=IASAS_schools[x]).grid(row=x+1,column=0,columnspan=2,padx=(10,0))
+			self.team_score_value_boys[x] = Entry(top,width=6)
+			self.team_score_value_boys[x].config(borderwidth=2)
+			self.team_score_value_boys[x].grid(row=x+1,column=3,padx=(4,0),pady=(3,3),ipady=1)
+			
+			self.team_score_value_girls[x] = Entry(top,width=6)
+			self.team_score_value_girls[x].config(borderwidth=2)
+			self.team_score_value_girls[x].grid(row=x+1,column=5,padx=(6,10),pady=(3,3),ipady=1)
+			
+		Button(top, text="Save", command=self.save).grid(row=10,column=4,ipadx=4,ipady=2,pady=(3,6),columnspan=2)
+		
+    def save(self):
+		print "Boys"
+		for x in range(0, 6):
+			print self.team_score_value_boys[x].get()
+			
+		print "\nGirls"
+		for x in range(0, 6):
+			print self.team_score_value_girls[x].get()
+			
+		self.top.destroy()
+
 
 master = Tk()
 master.resizable(0,0)
 master.title("IASAS Swimming 2013 Graphics Generator") #program title
 master.iconbitmap('img/icon.ico')
 
+################## MENU
+mbar = Menu(master, tearoff=0) 
+master.config(menu=mbar)
+fileMenu = Menu(mbar,tearoff=0) 
+mbar.add_cascade(label="File", menu=fileMenu) 
+fileMenu.add_command(label="Open GFX Displayer", command=lambda: webbrowser.open('http://localhost', new=1)) 
+editMenu = Menu(mbar,tearoff=0) 
+mbar.add_cascade(label="Edit", menu=editMenu) 
+editMenu.add_command(label="Edit Team Scores", command=lambda: MyDialog(master)) 
+############## END MENU
+
 img_list = [ImageTk.PhotoImage(Image.open('img/race_intro.png')), ImageTk.PhotoImage(Image.open('img/start_list.png')),
 	ImageTk.PhotoImage(Image.open('img/nameplate.png')),ImageTk.PhotoImage(Image.open('img/winner.png')),
 	ImageTk.PhotoImage(Image.open('img/results.png'))]
-	
-for x in range(0, 7):
+
+for x in range(0, 7): #convert datal list to string variables
 	school_name_value[x] = StringVar()
 	swimmer_name_value[x] = StringVar()
 	race_time_value[x] = StringVar()
-	
-def test():
-	d=MyDialog(master)
-Button(master, text="Hello!",command=test).grid(row=0,column=0)
 
 race_title_entry_value = StringVar()
 Label(master, text='Race Title').grid(row=0,column=1,columnspan=5,sticky='w')
@@ -90,6 +116,7 @@ Radiobutton(master, variable=graphic_type, text="Start List", value="1", command
 Radiobutton(master, variable=graphic_type, text="Nameplate", value="2", command=change_img).grid(row=7,column=14, padx=(10,0), sticky='w')
 Radiobutton(master, variable=graphic_type, text="Winner", value="3", command=change_img).grid(row=8,column=14, padx=(10,0), sticky='w')
 Radiobutton(master, variable=graphic_type, text="Results", value="4", command=change_img).grid(row=9, column=14, padx=(10,0), sticky='w')
+Radiobutton(master, variable=graphic_type, text="Team Scores", value="5", command=change_img).grid(row=10, column=14, padx=(10,0), sticky='w')
 
 
 def log_to_file(filename, gfx_type, race_title_val, match_val): #logfile function; logs to file with ip, network name, race title, type, and match
@@ -178,7 +205,7 @@ def gfx_live_pusher():
 	save_event_to_file(gfx_type, race_title_val, match_val, csv_string) #save event to .csv
 	
 	
-def loadtemplate(): 
+def import_file(): 
 	filename = tkFileDialog.askopenfilename()
 	if filename: 
 		file = open(filename, 'r')
@@ -202,7 +229,6 @@ def loadtemplate():
 			except: #if out of index (ie no time data), skip
 				pass
 		
-		
 def next_swimmer(): #simple function to increment lane number
 		current_num = int(lane_number.get())
 		if(current_num == 6): 
@@ -213,10 +239,10 @@ def next_swimmer(): #simple function to increment lane number
 #Button(master, pady=3, text="Daktronics Console").grid(row=12,column=0, columnspan=4,pady=(10,15),padx=(15,0),sticky="w")
 is_relay = IntVar()
 Checkbutton(master, text="Relay", variable=is_relay).grid(row=0, column=5, columnspan=2,padx=(0,10))
-Button(master, pady=3, text="Open GFX Displayer", command=lambda: webbrowser.open('http://localhost', new=1)).grid(row=12,column=0, ipadx=5, columnspan=4,pady=(10,15),padx=(15,0),sticky="w")
-Button(master, pady=3, text="Import File...", command=loadtemplate).grid(row=12,column=4, ipadx=5, columnspan=2,pady=(10,15),padx=(0,0),sticky="w")
+Button(master, pady=3, text="Import File...", command=import_file).grid(row=12,column=0, ipadx=5, columnspan=5,pady=(10,15),padx=(10,0),sticky="w")
+
 Button(master, pady=3, text="Live", command=gfx_live_pusher).grid(row=10,column=14,ipadx=10,ipady=4, columnspan=2,rowspan=2)
-Button(master, pady=3, text="Next Swimmer", command=next_swimmer).grid(row=12,column=14, pady=(10,15),columnspan=7,rowspan=2)
+Button(master, pady=3, text="Next Swimmer", command=next_swimmer).grid(row=12,column=14, columnspan=7)
 
 image_label = Label(master, image=img_list[0]) # image preview
 image_label.grid(row=0, column=10, rowspan=4, columnspan=5)
