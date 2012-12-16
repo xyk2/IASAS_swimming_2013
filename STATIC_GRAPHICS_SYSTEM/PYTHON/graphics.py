@@ -12,7 +12,7 @@ school_name = [""]*7
 swimmer_name = [""]*7
 race_time = [""]*7
 
-school_name_value = [""]*7 # value inside textbox; textvalue
+school_name_value = [""]*7 # value inside textbox; textvariable
 swimmer_name_value = [""]*7
 race_time_value = [""]*7
 
@@ -23,21 +23,45 @@ class edit_team_scores_dialog:
 		top.iconbitmap("img/icon.ico")
 
 		IASAS_schools = ["TAS Tigers", "SAS Eagles", "ISB Panthers", "ISM Bearcats", "ISKL Panthers", "JIS Dragons"]
-		self.team_score_value_boys = [""]*7
-		self.team_score_value_girls = [""]*7
+		self.team_score_value_boys = [""]*6
+		self.team_score_value_girls = [""]*6
+		team_score_value_boys_textvariable = [""]*6 #textvariable for internal vals
+		team_score_value_girls_textvariable = [""]*6
+		for x in range(0,6): #convert textVariable list to stringVars
+			team_score_value_boys_textvariable[x] = StringVar()
+			team_score_value_girls_textvariable[x] = StringVar()
 		Label(top, text='Boys').grid(row=0,column=3,pady=(6,0))
 		Label(top, text='Girls').grid(row=0,column=5,pady=(6,0))
 		
 		for x in range(0, 6):
 			Label(top, text=IASAS_schools[x]).grid(row=x+1,column=0,columnspan=2,padx=(10,0))
-			self.team_score_value_boys[x] = Entry(top,width=6)
+			self.team_score_value_boys[x] = Entry(top,width=6,textvariable=team_score_value_boys_textvariable[x])
 			self.team_score_value_boys[x].config(borderwidth=2)
 			self.team_score_value_boys[x].grid(row=x+1,column=3,padx=(4,0),pady=(3,3),ipady=1)
 			
-			self.team_score_value_girls[x] = Entry(top,width=6)
+			self.team_score_value_girls[x] = Entry(top,width=6,textvariable=team_score_value_girls_textvariable[x])
 			self.team_score_value_girls[x].config(borderwidth=2)
 			self.team_score_value_girls[x].grid(row=x+1,column=5,padx=(6,10),pady=(3,3),ipady=1)
 			
+		#Import file
+		file = open('team_scores.csv', 'r')
+		data_list = file.readlines() #read file into a list
+		data_list = map(lambda s: s.rstrip(), data_list) #remove newline
+		print data_list
+		for x in range(2,8): #write data to Entry elements
+			if(data_list[x].split(',')[0] == "TAS"): team_score_value_boys_textvariable[0].set(data_list[x].split(',')[1])
+			if(data_list[x].split(',')[0] == "SAS"): team_score_value_boys_textvariable[1].set(data_list[x].split(',')[1])
+			if(data_list[x].split(',')[0] == "ISB"): team_score_value_boys_textvariable[2].set(data_list[x].split(',')[1])
+			if(data_list[x].split(',')[0] == "ISM"): team_score_value_boys_textvariable[3].set(data_list[x].split(',')[1])
+			if(data_list[x].split(',')[0] == "ISKL"): team_score_value_boys_textvariable[4].set(data_list[x].split(',')[1])
+			if(data_list[x].split(',')[0] == "JIS"): team_score_value_boys_textvariable[5].set(data_list[x].split(',')[1])
+		for x in range(9,15): #write data to Entry elements
+			if(data_list[x].split(',')[0] == "TAS"): team_score_value_girls_textvariable[0].set(data_list[x].split(',')[1])
+			if(data_list[x].split(',')[0] == "SAS"): team_score_value_girls_textvariable[1].set(data_list[x].split(',')[1])
+			if(data_list[x].split(',')[0] == "ISB"): team_score_value_girls_textvariable[2].set(data_list[x].split(',')[1])
+			if(data_list[x].split(',')[0] == "ISM"): team_score_value_girls_textvariable[3].set(data_list[x].split(',')[1])
+			if(data_list[x].split(',')[0] == "ISKL"): team_score_value_girls_textvariable[4].set(data_list[x].split(',')[1])
+			if(data_list[x].split(',')[0] == "JIS"): team_score_value_girls_textvariable[5].set(data_list[x].split(',')[1])
 		Button(top, text="Save", command=self.save).grid(row=10,column=4,ipadx=4,ipady=2,pady=(3,6),columnspan=2)
 		
     def save(self):
@@ -64,7 +88,6 @@ class edit_team_scores_dialog:
 		save_event_to_file('team_scores', 'team_scores', 'null', csv_string) #save event to .csv
 		
 		self.top.destroy()
-
 
 master = Tk()
 master.resizable(0,0)
