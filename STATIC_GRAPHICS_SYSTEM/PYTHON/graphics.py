@@ -19,8 +19,8 @@ race_time_value = [""]*7
 class edit_team_scores_dialog:
     def __init__(self, parent):
 		top = self.top = Toplevel(parent)
-		top.title("Team Scores")
-		top.iconbitmap("img/icon.ico")
+		top.wm_title("Team Scores")
+		top.wm_iconbitmap("img/icon.ico")
 
 		IASAS_schools = ["TAS Tigers", "SAS Eagles", "ISB Panthers", "ISM Bearcats", "ISKL Panthers", "JIS Dragons"]
 		self.team_score_value_boys = [""]*6
@@ -182,14 +182,15 @@ def sort_list_by_time(list):
 			list[x][3] = min_in_sec
 	list = sorted(list, key=lambda a_entry: a_entry[3])
 	for x in range(0,7): #convert float back to string
-		if(len(str(list[x][3]))>0 and list[x][3] >= 60):
+		if(len(str(list[x][3])) > 0 and list[x][3] >= 60): #skip DNF; convert times >1min to : form 
 			min, sec = divmod(list[x][3], 60)
-			if(min<10):
-				list[x][3] = "%01d:%02d.%s" %(min,sec,str(sec).split('.')[1])
-			else:
-				list[x][3] = "%02d:%02d.%s" %(min,sec,str(sec).split('.')[1])
-		list[x][3] = str(list[x][3])
-		#print list[x][3]
+			if(min<10): 
+				list[x][3] = "%01d:%0.2f" %(min,float(sec))
+			else: 
+				list[x][3] = "%02d:%0.2f" %(min,float(sec))
+		elif(len(str(list[x][3])) > 0 ): #if < 1 min and not blank (DNF)
+			list[x][3] = '{0:.2f}'.format(float(list[x][3])) #if for ex 46.80, include trailing 0
+		list[x][3] = str(list[x][3]) #final convert back to str
 	return list
 	
 	
