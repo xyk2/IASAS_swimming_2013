@@ -74,7 +74,7 @@
 				}
 				
 				function change_swimmer_name(place, lane) {
-					$.ajax({url:'./split_race_data.csv', cache: false}).done(function(csv) {
+					$.ajax({url:'./split_race_data.csv', cache: false, async:false}).done(function(csv) {
 						csv = $.csv.toArrays(csv);
 						total_laps_of_race = parseInt(csv[0][0]); // line 1 cell 1 is total laps
 						switch(place) {
@@ -141,6 +141,7 @@
 								$('#split_container').show();
 								if(race_over == 1) {
 									pause_running_time(10000, data[2]);
+									race_over = 0;
 								} else {
 									pause_running_time(2000, data[2]); // pause timer for first split
 								}
@@ -161,10 +162,10 @@
 								$('#split_img').attr("src", "./img/third_place_split.png");
 								change_swimmer_name(3, data[0]); // place, lane
 								display_time = Number((convert_time(data[2]) - first_place_split_time).toFixed(2));
-								$('#third_split .time').html(display_time);
+								$('#third_split .time').html("+" + display_time);
 								$('#third_split').show();
 								$('#split_img').show();
-								setTimeout(function() {$('#split_container').hide();$('#split_img').hide(); }, 5000);
+								setTimeout(function() {$('#split_container').hide();$('#split_container li').hide();$('#split_img').hide(); }, 5000);
 								break;
 						}
 					}
@@ -188,27 +189,27 @@
 			<h2 class ='lane'>0</h2>
 			<h3 class='school_and_name'>
 				<span class='school'><img src='./img/tas.png'><span id='school'>TAS</span></span>
-				<span class='name'>PHILLIP T.</span>
+				<span class='name'></span>
 			</h3>
-			<h4 class='time'>8:35.2</h3>
+			<h4 class='time'></h3>
 		</li>
 		
 		<li id='second_split' class='split_row' style='display:none'>
 			<h2 class ='lane'>0</h2>
 			<h3 class='school_and_name'>
 				<span class='school'><img src='./img/sas.png'><span id='school'>TAS</span></span>
-				<span class='name'>CHRISTOPHER S.</span>
+				<span class='name'></span>
 			</h3>
-			<h4 class='time'>+0.47</h3>
+			<h4 class='time'></h3>
 		</li>
 		
 		<li id='third_split' class='split_row' style='display:none'>
 			<h2 class ='lane'>0</h2>
 			<h3 class='school_and_name'>
 				<span class='school'><img src='./img/iskl.png'><span id='school'>TAS</span></span>
-				<span class='name'>PHILLIP T.</span>
+				<span class='name'></span>
 			</h3>
-			<h4 class='time'>+0.49</h3>
+			<h4 class='time'></h3>
 		</li>
 	</ul>
 	
