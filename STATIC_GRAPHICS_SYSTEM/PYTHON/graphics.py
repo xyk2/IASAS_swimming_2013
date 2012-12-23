@@ -122,9 +122,15 @@ race_title.grid(row=1, column=1,ipady=3,columnspan=5)
 
 match_entry_value = StringVar()
 Label(master, text='Match').grid(row=2,column=1,pady=(10,0),columnspan=5,sticky='w')
-match = Entry(master, width=35, textvariable=match_entry_value)
+match = Entry(master, width=25, textvariable=match_entry_value)
 match.config(borderwidth=2)
-match.grid(row=3, column=1,ipady=3,pady=(0,10),columnspan=5)
+match.grid(row=3, column=1,ipady=3,pady=(0,10),columnspan=5, sticky='w')
+
+length_entry_value = StringVar()
+Label(master, text='Length').grid(row=2,column=5,pady=(10,0),columnspan=5,sticky='w')
+length = Entry(master, width=8, textvariable=length_entry_value)
+length.config(borderwidth=2)
+length.grid(row=3, column=5,ipady=3,pady=(0,10),columnspan=5, sticky='w')
 
 Label(master, text='School').grid(row=4,column=0,columnspan=3,sticky='e')
 Label(master, text='Name').grid(row=4,column=3,padx=(5,0),sticky='w')
@@ -155,7 +161,18 @@ Radiobutton(master, variable=graphic_type, text="Winner", value="3", command=cha
 Radiobutton(master, variable=graphic_type, text="Results", value="4", command=change_img).grid(row=9, column=14, padx=(10,0), sticky='w')
 Radiobutton(master, variable=graphic_type, text="Team Scores", value="5", command=change_img).grid(row=10, column=14, padx=(10,0), sticky='w')
 
-
+def static_or_dynamic_change(selection):
+	if(selection == 'Static Graphics'):
+		print "Redirecting to http://localhost..."
+		file = open(r'../serial2ws/meta.txt', 'w')
+		file.write("redirect static")
+		file.close()
+	if(selection == 'Dynamic Graphics'):
+		print "Redirecting to http://localhost:8080..."
+		file = open(r'../serial2ws/meta.txt', 'w')
+		file.write("redirect live")
+		file.close()
+		
 def log_to_file(filename, gfx_type, race_title_val, match_val): #logfile function; logs to file with ip, network name, race title, type, and match
 	current_time = strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 	ip_address = socket.gethostbyname(socket.gethostname())
@@ -277,15 +294,44 @@ def next_swimmer(): #simple function to increment lane number
 			return
 		lane_number.set(str(current_num+1))
 		
-#Button(master, pady=3, text="Daktronics Console").grid(row=12,column=0, columnspan=4,pady=(10,15),padx=(15,0),sticky="w")
+		
+def save_split_data():
+	length = length_entry_value.get()
+	length = length.replace("M", "")
+	length = length.replace("m", "")
+	if(length == '50' or length == '100' or length == '200' or length == '400' or length == '800'):
+		length = str(int(length)/25) #laps of pool
+	csv_string = length + '\n'
+	for x in range(0,7):
+		csv_string = csv_string + str(x+1) + ','
+		csv_string = csv_string + school_name[x].get() + ','
+		csv_string = csv_string + swimmer_name[x].get().split(" ")[0] + ' ' + swimmer_name[x].get().split(" ")[1][:1] + '.\n'
+		
+	print csv_string
+	file = open(r'../serial2ws/split_race_data.csv', 'w')
+	file.write(csv_string)
+	file.close()
+	
 is_relay = IntVar()
 Checkbutton(master, text="Relay", variable=is_relay).grid(row=0, column=5, columnspan=2,padx=(0,10))
 Button(master, pady=3, text="Import File...", command=import_file).grid(row=12,column=0, ipadx=5, columnspan=5,pady=(10,15),padx=(10,0),sticky="w")
+Button(master, pady=3, text="Save Split Data", command=save_split_data).grid(row=13,column=0, ipadx=5, columnspan=5,pady=(0,15),padx=(10,0),sticky="w")
+
+############## BUTTONS AND DROPDOWN ##################
+static_or_dynamic = StringVar(master)
+static_or_dynamic.set("Static Graphics") # default value
+graphic_menu = OptionMenu(master, static_or_dynamic, "Static Graphics", "Dynamic Graphics", command=static_or_dynamic_change)
+graphic_menu.config(width=15, pady=5)
+graphic_menu.grid(row=12, column=3,columnspan=5, padx=(20,0))
+
 Button(master, pady=3, text="Live", command=gfx_live_pusher).grid(row=11,column=14,ipadx=10,ipady=4, columnspan=2,rowspan=2)
 Button(master, pady=3, text="Next Swimmer", command=next_swimmer).grid(row=12,column=6, columnspan=7)
 
 image_label = Label(master, image=img_list[0]) # image preview
 image_label.grid(row=0, column=10, rowspan=4, columnspan=5)
+######################################################
+
+
 
 mainloop()
 

@@ -1,0 +1,216 @@
+<html>
+	<head>
+		<title>IASAS WebSockets</title>
+			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+			<script src="http://autobahn.s3.amazonaws.com/js/autobahn.min.js"></script>
+			<!-- <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" rel="stylesheet"> -->
+			<link rel="stylesheet" type="text/css" href="http://meyerweb.com/eric/tools/css/reset/reset.css" />
+			<link rel="stylesheet" type="text/css" href="./style.css" />
+			<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+			<script src="./js/jquery.csv-0.71.min.js" type="text/javascript"></script>
+
+			<script>
+				var sess = null;
+				var wsuri = "ws://" + window.location.hostname + ":9000";
+				var retryCount = 0;
+				var retryDelay = 2;
+
+				function connect() {
+					statusline = document.getElementById('statusline');
+					sess = new ab.Session(wsuri,
+						function() {
+							statusline.innerHTML = "Connected to " + wsuri;
+							console.log("Connected to " + wsuri);
+							retryCount = 0;
+							sess.prefix("event", "http://example.com/mcu#");
+							sess.subscribe("event:analog-value", onAnalogValue);
+							sess.prefix("rpc", "http://example.com/mcu-control#");
+						},
+						function() {
+							console.log(retryCount);
+							retryCount = retryCount + 1;
+							statusline.innerHTML = "Connection lost. Reconnecting (" + retryCount + ") in " + retryDelay + " secs ..";
+							window.setTimeout(connect, retryDelay * 1000);
+						}
+					);
+				}
+
+				window.onload = function () {
+					connect();
+				};
+				
+				Array.prototype.clean = function(deleteValue) {
+				  for (var i = 0; i < this.length; i++) {
+					if (this[i] == deleteValue) {         
+					  this.splice(i, 1);
+					  i--;
+					}
+				  }
+				  return this;
+				};
+				
+				
+				// CUSTOM FUNCTIONS
+				function convert_time(time) {
+					if(time.indexOf(':') == -1) {
+						return parseFloat(time);
+					}
+					return Number((parseFloat(time.split(':')[0])*60 + parseFloat(time.split(':')[1])).toFixed(2));
+				}
+				
+				function write_running_time(time) {
+					if(pauseRunningTime == false) $('#time').html(time);
+				}
+				function pause_running_time(timeout, displayed_data) { // pause the timer for n-milliseconds
+					pauseRunningTime = true;
+					$('#time').html(displayed_data);
+					setTimeout(function() {pauseRunningTime = false;}, timeout);
+				}
+				function show_length(meters, timeout) {
+					$('#running_time_img').attr('src', './img/running_time_and_length.png');
+					$('#meters').html(meters + "M");					
+					$('#meters').show();
+					setTimeout(function() {$('#running_time_img').attr('src', './img/running_time.png');$('#meters').hide(); }, timeout);
+				}
+				
+				function change_swimmer_name(place, lane) {
+					$.ajax({url:'./split_race_data.csv', cache: false}).done(function(csv) {
+						csv = $.csv.toArrays(csv);
+						total_laps_of_race = parseInt(csv[0][0]); // line 1 cell 1 is total laps
+						switch(place) {
+							case 1:
+								$('#first_split .lane').html(lane); // change lane to given
+								$('#first_split #school').html(csv[lane][1]); // change lane to given
+								$('#first_split img').attr('src', './img/' + csv[lane][1].toLowerCase() + '.png'); // change lane to given
+								$('#first_split .name').html(csv[lane][2]); // change name
+							case 2:
+								$('#second_split .lane').html(lane); // change lane to given
+								$('#second_split #school').html(csv[lane][1]); // change lane to given
+								$('#second_split img').attr('src', './img/' + csv[lane][1].toLowerCase() + '.png'); // change lane to given
+								$('#second_split .name').html(csv[lane][2]); // change name
+							case 3:
+								$('#third_split .lane').html(lane); // change lane to given
+								$('#third_split #school').html(csv[lane][1]); // change lane to given
+								$('#third_split img').attr('src', './img/' + csv[lane][1].toLowerCase() + '.png'); // change lane to given
+								$('#third_split .name').html(csv[lane][2]); // change name
+						}
+					});
+				}
+				
+				function get_total_laps() {
+					$.ajax({url:'./split_race_data.csv', cache: false, async:false}).done(function(csv) {
+						csv = $.csv.toArrays(csv);
+						total_laps_of_race = parseInt(csv[0][0]); // line 1 cell 1 is total laps
+					});
+					return total_laps_of_race;
+				}
+				
+				var pauseRunningTime = new Boolean(); // boolean; true if running time is paused
+				var race_over = new Boolean(); // boolean; true if race has been won
+				var first_place_split_time = 0; // store the split time for the first place swimmer
+				var total_laps_of_race = 0; // total laps of the 25M pool
+				
+				function onAnalogValue(topicUri, data) {				
+					data_type = data.substring(0,1); // data type; t for time, s for splits
+					
+					if(data_type == 't') {
+						time = data.substring(1);
+						if(time == '0.00') time = '0.0';
+						write_running_time(time); // remove first character (datatype); ie t32.1 is 32.1 sec
+					}
+					if(data_type == 's') {
+						data = data.substring(1); // remove leading datatype
+						data = data.replace(/[A-Za-z]/g, ""); // remove name and school
+						data = data.split(" ").clean(""); // remove empty elements ("")
+						console.log("LANE: "+ data[0] + "  PLACE: " + data[1] + "  TIME: " + data[2] + "  LAP#: " + data[3]);
+						// data - [lane, place, time, laps]
+						
+						switch(data[1]) { // switch place for splits
+							case '1':
+								$('#split_img').attr("src", "./img/first_place_split.png");
+								change_swimmer_name(1, data[0]); // place, lane
+								$('#first_split .time').html(data[2]); // split time
+								first_place_split_time = convert_time(data[2]); // first place time in seconds
+								if(parseInt(data[3]) == get_total_laps()) {  // if winner of race
+									race_over = 1;
+									console.log("WE HAVE A WINNER");
+									console.log("Winning Time: " + data[2] + "    Lane: "+ data[0]);
+								}
+								$('#first_split').show();
+								$('#split_img').show();
+								$('#split_container').show();
+								if(race_over == 1) {
+									pause_running_time(10000, data[2]);
+								} else {
+									pause_running_time(2000, data[2]); // pause timer for first split
+								}
+								show_length(parseInt(data[3])*25, 6000);
+								//setTimeout(function() {$('#first_split').hide();$('#split_img').hide(); }, 15000);
+								break;
+							
+							case '2': // 2nd place
+								$('#split_img').attr("src", "./img/second_place_split.png");
+								change_swimmer_name(2, data[0]); // place, lane
+								display_time = Number((convert_time(data[2]) - first_place_split_time).toFixed(2));
+								$('#second_split .time').html("+" + display_time);
+								$('#second_split').show();
+								$('#split_img').show();
+								//setTimeout(function() {$('#second_split').hide();$('#split_img').hide(); }, 15000);
+								break;
+							case '3': // third place
+								$('#split_img').attr("src", "./img/third_place_split.png");
+								change_swimmer_name(3, data[0]); // place, lane
+								display_time = Number((convert_time(data[2]) - first_place_split_time).toFixed(2));
+								$('#third_split .time').html(display_time);
+								$('#third_split').show();
+								$('#split_img').show();
+								setTimeout(function() {$('#split_container').hide();$('#split_img').hide(); }, 5000);
+								break;
+						}
+					}
+				}
+			</script>
+   </head>
+   <body style='background-color:rgb(0,255,33);'>
+      <div class='page-header' style='display:none'>
+		<h1>Autobahn WebSockets:<small> MCU to WS Gateway Demo</small></h1>
+	  </div>
+      <div id="statusline" style='display:none'></div>
+	 
+	<img id='running_time_img' src='./img/running_time.png' width='1024' class='graphics'>
+	<img id='split_img' src='./img/third_place_split.png' width='1024' class='graphics' style='display:none'>
+
+	<p id='meters' style='position: absolute;top: 0px;font-size: 25px;font-weight: bold;font-style: italic;margin-left: 747px;margin-top: 583px;text-align: right;width: 80px;color: #222;padding-right: 10px;display:none;'></p>
+	<p id='time' style='position:absolute;top:0;font-size:29px;font-weight:bold;font-style:italic;margin-left:667px;margin-top:612px;text-align:right;width:120px;color:#222;padding-right:10px;'>0.0</p>
+	
+	<ul id='split_container'>
+		<li id='first_split' class='split_row' style='display:none'>
+			<h2 class ='lane'>0</h2>
+			<h3 class='school_and_name'>
+				<span class='school'><img src='./img/tas.png'><span id='school'>TAS</span></span>
+				<span class='name'>PHILLIP T.</span>
+			</h3>
+			<h4 class='time'>8:35.2</h3>
+		</li>
+		
+		<li id='second_split' class='split_row' style='display:none'>
+			<h2 class ='lane'>0</h2>
+			<h3 class='school_and_name'>
+				<span class='school'><img src='./img/sas.png'><span id='school'>TAS</span></span>
+				<span class='name'>CHRISTOPHER S.</span>
+			</h3>
+			<h4 class='time'>+0.47</h3>
+		</li>
+		
+		<li id='third_split' class='split_row' style='display:none'>
+			<h2 class ='lane'>0</h2>
+			<h3 class='school_and_name'>
+				<span class='school'><img src='./img/iskl.png'><span id='school'>TAS</span></span>
+				<span class='name'>PHILLIP T.</span>
+			</h3>
+			<h4 class='time'>+0.49</h3>
+		</li>
+	</ul>
+	
+   </body>
+ </html>

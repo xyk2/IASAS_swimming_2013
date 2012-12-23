@@ -22,9 +22,28 @@
 				relay_start_list.png
 				relay_results.png
 			*/
+			var oldData;
 			$(document).ready(function() { 
-				draw_new_graphic_handler("live.csv");
+				draw_new_graphic_handler("live.csv"); // avoid flash of no graphic
 				setInterval(function() {draw_new_graphic_handler("live.csv")}, 500);
+				
+				setInterval(function() {
+					$.ajax({url:'./serial2ws/meta.txt', cache: false}).done(function(data) {
+						if(data != oldData) {
+							if(data == 'redirect live') {
+								$('#iframe').show();
+								$('#container').hide();
+								console.log("Dynamic redirect");
+							}
+							if(data == 'redirect static') {
+								$('#iframe').hide();
+								$('#container').show();
+								console.log("Static redirect");
+							}
+							oldData = data;
+						}
+					});
+				}, 1000);
 			});
 			
 			function draw_new_graphic_handler(filename) {
@@ -149,236 +168,238 @@
 	</head>
 	
 	<body style='background:rgb(0,255,33);'>
-	
-		<div id='results' style='display:none'>
-			<h1>Race</h1>
-			<h2>Results</h2>
-			<ul class='results_list'>
-				<li class='tas'>
-					<h3>TAS</h3>
-					<h4>NAME</h4>
-					<h5>0.0</h5>
-				</li>
-				<li class='sas'>
-					<h3>SAS</h3>
-					<h4>NAME</h4>
-					<h5>0.0</h5>
-				</li>
-				<li class='isb'>
-					<h3>ISB</h3>
-					<h4>NAME</h4>
-					<h5>0.0</h5>
-				</li>
-				<li class='ism'>
-					<h3>ISM</h3>
-					<h4>NAME</h4>
-					<h5>0.0</h5>
-				</li>
-				<li class='iskl'>
-					<h3>ISKL</h3>
-					<h4>NAME</h4>
-					<h5>0.0</h5>
-				</li>
-				<li class='jis'>
-					<h3>JIS</h3>
-					<h4>NAME</h4>
-					<h5>0.0</h5>
-				</li>
-				<li class='tas'>
-					<h3>TAS</h3>
-					<h4>NAME</h4>
-					<h5>0.0</h5>
-				</li>
-			</ul>
-		</div>
+		<iframe id='iframe' src='http://localhost:8080' width='1024' height='768' style='display:none' seamless></iframe>
 		
-		<div id='start_list' style='display:none'>
-			<h1>Race</h1>
-			<h2>Start List</h2>
-			<ul class='results_list'>
-				<li class='tas'>
-					<h3>TAS</h3>
-					<h4>NAME</h4>
-				</li>
-				<li class='sas'>
-					<h3>SAS</h3>
-					<h4>NAME</h4>
-				</li>
-				<li class='isb'>
-					<h3>ISB</h3>
-					<h4>NAME</h4>
-				</li>
-				<li class='ism'>
-					<h3>ISM</h3>
-					<h4>NAME</h4>
-				</li>
-				<li class='iskl'>
-					<h3>ISKL</h3>
-					<h4>NAME</h4>
-				</li>
-				<li class='jis'>
-					<h3>JIS</h3>
-					<h4>NAME</h4>
-				</li>
-				<li class='tas'>
-					<h3>TAS</h3>
-					<h4>NAME</h4>
-				</li>
-			</ul>
-		</div>
-		
-		<div id='nameplate' style='display:none'>
-			<h3>1</h3>
-			<img src='img/iskl.png'>
-			<h2>ISKL</h2>
-			<h1>PHILLIP TENG</h1>
-		</div>
-		
-		<div id='winner' style='display:none'>
-			<h1>Boys 100m Freestyle</h1>
-			<h2>Start List</h2>
-			<h6>1</h6>
-			<ul class='results_list winner_override'>
-				<li class='tas'>
-					<h3>TAS</h3>
-					<h4>SWIMMER</h4>
-					<h5>10.0</h5>
-				</li>
-			</ul>
-		</div>
-		
-		<div id='race_intro' style='display:none'>
-			<h1>Boys 100m Freestyle</h1>
-			<h2>Preliminaries</h2>
-		</div>
-		
-		
-		<div id='relay_start_list' style='display:none'>
-			<h1>Race</h1>
-			<h2>Start List</h2>
-			<ul class='results_list'>
-				<li class='tas'>
-					<h3>TAS</h3>
-					<h4>NAME</h4>
-				</li>
-				<li class='sas'>
-					<h3>SAS</h3>
-					<h4>NAME</h4>
-				</li>
-				<li class='isb'>
-					<h3>ISB</h3>
-					<h4>NAME</h4>
-				</li>
-				<li class='ism'>
-					<h3>ISM</h3>
-					<h4>NAME</h4>
-				</li>
-				<li class='iskl'>
-					<h3>ISKL</h3>
-					<h4>NAME</h4>
-				</li>
-				<li class='jis'>
-					<h3>JIS</h3>
-					<h4>NAME</h4>
-				</li>
-			</ul>
-		</div>
-		
-		
-		<div id='relay_results' style='display:none'>
-			<h1>Race</h1>
-			<h2>Results</h2>
-			<ul class='results_list'>
-				<li class='tas'>
-					<h3>TAS</h3>
-					<h4>NAME</h4>
-					<h5>0.0</h5>
-				</li>
-				<li class='sas'>
-					<h3>SAS</h3>
-					<h4>NAME</h4>
-					<h5>0.0</h5>
-				</li>
-				<li class='isb'>
-					<h3>ISB</h3>
-					<h4>NAME</h4>
-					<h5>0.0</h5>
-				</li>
-				<li class='ism'>
-					<h3>ISM</h3>
-					<h4>NAME</h4>
-					<h5>0.0</h5>
-				</li>
-				<li class='iskl'>
-					<h3>ISKL</h3>
-					<h4>NAME</h4>
-					<h5>0.0</h5>
-				</li>
-				<li class='jis'>
-					<h3>JIS</h3>
-					<h4>NAME</h4>
-					<h5>0.0</h5>
-				</li>
-			</ul>
-		</div>
-		
-		
-		<div id='team_scores' style='display:block'>
-			<ul class='results_list' id='boys'>
-				<li class='tas'>
-					<h3>TAS<span>Tigers</span></h3>
-					<h5>0.0</h5>
-				</li>
-				<li class='sas'>
-					<h3>SAS<span>Eagles</span></h3>
-					<h5>0.0</h5>
-				</li>
-				<li class='isb'>
-					<h3>ISB<span>Panthers</span></h3>
-					<h5>0.0</h5>
-				</li>
-				<li class='ism'>
-					<h3>ISM<span>Bearcats</span></h3>
-					<h5>0.0</h5>
-				</li>
-				<li class='iskl'>
-					<h3>ISKL<span>Panthers</span></h3>
-					<h5>0.0</h5>
-				</li>
-				<li class='jis'>
-					<h3>JIS<span>Dragons</span></h3>
-					<h5>0.0</h5>
-				</li>
-			</ul>
+		<span id='container' style='display:none'>
+			<div id='results' style='display:none'>
+				<h1>Race</h1>
+				<h2>Results</h2>
+				<ul class='results_list'>
+					<li class='tas'>
+						<h3>TAS</h3>
+						<h4>NAME</h4>
+						<h5>0.0</h5>
+					</li>
+					<li class='sas'>
+						<h3>SAS</h3>
+						<h4>NAME</h4>
+						<h5>0.0</h5>
+					</li>
+					<li class='isb'>
+						<h3>ISB</h3>
+						<h4>NAME</h4>
+						<h5>0.0</h5>
+					</li>
+					<li class='ism'>
+						<h3>ISM</h3>
+						<h4>NAME</h4>
+						<h5>0.0</h5>
+					</li>
+					<li class='iskl'>
+						<h3>ISKL</h3>
+						<h4>NAME</h4>
+						<h5>0.0</h5>
+					</li>
+					<li class='jis'>
+						<h3>JIS</h3>
+						<h4>NAME</h4>
+						<h5>0.0</h5>
+					</li>
+					<li class='tas'>
+						<h3>TAS</h3>
+						<h4>NAME</h4>
+						<h5>0.0</h5>
+					</li>
+				</ul>
+			</div>
 			
-			<ul class='results_list' id='girls' style='margin-left:560px;'>
-				<li class='tas'>
-					<h3>TAS<span>Tigers</span></h3>
-					<h5>0.0</h5>
-				</li>
-				<li class='sas'>
-					<h3>SAS<span>Eagles</span></h3>
-					<h5>0.0</h5>
-				</li>
-				<li class='isb'>
-					<h3>ISB<span>Panthers</span></h3>
-					<h5>0.0</h5>
-				</li>
-				<li class='ism'>
-					<h3>ISM<span>Bearcats</span></h3>
-					<h5>0.0</h5>
-				</li>
-				<li class='iskl'>
-					<h3>ISKL<span>Panthers</span></h3>
-					<h5>0.0</h5>
-				</li>
-				<li class='jis'>
-					<h3>JIS<span>Dragons</span></h3>
-					<h5>0.0</h5>
-				</li>
-			</ul>			
-		</div>
-		
+			<div id='start_list' style='display:none'>
+				<h1>Race</h1>
+				<h2>Start List</h2>
+				<ul class='results_list'>
+					<li class='tas'>
+						<h3>TAS</h3>
+						<h4>NAME</h4>
+					</li>
+					<li class='sas'>
+						<h3>SAS</h3>
+						<h4>NAME</h4>
+					</li>
+					<li class='isb'>
+						<h3>ISB</h3>
+						<h4>NAME</h4>
+					</li>
+					<li class='ism'>
+						<h3>ISM</h3>
+						<h4>NAME</h4>
+					</li>
+					<li class='iskl'>
+						<h3>ISKL</h3>
+						<h4>NAME</h4>
+					</li>
+					<li class='jis'>
+						<h3>JIS</h3>
+						<h4>NAME</h4>
+					</li>
+					<li class='tas'>
+						<h3>TAS</h3>
+						<h4>NAME</h4>
+					</li>
+				</ul>
+			</div>
+			
+			<div id='nameplate' style='display:none'>
+				<h3>1</h3>
+				<img src='img/iskl.png'>
+				<h2>ISKL</h2>
+				<h1>PHILLIP TENG</h1>
+			</div>
+			
+			<div id='winner' style='display:none'>
+				<h1>Boys 100m Freestyle</h1>
+				<h2>Start List</h2>
+				<h6>1</h6>
+				<ul class='results_list winner_override'>
+					<li class='tas'>
+						<h3>TAS</h3>
+						<h4>SWIMMER</h4>
+						<h5>10.0</h5>
+					</li>
+				</ul>
+			</div>
+			
+			<div id='race_intro' style='display:none'>
+				<h1>Boys 100m Freestyle</h1>
+				<h2>Preliminaries</h2>
+			</div>
+			
+			
+			<div id='relay_start_list' style='display:none'>
+				<h1>Race</h1>
+				<h2>Start List</h2>
+				<ul class='results_list'>
+					<li class='tas'>
+						<h3>TAS</h3>
+						<h4>NAME</h4>
+					</li>
+					<li class='sas'>
+						<h3>SAS</h3>
+						<h4>NAME</h4>
+					</li>
+					<li class='isb'>
+						<h3>ISB</h3>
+						<h4>NAME</h4>
+					</li>
+					<li class='ism'>
+						<h3>ISM</h3>
+						<h4>NAME</h4>
+					</li>
+					<li class='iskl'>
+						<h3>ISKL</h3>
+						<h4>NAME</h4>
+					</li>
+					<li class='jis'>
+						<h3>JIS</h3>
+						<h4>NAME</h4>
+					</li>
+				</ul>
+			</div>
+			
+			
+			<div id='relay_results' style='display:none'>
+				<h1>Race</h1>
+				<h2>Results</h2>
+				<ul class='results_list'>
+					<li class='tas'>
+						<h3>TAS</h3>
+						<h4>NAME</h4>
+						<h5>0.0</h5>
+					</li>
+					<li class='sas'>
+						<h3>SAS</h3>
+						<h4>NAME</h4>
+						<h5>0.0</h5>
+					</li>
+					<li class='isb'>
+						<h3>ISB</h3>
+						<h4>NAME</h4>
+						<h5>0.0</h5>
+					</li>
+					<li class='ism'>
+						<h3>ISM</h3>
+						<h4>NAME</h4>
+						<h5>0.0</h5>
+					</li>
+					<li class='iskl'>
+						<h3>ISKL</h3>
+						<h4>NAME</h4>
+						<h5>0.0</h5>
+					</li>
+					<li class='jis'>
+						<h3>JIS</h3>
+						<h4>NAME</h4>
+						<h5>0.0</h5>
+					</li>
+				</ul>
+			</div>
+			
+			
+			<div id='team_scores' style='display:none;'>
+				<ul class='results_list' id='boys'>
+					<li class='tas'>
+						<h3>TAS<span>Tigers</span></h3>
+						<h5>0.0</h5>
+					</li>
+					<li class='sas'>
+						<h3>SAS<span>Eagles</span></h3>
+						<h5>0.0</h5>
+					</li>
+					<li class='isb'>
+						<h3>ISB<span>Panthers</span></h3>
+						<h5>0.0</h5>
+					</li>
+					<li class='ism'>
+						<h3>ISM<span>Bearcats</span></h3>
+						<h5>0.0</h5>
+					</li>
+					<li class='iskl'>
+						<h3>ISKL<span>Panthers</span></h3>
+						<h5>0.0</h5>
+					</li>
+					<li class='jis'>
+						<h3>JIS<span>Dragons</span></h3>
+						<h5>0.0</h5>
+					</li>
+				</ul>
+				
+				<ul class='results_list' id='girls' style='margin-left:560px;'>
+					<li class='tas'>
+						<h3>TAS<span>Tigers</span></h3>
+						<h5>0.0</h5>
+					</li>
+					<li class='sas'>
+						<h3>SAS<span>Eagles</span></h3>
+						<h5>0.0</h5>
+					</li>
+					<li class='isb'>
+						<h3>ISB<span>Panthers</span></h3>
+						<h5>0.0</h5>
+					</li>
+					<li class='ism'>
+						<h3>ISM<span>Bearcats</span></h3>
+						<h5>0.0</h5>
+					</li>
+					<li class='iskl'>
+						<h3>ISKL<span>Panthers</span></h3>
+						<h5>0.0</h5>
+					</li>
+					<li class='jis'>
+						<h3>JIS<span>Dragons</span></h3>
+						<h5>0.0</h5>
+					</li>
+				</ul>			
+			</div>
+		</span>
 	</body>
 
 
