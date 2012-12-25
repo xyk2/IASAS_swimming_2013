@@ -109,7 +109,7 @@ editMenu.add_command(label="Edit Team Scores", command=lambda: edit_team_scores_
 
 img_list = [ImageTk.PhotoImage(Image.open('img/race_intro.png')), ImageTk.PhotoImage(Image.open('img/start_list.png')),
 	ImageTk.PhotoImage(Image.open('img/nameplate.png')),ImageTk.PhotoImage(Image.open('img/winner.png')),
-	ImageTk.PhotoImage(Image.open('img/results.png'))]
+	ImageTk.PhotoImage(Image.open('img/results.png')), ImageTk.PhotoImage(Image.open('img/team_scores.png'))]
 
 for x in range(0, 7): #convert datal list to string variables
 	school_name_value[x] = StringVar()

@@ -2,14 +2,14 @@ html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockqu
 article, aside, details, figcaption, figure,footer, header, hgroup, menu, nav, section {display: block;}
 body {line-height:1;font-family:Open Sans;}
 
-@results_url: "base_graphics/results.png";
-@start_list_url: "base_graphics/start_list.png";
-@nameplate_url: "base_graphics/nameplate.png";
-@winner_url: "base_graphics/winner.png";
-@race_intro_url: "base_graphics/race_intro.png";
-@relay_start_list_url: "base_graphics/relay_start_list.png";
-@relay_results_url: "base_graphics/relay_results.png";
-@team_scores_url: "base_graphics/team_scores.png";
+@results_url: "base_graphics/144dpi_results.png";
+@start_list_url: "base_graphics/144dpi_start_list.png";
+@nameplate_url: "base_graphics/144dpi_nameplate.png";
+@winner_url: "base_graphics/144dpi_winner.png";
+@race_intro_url: "base_graphics/144dpi_race_intro.png";
+@relay_start_list_url: "base_graphics/144dpi_relay_start_list.png";
+@relay_results_url: "base_graphics/144dpi_relay_results.png";
+@team_scores_url: "base_graphics/144dpi_team_scores.png";
 
 
 @row_height: 34px;
@@ -17,6 +17,12 @@ body {line-height:1;font-family:Open Sans;}
 @school_icon_paddingY: 6px;
 @school_name_font_size: 15pt;
 @swimmer_name_font_size: 16pt;
+
+
+@font-face {
+font-family: London2012;
+src: url('static/LONDON_FONT.TTF');
+}
 
 .global_reset {
 	position: absolute;
@@ -87,27 +93,25 @@ body {line-height:1;font-family:Open Sans;}
 	}
 }
 
-@font-face {
-font-family: London2012;
-src: url('fonts/LONDON_FONT.TTF');
-}
-
 #results {
 	.global_WxH;
 	.results_start_list_h1_h2;
 	background-image:url(@results_url);
+	background-size: 1024px 768px;
 }
 
 #start_list {
 	.global_WxH;
 	.results_start_list_h1_h2;
 	background-image:url(@start_list_url);
+	background-size: 1024px 768px;
 }
 
 
 #nameplate {
 	.global_WxH;
 	background-image:url(@nameplate_url);
+	background-size: 1024px 768px;
 	color:white;
 	position:absolute;	
 	h3 {
@@ -144,6 +148,7 @@ src: url('fonts/LONDON_FONT.TTF');
 #winner {
 	.global_WxH;
 	background-image:url(@winner_url);
+	background-size: 1024px 768px;
 	color:white;
 	position:absolute;	
 	h1 {
@@ -180,6 +185,7 @@ src: url('fonts/LONDON_FONT.TTF');
 #race_intro {
 	.global_WxH;
 	background-image:url(@race_intro_url);
+	background-size: 1024px 768px;
 	color:white;
 	position:absolute;	
 	@margin-top_offset: 23px;
@@ -218,6 +224,7 @@ src: url('fonts/LONDON_FONT.TTF');
 		margin-top:358+@row_height;
 	}
 	background-image:url(@relay_start_list_url);
+	background-size: 1024px 768px;
 }
 
 #relay_results {
@@ -233,6 +240,7 @@ src: url('fonts/LONDON_FONT.TTF');
 		margin-top:358+@row_height;
 	}
 	background-image:url(@relay_results_url);
+	background-size: 1024px 768px;
 }
 
 #team_scores {
@@ -270,6 +278,7 @@ src: url('fonts/LONDON_FONT.TTF');
 		width:300px;
 	}
 	background-image:url(@team_scores_url);
+	background-size: 1024px 768px;
 }
 
 

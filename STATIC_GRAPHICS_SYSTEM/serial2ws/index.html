@@ -67,10 +67,10 @@
 					setTimeout(function() {pauseRunningTime = false;}, timeout);
 				}
 				function show_length(meters, timeout) {
-					$('#running_time_img').attr('src', './img/running_time_and_length.png');
+					$('#running_time_img').attr('src', './img/144dpi_running_time_and_length.png');
 					$('#meters').html(meters + "M");					
 					$('#meters').show();
-					setTimeout(function() {$('#running_time_img').attr('src', './img/running_time.png');$('#meters').hide(); }, timeout);
+					setTimeout(function() {$('#running_time_img').attr('src', './img/144dpi_running_time.png');$('#meters').hide(); }, timeout);
 				}
 				
 				function change_swimmer_name(place, lane) {
@@ -127,7 +127,7 @@
 						
 						switch(data[1]) { // switch place for splits
 							case '1':
-								$('#split_img').attr("src", "./img/first_place_split.png");
+								$('#split_img').attr("src", "./img/144dpi_first_place_split.png");
 								change_swimmer_name(1, data[0]); // place, lane
 								$('#first_split .time').html(data[2]); // split time
 								first_place_split_time = convert_time(data[2]); // first place time in seconds
@@ -150,7 +150,7 @@
 								break;
 							
 							case '2': // 2nd place
-								$('#split_img').attr("src", "./img/second_place_split.png");
+								$('#split_img').attr("src", "./img/144dpi_second_place_split.png");
 								change_swimmer_name(2, data[0]); // place, lane
 								display_time = Number((convert_time(data[2]) - first_place_split_time).toFixed(2));
 								$('#second_split .time').html("+" + display_time);
@@ -159,7 +159,7 @@
 								//setTimeout(function() {$('#second_split').hide();$('#split_img').hide(); }, 15000);
 								break;
 							case '3': // third place
-								$('#split_img').attr("src", "./img/third_place_split.png");
+								$('#split_img').attr("src", "./img/144dpi_third_place_split.png");
 								change_swimmer_name(3, data[0]); // place, lane
 								display_time = Number((convert_time(data[2]) - first_place_split_time).toFixed(2));
 								$('#third_split .time').html("+" + display_time);
@@ -178,8 +178,8 @@
 	  </div>
       <div id="statusline" style='display:none'></div>
 	 
-	<img id='running_time_img' src='./img/running_time.png' width='1024' class='graphics'>
-	<img id='split_img' src='./img/third_place_split.png' width='1024' class='graphics' style='display:none'>
+	<img id='running_time_img' src='./img/144dpi_running_time.png' width='1024' class='graphics'>
+	<img id='split_img' src='./img/144dpi_third_place_split.png' width='1024' class='graphics' style='display:none'>
 
 	<p id='meters' style='position: absolute;top: 0px;font-size: 25px;font-weight: bold;font-style: italic;margin-left: 747px;margin-top: 583px;text-align: right;width: 80px;color: #222;padding-right: 10px;display:none;'></p>
 	<p id='time' style='position:absolute;top:0;font-size:29px;font-weight:bold;font-style:italic;margin-left:667px;margin-top:612px;text-align:right;width:120px;color:#222;padding-right:10px;'>0.0</p>
