@@ -307,7 +307,10 @@ def save_split_data():
 	for x in range(0,7):
 		csv_string = csv_string + str(x+1) + ','
 		csv_string = csv_string + school_name[x].get() + ','
-		csv_string = csv_string + swimmer_name[x].get().split(" ")[0] + ' ' + swimmer_name[x].get().split(" ")[1][:1] + '.\n'
+		try:
+			csv_string = csv_string + swimmer_name[x].get().split(" ")[0] + ' ' + swimmer_name[x].get().split(" ")[1][:1] + '.\n'
+		except:
+			csv_string = csv_string + '\n'
 		
 	print csv_string
 	file = open(r'../serial2ws/split_race_data.csv', 'w')
