@@ -146,15 +146,20 @@
 			}
 			
 			function team_scores_handler(csv) {
+				
 				console.log("Graphics -> team_scores_handler()...");
-				$("#relay_results h1").html(csv[1][0]); // Line 2, Cell 1 (race title)
-				$("#relay_results h2").html("Results - " + csv[1][1]); // Line 2, Cell 2 (race type/match)
-				$("#relay_results ul li").each(function(index) {
-					$(this).attr("class", csv[index+2][1].toLowerCase()); // Line n Cell 2 (school name)
-					$(this).find("h3").html(csv[index+2][1]); // Line n Cell 2 (school name)
-					$(this).find("h4").html(csv[index+2][2]); // Line n Cell 3 (swimmer name)
-					$(this).find("h5").html(csv[index+2][3]); // Line n Cell 4 (time)
+				$("#team_scores > #boys li").each(function(index) {
+					$(this).attr("class", csv[index+2][0].toLowerCase()); // Line n Cell 2 (school name)
+					$(this).find("h3").html(csv[index+2][0].toUpperCase()); // Line n Cell 2 (school name)
+					$(this).find("span").html(translate_to_mascot(csv[index+2][0])); // Line n Cell 3 (swimmer name)
+					$(this).find("h5").html(csv[index+2][1]); // Line n Cell 4 (time)
 				});
+				$("#team_scores > #girls li").each(function(index) {
+					$(this).attr("class", csv[index+9][0].toLowerCase()); // Line n Cell 2 (school name)
+					$(this).find("h3").html(csv[index+9][0].toUpperCase()); // Line n Cell 2 (school name)
+					$(this).find("span").html(translate_to_mascot(csv[index+9][0])); // Line n Cell 3 (swimmer name)
+					$(this).find("h5").html(csv[index+9][1]); // Line n Cell 4 (time)
+				});				
 			}	
 
 			
@@ -163,6 +168,24 @@
 					$(this).hide();
 				});
 				$("#" + shown_img).show();
+			}
+			
+			function translate_to_mascot(school) {
+				school = school.toLowerCase();
+				switch(school) {
+					case 'tas':
+						return 'Tigers';
+					case 'sas':
+						return 'Eagles';
+					case 'isb':
+						return 'Panthers';						
+					case 'ism':
+						return 'Bearcats';
+					case 'iskl':
+						return 'Panthers';
+					case 'jis':
+						return 'Dragons';
+				}
 			}
 		</script>
 	</head>
@@ -273,7 +296,6 @@
 				<h2>Preliminaries</h2>
 			</div>
 			
-			
 			<div id='relay_start_list' style='display:none'>
 				<h1>Race</h1>
 				<h2>Start List</h2>
@@ -304,7 +326,6 @@
 					</li>
 				</ul>
 			</div>
-			
 			
 			<div id='relay_results' style='display:none'>
 				<h1>Race</h1>
@@ -343,59 +364,70 @@
 				</ul>
 			</div>
 			
-			
-			<div id='team_scores' style='display:none;'>
+			<div id='team_scores' style='display:none'>
 				<ul class='results_list' id='boys'>
 					<li class='tas'>
-						<h3>TAS<span>Tigers</span></h3>
-						<h5>0.0</h5>
+						<h3>TAS</h3>
+						<span>Tigers</span>
+						<h5>0</h5>
 					</li>
 					<li class='sas'>
-						<h3>SAS<span>Eagles</span></h3>
-						<h5>0.0</h5>
+						<h3>SAS</h3>
+						<span>Eagles</span>
+						<h5>0</h5>
 					</li>
 					<li class='isb'>
-						<h3>ISB<span>Panthers</span></h3>
-						<h5>0.0</h5>
+						<h3>ISB</h3>
+						<span>Panthers</span>
+						<h5>0</h5>
 					</li>
 					<li class='ism'>
-						<h3>ISM<span>Bearcats</span></h3>
-						<h5>0.0</h5>
+						<h3>ISM</h3>
+						<span>Bearcats</span>
+						<h5>0</h5>
 					</li>
 					<li class='iskl'>
-						<h3>ISKL<span>Panthers</span></h3>
-						<h5>0.0</h5>
+						<h3>ISKL</h3>
+						<span>Panthers</span>
+						<h5>0</h5>
 					</li>
 					<li class='jis'>
-						<h3>JIS<span>Dragons</span></h3>
-						<h5>0.0</h5>
+						<h3>JIS</h3>
+						<span>Dragons</span>
+						<h5>0</h5>
 					</li>
 				</ul>
 				
 				<ul class='results_list' id='girls' style='margin-left:560px;'>
 					<li class='tas'>
-						<h3>TAS<span>Tigers</span></h3>
-						<h5>0.0</h5>
+						<h3>TAS</h3>
+						<span>Tigers</span>
+						<h5>0</h5>
 					</li>
 					<li class='sas'>
-						<h3>SAS<span>Eagles</span></h3>
-						<h5>0.0</h5>
+						<h3>SAS</h3>
+						<span>Eagles</span>
+						<h5>0</h5>
 					</li>
 					<li class='isb'>
-						<h3>ISB<span>Panthers</span></h3>
-						<h5>0.0</h5>
+						<h3>ISB</h3>
+						<span>Panthers</span>
+						<h5>0</h5>
 					</li>
 					<li class='ism'>
-						<h3>ISM<span>Bearcats</span></h3>
-						<h5>0.0</h5>
+						<h3>ISM</h3>
+						<span>Bearcats</span>
+						<h5>0</h5>
 					</li>
 					<li class='iskl'>
-						<h3>ISKL<span>Panthers</span></h3>
-						<h5>0.0</h5>
+						<h3>ISKL</h3>
+						<span>Panthers</span>
+						<h5>0</h5>
 					</li>
 					<li class='jis'>
-						<h3>JIS<span>Dragons</span></h3>
-						<h5>0.0</h5>
+						<h3>JIS</h3>
+						<span>Dragons</span>
+						<h5>0</h5>
 					</li>
 				</ul>			
 			</div>

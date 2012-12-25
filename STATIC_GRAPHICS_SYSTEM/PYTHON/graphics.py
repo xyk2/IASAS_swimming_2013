@@ -71,8 +71,10 @@ class edit_team_scores_dialog:
 			boys_list[x][1] = self.team_score_value_boys[x].get() #get values and sort into list
 			girls_list[x][1] = self.team_score_value_girls[x].get()
 		boys_list = sorted(boys_list, key=lambda x: x[1]) #sort lists by score
-		girls_list = sorted(girls_list, key=lambda x: x[1])
+		print girls_list
 		
+		girls_list = sorted(girls_list, key=lambda y: y[1])
+		print girls_list
 		file = open('team_scores.csv', 'w') #rewrite csv file
 		csv_string = 'team_scores\nboys\n'
 		for x in reversed(range(0, 6)): #list is sorted left to right incrementing, we want it decrementing
