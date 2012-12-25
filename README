@@ -1,2 +1,3 @@
 The graphics keying and overlay engine for the IASAS 2013 swimming broadcast. Runs with a custom external hardware serial decoder and HTML5 WebSockets.
 
+The displayer is separated into two subsections: dynamic and static. The dynamic side handles all the timing console graphics including the running time and splits, and the static side handles the graphics for results and intros. 
