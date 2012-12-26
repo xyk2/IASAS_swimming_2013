@@ -162,16 +162,17 @@ Radiobutton(master, variable=graphic_type, text="Nameplate", value="2", command=
 Radiobutton(master, variable=graphic_type, text="Winner", value="3", command=change_img).grid(row=8,column=14, padx=(10,0), sticky='w')
 Radiobutton(master, variable=graphic_type, text="Results", value="4", command=change_img).grid(row=9, column=14, padx=(10,0), sticky='w')
 Radiobutton(master, variable=graphic_type, text="Team Scores", value="5", command=change_img).grid(row=10, column=14, padx=(10,0), sticky='w')
+Radiobutton(master, variable=graphic_type, text="Clear Graphics", value="6", command=change_img).grid(row=11, column=14, padx=(10,0), sticky='w')
 
 def static_or_dynamic_change(selection):
 	if(selection == 'Static Graphics'):
 		print "Redirecting to http://localhost..."
-		file = open(r'../serial2ws/meta.txt', 'w')
+		file = open(r'../meta.txt', 'w')
 		file.write("redirect static")
 		file.close()
 	if(selection == 'Dynamic Graphics'):
 		print "Redirecting to http://localhost:8080..."
-		file = open(r'../serial2ws/meta.txt', 'w')
+		file = open(r'../meta.txt', 'w')
 		file.write("redirect live")
 		file.close()
 		
@@ -215,8 +216,8 @@ def sort_list_by_time(list):
 	
 def gfx_live_pusher():
 	csv_string = "" #complete csv string to be appended
-	gfx_type_num = ["race_intro", "start_list", "nameplate", "winner", "results", "team_scores"]
-	
+	gfx_type_num = ["race_intro", "start_list", "nameplate", "winner", "results", "team_scores", "clear_graphics"]
+		
 	gfx_type = gfx_type_num[graphic_type.get()] # graphic type; race_intro, results... etc
 	if(graphic_type.get() == 1 or graphic_type.get() == 4): #if start_list or results
 		if(is_relay.get() == 1): #and relay is enabled
@@ -329,7 +330,7 @@ graphic_menu = OptionMenu(master, static_or_dynamic, "Static Graphics", "Dynamic
 graphic_menu.config(width=15, pady=5)
 graphic_menu.grid(row=12, column=3,columnspan=5, padx=(20,0))
 
-Button(master, pady=3, text="Live", command=gfx_live_pusher).grid(row=11,column=14,ipadx=10,ipady=4, columnspan=2,rowspan=2)
+Button(master, pady=3, text="Live", command=gfx_live_pusher).grid(row=11,column=14,ipadx=10,ipady=4,pady=(15,0),columnspan=2,rowspan=2)
 Button(master, pady=3, text="Next Swimmer", command=next_swimmer).grid(row=12,column=6, columnspan=7)
 
 image_label = Label(master, image=img_list[0]) # image preview
