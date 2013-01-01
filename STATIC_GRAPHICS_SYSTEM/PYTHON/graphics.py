@@ -96,12 +96,27 @@ master.resizable(0,0)
 master.title("IASAS Swimming 2013 Graphics Generator") #program title
 master.iconbitmap('img/icon.ico')
 
+
+def start_websockets():
+	import serial.tools.list_ports
+	import re
+	import os
+	com_list = list(serial.tools.list_ports.comports())
+	for x in com_list:
+		print x
+	for x in com_list:
+		if(x[2].find('FTDI') != -1):
+			print "\nConnecting to the console at COM%s..." %str(int(re.sub("[^0-9]", "", x[0])))
+			run = r'..\serial2ws\serial2ws.py -p %s' %str(int(re.sub("[^0-9]", "", x[0])) - 1)
+			os.system("start cmd /c %s" %run)
+			
 ################## MENU
 mbar = Menu(master, tearoff=0) 
 master.config(menu=mbar)
 fileMenu = Menu(mbar,tearoff=0) 
 mbar.add_cascade(label="File", menu=fileMenu) 
 fileMenu.add_command(label="Open GFX Displayer", command=lambda: webbrowser.open('http://localhost', new=1)) 
+fileMenu.add_command(label="Start WebSockets Server", command=start_websockets) 
 editMenu = Menu(mbar,tearoff=0) 
 mbar.add_cascade(label="Edit", menu=editMenu) 
 editMenu.add_command(label="Edit Team Scores", command=lambda: edit_team_scores_dialog(master)) 
