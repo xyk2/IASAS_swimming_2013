@@ -1,4 +1,4 @@
-<html>
+<html style='background-color:rgb(0,255,33);-webkit-user-select:none;'>
 	<head>
 		<title>IASAS WebSockets</title>
 			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
@@ -165,14 +165,14 @@
 								$('#third_split .time').html("+" + display_time);
 								$('#third_split').show();
 								$('#split_img').show();
-								setTimeout(function() {$('#split_container').hide();$('#split_container li').hide();$('#split_img').hide(); }, 5000);
+								setTimeout(function() {$('#split_container').hide(); $('#split_container li').hide(); $('#split_img').hide(); }, 5000);
 								break;
 						}
 					}
 				}
 			</script>
    </head>
-   <body style='background-color:rgb(0,255,33);'>
+   <body style=''>
       <div id="statusline" style='display:none'></div>
 	 
 	<img id='running_time_img' src='./img/144dpi_running_time.png' width='1024' class='graphics'>
@@ -194,7 +194,7 @@
 		<li id='second_split' class='split_row' style='display:none'>
 			<h2 class ='lane'>0</h2>
 			<h3 class='school_and_name'>
-				<span class='school'><img src='./img/sas.png'><span id='school'>TAS</span></span>
+				<span class='school'><img src='./img/tas.png'><span id='school'>TAS</span></span>
 				<span class='name'></span>
 			</h3>
 			<h4 class='time'></h3>
@@ -203,7 +203,7 @@
 		<li id='third_split' class='split_row' style='display:none'>
 			<h2 class ='lane'>0</h2>
 			<h3 class='school_and_name'>
-				<span class='school'><img src='./img/iskl.png'><span id='school'>TAS</span></span>
+				<span class='school'><img src='./img/tas.png'><span id='school'>TAS</span></span>
 				<span class='name'></span>
 			</h3>
 			<h4 class='time'></h3>
