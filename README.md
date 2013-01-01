@@ -6,7 +6,7 @@ The graphics keying and overlay engine for the IASAS 2013 swimming broadcast. Ru
 
 The displayer is separated into two subsections: dynamic and static. The dynamic side handles all the timing console graphics including the running time and splits, and the static side handles the graphics for results and intros. 
 
-<img src='https://raw.github.com/xyk2/IASAS_swimming_2013/master/_new_vector_graphics/samples/sample.png'/>
+<img src='https://raw.github.com/xyk2/IASAS_swimming_2013/master/_new_vector_graphics/samples/readme_sample.png'/>
 
 Tech
 -----------
