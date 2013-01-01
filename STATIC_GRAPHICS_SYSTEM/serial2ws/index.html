@@ -3,8 +3,6 @@
 		<title>IASAS WebSockets</title>
 			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 			<script src="http://autobahn.s3.amazonaws.com/js/autobahn.min.js"></script>
-			<!-- <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" rel="stylesheet"> -->
-			<link rel="stylesheet" type="text/css" href="http://meyerweb.com/eric/tools/css/reset/reset.css" />
 			<link rel="stylesheet" type="text/css" href="./style.css" />
 			<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 			<script src="./js/jquery.csv-0.71.min.js" type="text/javascript"></script>
@@ -49,7 +47,7 @@
 				  return this;
 				};
 				
-				
+
 				// CUSTOM FUNCTIONS
 				function convert_time(time) {
 					if(time.indexOf(':') == -1) {
@@ -67,10 +65,10 @@
 					setTimeout(function() {pauseRunningTime = false;}, timeout);
 				}
 				function show_length(meters, timeout) {
-					$('#running_time_img').attr('src', './img/144dpi_running_time_and_length.png');
+					$('#running_time_img_and_length').show();
 					$('#meters').html(meters + "M");					
 					$('#meters').show();
-					setTimeout(function() {$('#running_time_img').attr('src', './img/144dpi_running_time.png');$('#meters').hide(); }, timeout);
+					setTimeout(function() {$('#running_time_img_and_length').hide();$('#meters').hide(); }, timeout);
 				}
 				
 				function change_swimmer_name(place, lane) {
@@ -127,7 +125,7 @@
 						
 						switch(data[1]) { // switch place for splits
 							case '1':
-								$('#split_img').attr("src", "./img/144dpi_first_place_split.png");
+								$('#split_img_first').show();
 								change_swimmer_name(1, data[0]); // place, lane
 								$('#first_split .time').html(data[2]); // split time
 								first_place_split_time = convert_time(data[2]); // first place time in seconds
@@ -137,7 +135,7 @@
 									console.log("Winning Time: " + data[2] + "    Lane: "+ data[0]);
 								}
 								$('#first_split').show();
-								$('#split_img').show();
+								//$('#split_img').show();
 								$('#split_container').show();
 								if(race_over == 1) {
 									pause_running_time(10000, data[2]);
@@ -150,65 +148,80 @@
 								break;
 							
 							case '2': // 2nd place
-								$('#split_img').attr("src", "./img/144dpi_second_place_split.png");
+								$('#split_img_second').show();
 								change_swimmer_name(2, data[0]); // place, lane
 								display_time = Number((convert_time(data[2]) - first_place_split_time).toFixed(2));
 								$('#second_split .time').html("+" + display_time);
 								$('#second_split').show();
-								$('#split_img').show();
+								//$('#split_img').show();
 								//setTimeout(function() {$('#second_split').hide();$('#split_img').hide(); }, 15000);
 								break;
 							case '3': // third place
-								$('#split_img').attr("src", "./img/144dpi_third_place_split.png");
+								$('#split_img_third').show();
 								change_swimmer_name(3, data[0]); // place, lane
 								display_time = Number((convert_time(data[2]) - first_place_split_time).toFixed(2));
 								$('#third_split .time').html("+" + display_time);
 								$('#third_split').show();
-								$('#split_img').show();
-								setTimeout(function() {$('#split_container').hide(); $('#split_container li').hide(); $('#split_img').hide(); }, 5000);
+								//$('#split_img').show();
+								setTimeout(function() {
+									$('#split_container').hide(); 
+									$('#split_container li').hide(); 
+									$('#split_img_first').hide(); $('#split_img_second').hide(); $('#split_img_third').hide(); 
+								}, 5000);
 								break;
 						}
 					}
 				}
 			</script>
    </head>
-   <body style=''>
-      <div id="statusline" style='display:none'></div>
-	 
-	<img id='running_time_img' src='./img/144dpi_running_time.png' width='1024' class='graphics'>
-	<img id='split_img' src='./img/144dpi_third_place_split.png' width='1024' class='graphics' style='display:none'>
-
-	<p id='meters' style='position: absolute;top: 0px;font-size: 25px;font-weight: bold;font-style: italic;margin-left: 747px;margin-top: 583px;text-align: right;width: 80px;color: #222;padding-right: 10px;display:none;'></p>
-	<p id='time' style='position:absolute;top:0;font-size:29px;font-weight:bold;font-style:italic;margin-left:667px;margin-top:612px;text-align:right;width:120px;color:#222;padding-right:10px;'>0.0</p>
-	
-	<ul id='split_container'>
-		<li id='first_split' class='split_row' style='display:none'>
-			<h2 class ='lane'>0</h2>
-			<h3 class='school_and_name'>
-				<span class='school'><img src='./img/tas.png'><span id='school'>TAS</span></span>
-				<span class='name'></span>
-			</h3>
-			<h4 class='time'></h3>
-		</li>
+	<body style=''>
+		<div id="statusline" style='display:none'></div>
+		 
+		<img id='running_time_img' src='./img/144dpi_running_time.png' width='1024' class='graphics'>
+		<img id='running_time_img_and_length' src='./img/144dpi_running_time_and_length.png' width='1024' class='graphics' style='display:none;'>
+		<img id='split_img_first' src='./img/144dpi_first_place_split.png' width='1024' class='graphics' style='display:none;'>
+		<img id='split_img_second' src='./img/144dpi_second_place_split.png' width='1024' class='graphics' style='display:none;'>
+		<img id='split_img_third' src='./img/144dpi_third_place_split.png' width='1024' class='graphics' style='display:none;'>
 		
-		<li id='second_split' class='split_row' style='display:none'>
-			<h2 class ='lane'>0</h2>
-			<h3 class='school_and_name'>
-				<span class='school'><img src='./img/tas.png'><span id='school'>TAS</span></span>
-				<span class='name'></span>
-			</h3>
-			<h4 class='time'></h3>
-		</li>
 		
-		<li id='third_split' class='split_row' style='display:none'>
-			<h2 class ='lane'>0</h2>
-			<h3 class='school_and_name'>
-				<span class='school'><img src='./img/tas.png'><span id='school'>TAS</span></span>
-				<span class='name'></span>
-			</h3>
-			<h4 class='time'></h3>
-		</li>
-	</ul>
+		<p id='meters' style='display:none;'></p>
+		<p id='time'>0.0</p>
+		
+		<ul id='split_container'>
+			<li id='first_split' class='split_row' style='display:none'>
+				<h2 class ='lane'>0</h2>
+				<h3 class='school_and_name'>
+					<span class='school'><img src='./img/tas.png'><span id='school'>TAS</span></span>
+					<span class='name'></span>
+				</h3>
+				<h4 class='time'></h3>
+			</li>
+			
+			<li id='second_split' class='split_row' style='display:none'>
+				<h2 class ='lane'>0</h2>
+				<h3 class='school_and_name'>
+					<span class='school'><img src='./img/tas.png'><span id='school'>TAS</span></span>
+					<span class='name'></span>
+				</h3>
+				<h4 class='time'></h3>
+			</li>
+			
+			<li id='third_split' class='split_row' style='display:none'>
+				<h2 class ='lane'>0</h2>
+				<h3 class='school_and_name'>
+					<span class='school'><img src='./img/tas.png'><span id='school'>TAS</span></span>
+					<span class='name'></span>
+				</h3>
+				<h4 class='time'></h3>
+			</li>
+		</ul>
+		
+		<img src='./img/tas.png' style='display:none;'> <!-- quick and simple image preload -->
+		<img src='./img/sas.png' style='display:none;'>
+		<img src='./img/isb.png' style='display:none;'>
+		<img src='./img/ism.png' style='display:none;'>
+		<img src='./img/iskl.png' style='display:none;'>
+		<img src='./img/jis.png' style='display:none;'>
 	
    </body>
  </html>
