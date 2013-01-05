@@ -34,7 +34,7 @@ The engine uses python 2.7 and a number of open source projects:
 
 License
 -
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0;" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a>.
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0;" src="https://raw.github.com/xyk2/IASAS_swimming_2013/master/_new_vector_graphics/samples/cc_a_nc_sa.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a>.
 
   [AutoBahn WebSockets]: http://autobahn.ws/
   [TKinter]: http://wiki.python.org/moin/TkInter
