@@ -335,7 +335,7 @@ def save_split_data():
 	
 is_relay = IntVar()
 Checkbutton(master, text="Relay", variable=is_relay).grid(row=0, column=5, columnspan=2,padx=(0,10))
-Button(master, pady=3, text="Import File...", command=import_file).grid(row=12,column=0, ipadx=5, columnspan=5,pady=(10,15),padx=(10,0),sticky="w")
+Button(master, pady=3, text="Import File...", command=import_file).grid(row=12,column=0, ipadx=5, columnspan=5,pady=(15,15),padx=(10,0),sticky="w")
 Button(master, pady=3, text="Save Split Data", command=save_split_data).grid(row=13,column=0, ipadx=5, columnspan=5,pady=(0,15),padx=(10,0),sticky="w")
 
 ############## BUTTONS AND DROPDOWN ##################
