@@ -23,22 +23,26 @@
 			$(document).ready(function() { 
 				draw_new_graphic_handler("live.csv"); // avoid flash of no graphic
 				$("#iframe").attr('src', window.location.protocol + "//" + window.location.hostname + ":8080/");
+				if(window.location.search == '?anycast' || window.location.search == '?anycast/') 
+					$('body').css("-webkit-transform", "rotateY(41.5deg)");
+				
 				setInterval(function() {draw_new_graphic_handler("live.csv")}, 500);
 				
 				setInterval(function() { // iframe redirect
 					$.ajax({url:'./meta.txt', cache: false}).done(function(data) {
-						if(data != oldData) {
-							if(data == 'redirect live') {
+						data = $.csv.toArrays(data);
+						if(data[0][0] != oldData) {
+							if(data[0][0] == 'redirect live') {
 								$('#iframe').show();
 								$('#container').hide();
 								console.log("Dynamic redirect");
 							}
-							if(data == 'redirect static') {
+							if(data[0][0] == 'redirect static') {
 								$('#iframe').hide();
 								$('#container').show();
 								console.log("Static redirect");
 							}
-							oldData = data;
+							oldData = data[0][0];
 						}
 					});
 				}, 1000);
@@ -102,7 +106,7 @@
 				$("#nameplate h3").html(csv[1][0]); // Line 2, Cell 1 (lane number)
 				$("#nameplate h2").html(csv[1][1]); // Line 2, Cell 2 (school name)
 				$("#nameplate h1").html(csv[1][2]); // Line 2, Cell 3 (swimmer name)
-				new_img_src = "static/" + csv[1][1].toLowerCase() + ".png";
+				new_img_src = "static/" + csv[1][1].toLowerCase() + "_100px.png";
 				$("#nameplate img").attr("src", new_img_src);
 			}
 			
@@ -191,7 +195,7 @@
 		</script>
 	</head>
 	
-	<body id='body' style=''>
+	<body id='body' style='background-color:rgb(0,255,33);'>
 		<iframe id='iframe' src='http://localhost:8080' width='1024' height='768' style='display:none' seamless></iframe>
 		
 		<span id='container' style='display:none'>
@@ -274,7 +278,7 @@
 			
 			<div id='nameplate' style='display:none'>
 				<h3>1</h3>
-				<img src='static/tas.png'>
+				<img src='static/tas.png' width='25' height='25'>
 				<h2>TAS</h2>
 				<h1>NAME</h1>
 			</div>
