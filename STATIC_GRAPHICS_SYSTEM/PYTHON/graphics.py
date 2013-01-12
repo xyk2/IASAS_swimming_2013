@@ -107,8 +107,11 @@ def start_websockets():
 	for x in com_list:
 		if(x[2].find('FTDI') != -1):
 			print "\nConnecting to the console at COM%s..." %str(int(re.sub("[^0-9]", "", x[0])))
-			run = r'..\serial2ws\serial2ws.py -p %s' %str(int(re.sub("[^0-9]", "", x[0])) - 1)
+			original_directory = os.getcwd()
+			os.chdir(r"..\serial2ws")
+			run = r'serial2ws.py -p %s' %str(int(re.sub("[^0-9]", "", x[0])) - 1)
 			os.system("start cmd /c %s" %run)
+			os.chdir(original_directory)
 			
 ################## MENU
 mbar = Menu(master, tearoff=0) 
