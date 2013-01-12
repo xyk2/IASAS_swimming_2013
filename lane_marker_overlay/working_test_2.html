@@ -7,28 +7,45 @@
 		<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
 		<link rel="stylesheet" type="text/css" href="style.css">
 		<style type="text/css">
-		   .row {
-				background-color:#0099FF;
-				border:3px solid #003399;
-				-webkit-border-radius: 10px;
-				width:300px;
-				height:95px;
-				line-height:86px;
-				margin-top:12px;
-				margin-bottom:12px;
-				
-		   }
-		   .name {
-				font-family:Arial;
+			.lane_number {
 				float:left;
+				font-family:Arial;
+				color:#EEEEEE;
+				font-size:65px;
+				font-weight:bold;
+				padding-left:10px;
+			}	
+		   .row {
+				background-color:#0074C2;
+				border:3px solid #004C80;
+				-webkit-border-radius: 10px;
+				width:380px;
+				height:95px;
+				line-height:95px;
+				-webkit-box-shadow: inset 67px 0 60px -11px #039AFF;
+				position:absolute;
+		   }
+		   .swimmer { /* Swimmer name and school graphic */
+				font-family:Arial;
+				float:right;
+				padding-right:10px;
 				color:white;
 				font-weight:bold;
 				font-size:40px;
-				
 		   }
 		   
+		   .swimmer img {
+				vertical-align: middle;
+				padding-left:10px;
+		   }
+		   
+		   .swimmer_name {
+				float:left;
+				width: 231px;
+				text-align:right;
+				overflow-x:hidden;
+		   }
 		</style>
-		 
 		<script>
 		$(function() {
 			$( "#angle" ).slider({
@@ -59,48 +76,61 @@
 		</script>
 	</head>
 
-	<body style="height:100%;">
-		
-		
-		<!-- <div id='container' style='-webkit-perspective: 380;-webkit-perspective-origin: 9% 67%;margin-left: 380px;margin-top: -110px;-webkit-transform: rotate(0deg);'>
-			<img id='image' src='helloworld.png' style='-webkit-transform: rotateX(23deg);height: 750px;width: 273px;'>
-		</div> -->
-		
+	<body style="height:100%;">	
 		<div id="angle" style="width:300px;position:absolute;top:0;" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"><p style="float:right">ANGLE</p><div class="ui-slider-range ui-widget-header ui-slider-range-min" style="width: 75%;"></div><a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 75%;"></a></div> <!-- angle -->
 		<div id="perspective" style="width:300px;position:absolute;top:0;margin-top:50px;" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"><p style="float:right">PERSPECTIVE</p><div class="ui-slider-range ui-widget-header ui-slider-range-min" style="width: 60.66666666666667%;"></div><a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 60.66666666666667%;"></a></div> <!-- perspective -->
 		
-		<div id="container" style="-webkit-perspective: 265px; -webkit-perspective-origin-x: 9%; -webkit-perspective-origin-y: 67%; margin-left: 380px; margin-top: -135px; -webkit-transform: rotate(0deg);">
-			<div id="image" style="-webkit-transform: rotateX(20deg);">
-				<div class="row">
-					<span class="name">MAGNUSSEN</span>
+		<div id="container" style="opacity:0.85;-webkit-perspective: 265px; -webkit-perspective-origin-x: 9%; -webkit-perspective-origin-y: 67%; margin-left: 380px; margin-top: -135px; -webkit-transform: rotate(0deg);">
+			<div id="image" style="-webkit-transform: rotateX(20deg);height:795px;">
+			
+				<div class="row" id='one' style="margin-top: 20px;">
+					<span class='lane_number'>1</span>
+					<span class="swimmer">
+						<p class='swimmer_name'>AGNEL</p>
+						<img src='static/tas_100px.png' width='70'>
+					</span>
 				</div>
-				<div class="row">
-					<span class="name">MAGNUSSEN</span>
+				<div class="row" style='margin-top:135px;'>
+					<span class='lane_number'>2</span>
+					<span class="swimmer">
+						<p class='swimmer_name'>CIELO</p>
+						<img src='static/sas_100px.png' width='70'>
+					</span>
 				</div>
-				<div class="row">
-					<span class="name">MAGNUSSEN</span>
+				<div class="row" style='margin-top:245px;'>
+					<span class='lane_number'>3</span>
+					<span class="swimmer">
+						<p class='swimmer_name'>GARCIA</p>
+						<img src='static/isb_100px.png' width='70'>
+					</span>
 				</div>
-				<div class="row">
-					<span class="name">MAGNUSSEN</span>
+				<div class="row" style='-webkit-transform: rotate(-0.5deg);margin-top:360px;'>
+					<span class='lane_number'>4</span>
+					<span class="swimmer">
+						<p class='swimmer_name'>VERSCHUREN</p>
+						<img src='static/ism_100px.png' width='70'>
+					</span>
 				</div>
-				<div class="row" style="
-    height: 90px;
-    -webkit-transform: rotate(-0.7deg);
-    margin-top: 16px;
-">
-					<span class="name">MAGNUSSEN</span>
+				<div class="row" style="height: 90px;-webkit-transform: rotate(-1.2deg);margin-top: 475px;">
+					<span class='lane_number'>5</span>
+					<span class="swimmer">
+						<p class='swimmer_name'>ADRIAN</p>
+						<img src='static/iskl_100px.png' width='70' style='vertical-align: middle;padding-left:10px;'>
+					</span>
 				</div>
-				<div class="row" style="
-    -webkit-transform: rotate(-0.8deg);
-    margin-top: 17px;
-">
-					<span class="name">MAGNUSSEN</span>
+				<div class="row" style="-webkit-transform: rotate(-1.2deg);margin-top: 582px;height:90px;">
+					<span class='lane_number'>6</span>
+					<span class="swimmer">
+						<p class='swimmer_name'>MAGNUSSEN</p>
+						<img src='static/jis_100px.png' width='70'>
+					</span>
 				</div>
-								<div class="row" style="
-    -webkit-transform: rotate(-0.8deg);
-    margin-top: 17px;
-">
-					<span class="name">MAGNUSSEN</span>
+				<div class="row" style="-webkit-transform: rotate(-0.8deg);margin-top: 690px;">
+					<span class='lane_number'>7</span>
+					<span class="swimmer">
+						<p class='swimmer_name'>HAYDEN</p>
+						<img src='static/isb_100px.png' width='70'>
+					</span>
 				</div>
 			</div>
 			
