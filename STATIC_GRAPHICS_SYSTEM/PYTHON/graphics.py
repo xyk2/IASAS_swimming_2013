@@ -127,7 +127,8 @@ editMenu.add_command(label="Edit Team Scores", command=lambda: edit_team_scores_
 
 img_list = [ImageTk.PhotoImage(Image.open('img/race_intro.png')), ImageTk.PhotoImage(Image.open('img/start_list.png')),
 	ImageTk.PhotoImage(Image.open('img/nameplate.png')),ImageTk.PhotoImage(Image.open('img/winner.png')),
-	ImageTk.PhotoImage(Image.open('img/results.png')), ImageTk.PhotoImage(Image.open('img/team_scores.png'))]
+	ImageTk.PhotoImage(Image.open('img/results.png')), ImageTk.PhotoImage(Image.open('img/team_scores.png')), ImageTk.PhotoImage(Image.open('img/clear.png')),
+	ImageTk.PhotoImage(Image.open('img/lane_overlay.png'))]
 
 for x in range(0, 7): #convert datal list to string variables
 	school_name_value[x] = StringVar()
@@ -174,9 +175,10 @@ def change_img(): #change image based on gfx_type radiobutton
 	image_label.config(image=img_list[int(graphic_type.get())])
 	
 graphic_type = IntVar() #GFX TYPE
-Radiobutton(master, variable=graphic_type, text="Race Introduction", value="0", command=change_img).grid(row=5,column=14, padx=(10,15),sticky='w')
-Radiobutton(master, variable=graphic_type, text="Start List", value="1", command=change_img).grid(row=6,column=14,  padx=(10,0),sticky='w')
-Radiobutton(master, variable=graphic_type, text="Nameplate", value="2", command=change_img).grid(row=7,column=14, padx=(10,0), sticky='w')
+Radiobutton(master, variable=graphic_type, text="Race Introduction", value="0", command=change_img).grid(row=4,column=14, padx=(10,15),sticky='w')
+Radiobutton(master, variable=graphic_type, text="Start List", value="1", command=change_img).grid(row=5,column=14,  padx=(10,0),sticky='w')
+Radiobutton(master, variable=graphic_type, text="Nameplate", value="2", command=change_img).grid(row=6,column=14, padx=(10,0), sticky='w')
+Radiobutton(master, variable=graphic_type, text="Lane Overlay", value="7", command=change_img).grid(row=7,column=14, padx=(10,0), sticky='w')
 Radiobutton(master, variable=graphic_type, text="Winner", value="3", command=change_img).grid(row=8,column=14, padx=(10,0), sticky='w')
 Radiobutton(master, variable=graphic_type, text="Results", value="4", command=change_img).grid(row=9, column=14, padx=(10,0), sticky='w')
 Radiobutton(master, variable=graphic_type, text="Team Scores", value="5", command=change_img).grid(row=10, column=14, padx=(10,0), sticky='w')
@@ -234,7 +236,7 @@ def sort_list_by_time(list):
 	
 def gfx_live_pusher():
 	csv_string = "" #complete csv string to be appended
-	gfx_type_num = ["race_intro", "start_list", "nameplate", "winner", "results", "team_scores", "clear_graphics"]
+	gfx_type_num = ["race_intro", "start_list", "nameplate", "winner", "results", "team_scores", "clear_graphics", "lane_overlay"]
 		
 	gfx_type = gfx_type_num[graphic_type.get()] # graphic type; race_intro, results... etc
 	if(graphic_type.get() == 1 or graphic_type.get() == 4): #if start_list or results
@@ -276,6 +278,12 @@ def gfx_live_pusher():
 		file = open('team_scores.csv', 'r') #read from file and append csv_string
 		csv_string = file.read()
 		file.close()
+	if(gfx_type == 'lane_overlay'):
+		csv_string = csv_string + ""
+		for x in range(0,7):
+			csv_string = csv_string + str(x+1) + ','
+			csv_string = csv_string + school_name[x].get() + ','
+			csv_string = csv_string + swimmer_name[x].get().split(" ")[1] + '\n'
 	file = open('../live.csv', 'w')
 	file.write(csv_string)
 	file.close()
@@ -335,11 +343,20 @@ def save_split_data():
 	file = open(r'../serial2ws/split_race_data.csv', 'w')
 	file.write(csv_string)
 	file.close()
+
+def save_lane_overlay_data():
+	pass
+	
+def enable_lane_overlay():
+	pass
 	
 is_relay = IntVar()
+enable_lane_overlay = IntVar()
 Checkbutton(master, text="Relay", variable=is_relay).grid(row=0, column=5, columnspan=2,padx=(0,10))
 Button(master, pady=3, text="Import File...", command=import_file).grid(row=12,column=0, ipadx=5, columnspan=5,pady=(15,15),padx=(10,0),sticky="w")
 Button(master, pady=3, text="Save Split Data", command=save_split_data).grid(row=13,column=0, ipadx=5, columnspan=5,pady=(0,15),padx=(10,0),sticky="w")
+Button(master, pady=3, text="Save Lane Overlay Data", command=save_lane_overlay_data).grid(row=13,column=3, ipadx=5, columnspan=7,pady=(0,15),padx=(50,0),sticky="w")
+Checkbutton(master, text="Enable Lane Overlay", variable=enable_lane_overlay, command=enable_lane_overlay).grid(row=13, column=10, columnspan=5,padx=(10,0),pady=(0,10),sticky="w")
 
 ############## BUTTONS AND DROPDOWN ##################
 static_or_dynamic = StringVar(master)
