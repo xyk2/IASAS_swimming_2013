@@ -188,12 +188,12 @@ def static_or_dynamic_change(selection):
 	if(selection == 'Static Graphics'):
 		print "Redirecting to http://localhost..."
 		file = open(r'../meta.txt', 'w')
-		file.write("redirect static")
+		file.write("redirect static,")
 		file.close()
 	if(selection == 'Dynamic Graphics'):
 		print "Redirecting to http://localhost:8080..."
 		file = open(r'../meta.txt', 'w')
-		file.write("redirect live")
+		file.write("redirect live,")
 		file.close()
 		
 def log_to_file(filename, gfx_type, race_title_val, match_val): #logfile function; logs to file with ip, network name, race title, type, and match
@@ -283,7 +283,10 @@ def gfx_live_pusher():
 		for x in range(0,7):
 			csv_string = csv_string + str(x+1) + ','
 			csv_string = csv_string + school_name[x].get() + ','
-			csv_string = csv_string + swimmer_name[x].get().split(" ")[1] + '\n'
+			try:
+				csv_string = csv_string + swimmer_name[x].get().split(" ")[1] + '\n'
+			except:
+				csv_string = csv_string + '\n'
 	file = open('../live.csv', 'w')
 	file.write(csv_string)
 	file.close()
@@ -355,8 +358,8 @@ enable_lane_overlay = IntVar()
 Checkbutton(master, text="Relay", variable=is_relay).grid(row=0, column=5, columnspan=2,padx=(0,10))
 Button(master, pady=3, text="Import File...", command=import_file).grid(row=12,column=0, ipadx=5, columnspan=5,pady=(15,15),padx=(10,0),sticky="w")
 Button(master, pady=3, text="Save Split Data", command=save_split_data).grid(row=13,column=0, ipadx=5, columnspan=5,pady=(0,15),padx=(10,0),sticky="w")
-Button(master, pady=3, text="Save Lane Overlay Data", command=save_lane_overlay_data).grid(row=13,column=3, ipadx=5, columnspan=7,pady=(0,15),padx=(50,0),sticky="w")
-Checkbutton(master, text="Enable Lane Overlay", variable=enable_lane_overlay, command=enable_lane_overlay).grid(row=13, column=10, columnspan=5,padx=(10,0),pady=(0,10),sticky="w")
+#Button(master, pady=3, text="Save Lane Overlay Data", command=save_lane_overlay_data).grid(row=13,column=3, ipadx=5, columnspan=7,pady=(0,15),padx=(50,0),sticky="w")
+#Checkbutton(master, text="Enable Lane Overlay", variable=enable_lane_overlay, command=enable_lane_overlay).grid(row=13, column=10, columnspan=5,padx=(10,0),pady=(0,10),sticky="w")
 
 ############## BUTTONS AND DROPDOWN ##################
 static_or_dynamic = StringVar(master)

@@ -8,6 +8,14 @@
 			<script src="./js/jquery.csv-0.71.min.js" type="text/javascript"></script>
 
 			<script>
+				$(document).ready(function() {
+				if(window.location.search == '?anycast' || window.location.search == '?anycast/') { 
+					$('html').css("zoom", "1.27");
+					$('html').css("margin-left", "-83px");
+					$('html').css("margin-top", "-85px");
+					$('html').css("cursor", "none");
+				}
+			});
 				var sess = null;
 				var wsuri = "ws://" + window.location.hostname + ":9000";
 				var retryCount = 0;

@@ -2,6 +2,7 @@
 <html style='overflow:hidden;background-color:rgb(0,255,33);-webkit-user-select: none;'>
 	<head>
 		<title>IASAS Swimming 2013 Graphics Displayer</title>
+		<link rel="shortcut icon" href="http://s3.amazonaws.com/xykstatic/favicon.png"/>
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
 		<script src='//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js'></script>
 		<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
@@ -26,8 +27,17 @@
 			$(document).ready(function() { 
 				draw_new_graphic_handler("live.csv"); // avoid flash of no graphic
 				$("#iframe").attr('src', window.location.protocol + "//" + window.location.hostname + ":8080/");
-				if(window.location.search == '?anycast' || window.location.search == '?anycast/') 
+				if(window.location.search == '?anycast' || window.location.search == '?anycast/') { 
+					$("#iframe").attr('src', window.location.protocol + "//" + window.location.hostname + ":8080/?anycast");
 					$('body').css("-webkit-transform", "rotateY(41.5deg)");
+					$('html').css("zoom", "1.27");
+					$('html').css("margin-left", "-83px");
+					$('html').css("margin-top", "-85px");
+					//$('html').css("cursor", "none");
+					$("#iframe").css('margin-left', "50px");
+					$("#lane_overlay").css('opacity', "1");
+
+				}
 				
 				setInterval(function() {draw_new_graphic_handler("live.csv")}, 500);
 				
@@ -173,7 +183,7 @@
 
 			function lane_overlay_handler(csv) {
 				console.log("Graphics -> lane_overlay_handler()...");
-				$(".overlay_row").each(function(index) {
+				$($(".overlay_row").get().reverse()).each(function(index) {
 					$(this).find(".overlay_swimmer_name").html(csv[index+1][2]); // Line n Cell 2 (school name)
 					img_path = 'static/' + csv[index+1][1].toLowerCase() + '_100px.png';
 					$(this).find("img").attr('src', img_path); // Line n Cell 2 (school name)
@@ -522,52 +532,52 @@
 					</li>
 				</ul>			
 			</div>
-			<div id="lane_overlay" style="opacity:0.85;-webkit-perspective: 265px; -webkit-perspective-origin-x: 9%; -webkit-perspective-origin-y: 67%; margin-left: 380px; margin-top: -135px; -webkit-transform: rotate(0deg);">
+			<div id="lane_overlay" style="opacity:0.85;-webkit-perspective: 259px; -webkit-perspective-origin-x: 22%; -webkit-perspective-origin-y: 67%; margin-left: 335px; margin-top: -82px; -webkit-transform: rotate(-2.2deg);zoom:0.83;">
 				<div id="overlay_image" style="-webkit-transform: rotateX(20deg);height:795px;">
 					<div class="overlay_row" id='one' style="margin-top: 20px;">
-						<span class='overlay_lane_number'>1</span>
+						<span class='overlay_lane_number'>7</span>
 						<span class="overlay_swimmer">
 							<p class='overlay_swimmer_name'>AGNEL</p>
 							<img src='static/tas_100px.png' width='70'>
 						</span>
 					</div>
-					<div class="overlay_row" id='two' style='margin-top:135px;'>
-						<span class='overlay_lane_number'>2</span>
+					<div class="overlay_row" id='two' style='margin-top:135px;height:87px;'>
+						<span class='overlay_lane_number'>6</span>
 						<span class="overlay_swimmer">
 							<p class='overlay_swimmer_name'>CIELO</p>
 							<img src='static/sas_100px.png' width='70'>
 						</span>
 					</div>
 					<div class="overlay_row" id='three' style='margin-top:245px;'>
-						<span class='overlay_lane_number'>3</span>
+						<span class='overlay_lane_number'>5</span>
 						<span class="overlay_swimmer">
 							<p class='overlay_swimmer_name'>GARCIA</p>
 							<img src='static/isb_100px.png' width='70'>
 						</span>
 					</div>
-					<div class="overlay_row" id='four' style='-webkit-transform: rotate(-0.5deg);margin-top:360px;'>
+					<div class="overlay_row" id='four' style='-webkit-transform: rotate(-0.0deg);margin-top:358px;'>
 						<span class='overlay_lane_number'>4</span>
 						<span class="overlay_swimmer">
 							<p class='overlay_swimmer_name'>VERSCHUREN</p>
 							<img src='static/ism_100px.png' width='70'>
 						</span>
 					</div>
-					<div class="overlay_row" id='five' style="height: 90px;-webkit-transform: rotate(-1.2deg);margin-top: 475px;">
-						<span class='overlay_lane_number'>5</span>
+					<div class="overlay_row" id='five' style="height: 90px;-webkit-transform: rotate(-0.2deg);margin-top: 471px;">
+						<span class='overlay_lane_number'>3</span>
 						<span class="overlay_swimmer">
 							<p class='overlay_swimmer_name'>ADRIAN</p>
 							<img src='static/iskl_100px.png' width='70' style='vertical-align: middle;padding-left:10px;'>
 						</span>
 					</div>
-					<div class="overlay_row" id='six' style="-webkit-transform: rotate(-1.2deg);margin-top: 582px;height:90px;">
-						<span class='overlay_lane_number'>6</span>
+					<div class="overlay_row" id='six' style="-webkit-transform: rotate(-0.4deg);margin-top: 580px;height:85px;">
+						<span class='overlay_lane_number'>2</span>
 						<span class="overlay_swimmer">
 							<p class='overlay_swimmer_name'>MAGNUSSEN</p>
 							<img src='static/jis_100px.png' width='70'>
 						</span>
 					</div>
-					<div class="overlay_row" id='seven' style="-webkit-transform: rotate(-0.8deg);margin-top: 690px;">
-						<span class='overlay_lane_number'>7</span>
+					<div class="overlay_row" id='seven' style="-webkit-transform: rotate(-0.8deg);margin-top: 684px;">
+						<span class='overlay_lane_number'>1</span>
 						<span class="overlay_swimmer">
 							<p class='overlay_swimmer_name'>HAYDEN</p>
 							<img src='static/isb_100px.png' width='70'>
