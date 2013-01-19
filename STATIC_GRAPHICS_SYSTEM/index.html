@@ -24,6 +24,14 @@
 				relay_results.png
 			*/
 			var oldData;
+			function sleep(milliseconds) {
+			  var start = new Date().getTime();
+			  for (var i = 0; i < 1e7; i++) {
+				if ((new Date().getTime() - start) > milliseconds){
+				  break;
+				}
+			  }
+			}
 			$(document).ready(function() { 
 				draw_new_graphic_handler("live.csv"); // avoid flash of no graphic
 				$("#iframe").attr('src', window.location.protocol + "//" + window.location.hostname + ":8080/");
@@ -46,6 +54,8 @@
 						data = $.csv.toArrays(data);
 						if(data[0][0] != oldData) {
 							if(data[0][0] == 'redirect live') {
+								//document.getElementById('iframe').src = document.getElementById('iframe').src;
+								//sleep(200);
 								$('#iframe').show();
 								$('#container').hide();
 								console.log("Dynamic redirect");

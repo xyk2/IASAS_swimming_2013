@@ -124,13 +124,20 @@
 						if(time == '0.00') time = '0.0';
 						write_running_time(time); // remove first character (datatype); ie t32.1 is 32.1 sec
 					}
+					if(data_type == 'r') { //reset
+						race_over = 0;
+						$('#split_container').hide(); 
+						$('#split_container li').hide(); 
+						$('#split_img_first').hide(); $('#split_img_second').hide(); $('#split_img_third').hide(); 
+						console.log("Reset");
+					}
 					if(data_type == 's') {
 						data = data.substring(1); // remove leading datatype
 						data = data.replace(/[A-Za-z]/g, ""); // remove name and school
 						data = data.split(" ").clean(""); // remove empty elements ("")
 						console.log("LANE: "+ data[0] + "  PLACE: " + data[1] + "  TIME: " + data[2] + "  LAP#: " + data[3]);
 						// data - [lane, place, time, laps]
-						
+					
 						switch(data[1]) { // switch place for splits
 							case '1':
 								$('#split_img_first').show();
@@ -175,7 +182,9 @@
 									$('#split_container').hide(); 
 									$('#split_container li').hide(); 
 									$('#split_img_first').hide(); $('#split_img_second').hide(); $('#split_img_third').hide(); 
-								}, 5000);
+									console.log("Hide");
+								}, 8000);
+								
 								break;
 						}
 					}
