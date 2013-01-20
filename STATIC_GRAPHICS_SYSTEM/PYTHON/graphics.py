@@ -248,22 +248,31 @@ def save_event_to_file(gfx_type, race_title_val, match_val, csv_string): #saves 
 	file.close()
 	
 def sort_list_by_time(list):
+	dnfdq_list = [["",""],["",""],["",""],["",""],["",""],["",""],["",""]]
 	for x in range(0,7): #convert time str to float
 		if(len(list[x][3])>0 and list[x][3].find(":") == -1 and list[x][3].find(".") != -1): #skip empty times, >1 min times, and DNFs
 			list[x][3] = float(list[x][3])
 		elif(list[x][3].find(":") != -1): #if colon is present; >1 min
 			min_in_sec =  float(list[x][3].split(':')[0])*60 + float(list[x][3].split(':')[1])
 			list[x][3] = min_in_sec
+		elif(list[x][3].find(".") == -1): #DNF, DQ
+			dnfdq_list[x][0] = list[x][3]
+			dnfdq_list[x][1] = 9999.99 + x
+			list[x][3] = 9999.99 + x
 	list = sorted(list, key=lambda a_entry: a_entry[3])
 	for x in range(0,7): #convert float back to string
-		if(len(str(list[x][3])) > 0 and list[x][3] >= 60): #skip DNF; convert times >1min to : form 
+		if(len(str(list[x][3])) > 0 and list[x][3] >= 60 and list[x][3] < 9000): #skip DNF; convert times >1min to : form 
 			min, sec = divmod(list[x][3], 60)
 			if(min<10): 
 				list[x][3] = "%01d:%05.2f" %(min,float(sec))
 			else: 
 				list[x][3] = "%02d:%05.2f" %(min,float(sec))
-		elif(len(str(list[x][3])) > 0 ): #if < 1 min and not blank (DNF)
+		elif(len(str(list[x][3])) > 0  and list[x][3] < 9000): #if < 1 min and not blank (DNF)
 			list[x][3] = '{0:.2f}'.format(float(list[x][3])) #if for ex 46.80, include trailing 0
+		elif(list[x][3] > 9000):
+			for y in range(0,7):
+				if(list[x][3] == dnfdq_list[y][1]):
+					list[x][3] = dnfdq_list[y][0]
 		list[x][3] = str(list[x][3]) #final convert back to str
 	return list
 	
