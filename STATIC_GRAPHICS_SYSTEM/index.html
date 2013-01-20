@@ -54,7 +54,7 @@
 						data = $.csv.toArrays(data);
 						if(data[0][0] != oldData) {
 							if(data[0][0] == 'redirect live') {
-								//document.getElementById('iframe').src = document.getElementById('iframe').src;
+								document.getElementById('iframe').src = document.getElementById('iframe').src;
 								//sleep(200);
 								$('#iframe').show();
 								$('#container').hide();
@@ -73,11 +73,7 @@
 			
 			function draw_new_graphic_handler(filename) {
 				csv = "";
-				$.ajax({url:filename, cache: false}).done(function(csv) {
-					// FOR JANUARY 19 MEET ONLY ------------------------------------------------------------
-					csv = csv.split("ISM").join("BAI");
-					csv = csv.split("JIS").join("NG");
-					
+				$.ajax({url:filename, cache: false}).done(function(csv) {			
 					csv = $.csv.toArrays(csv);
 					$('#body').show();
 					clear_all_xept(csv[0][0]); // clear all graphics except requested one
