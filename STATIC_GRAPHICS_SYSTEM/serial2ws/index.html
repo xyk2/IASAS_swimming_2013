@@ -150,7 +150,7 @@
 								change_swimmer_name(1, data[0]); // place, lane
 								$('#first_split .time').html(data[2]); // split time
 								first_place_split_time = convert_time(data[2]); // first place time in seconds
-								if(parseInt(data[3]) == get_total_laps()) {  // if winner of race
+								if(parseInt(data[3]) == total_laps_of_race) {  // if winner of race
 									race_over = 1;
 									console.log("WE HAVE A WINNER");
 									console.log("Winning Time: " + data[2] + "    Lane: "+ data[0]);

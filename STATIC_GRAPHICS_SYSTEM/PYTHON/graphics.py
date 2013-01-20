@@ -7,6 +7,8 @@ import socket #IP + computer name
 import tkFileDialog #import dialog
 import webbrowser #open URL
 import Image, ImageTk #image preview
+import glob
+import os
 
 school_name = [""]*7
 swimmer_name = [""]*7
@@ -91,6 +93,36 @@ class edit_team_scores_dialog:
 		
 		self.top.destroy()
 
+class change_meet_directory:
+    def __init__(self, parent):
+		top = self.top = Toplevel(parent)
+		top.wm_title("Edit Meet CSV File Directory")
+		top.wm_iconbitmap("img/icon.ico")
+		
+		Label(top, text="Enter directory for .csv meet files:").grid(row=0,column=0,columnspan=5,padx=(10,10), pady=(5,0),sticky='w')
+		self.directory = ""
+		self.directory_value = ""
+		directory_value = StringVar()
+		self.directory = Entry(top,width=85, textvariable=directory_value)
+		self.directory.config(borderwidth=2)
+		self.directory.grid(row=1,column=0,padx=(10,10),pady=(3,3),ipady=1)
+			
+		#Import file
+		file = open('meet_csv_directory.csv', 'r')
+		data_list = file.readlines() #read file into a list
+		if(len(data_list)):
+			directory_value.set(data_list[0])
+		else:
+			directory_value.set("")
+		Button(top, text="Save and Import", command=self.save).grid(row=3,column=0,ipadx=4,ipady=2,pady=(0,5),columnspan=2)
+		
+    def save(self):
+		file = open('meet_csv_directory.csv', 'w') #rewrite csv file
+		file.write(self.directory.get()) #write to team_scores
+		file.close()
+		import_meet_csv_file_list(self.directory.get(), Lb1)
+		self.top.destroy()
+		
 master = Tk()
 master.resizable(0,0)
 master.title("IASAS Swimming 2013 Graphics Generator") #program title
@@ -100,7 +132,6 @@ master.iconbitmap('img/icon.ico')
 def start_websockets():
 	import serial.tools.list_ports
 	import re
-	import os
 	com_list = list(serial.tools.list_ports.comports())
 	for x in com_list:
 		print x
@@ -123,6 +154,7 @@ fileMenu.add_command(label="Start WebSockets Server", command=start_websockets)
 editMenu = Menu(mbar,tearoff=0) 
 mbar.add_cascade(label="Edit", menu=editMenu) 
 editMenu.add_command(label="Edit Team Scores", command=lambda: edit_team_scores_dialog(master)) 
+editMenu.add_command(label="Change Meet Directory", command=lambda: change_meet_directory(master)) 
 ############## END MENU
 
 img_list = [ImageTk.PhotoImage(Image.open('img/race_intro.png')), ImageTk.PhotoImage(Image.open('img/start_list.png')),
@@ -296,8 +328,11 @@ def gfx_live_pusher():
 	save_event_to_file(gfx_type, race_title_val, match_val, csv_string) #save event to .csv
 	
 	
-def import_file(): 
-	filename = tkFileDialog.askopenfilename()
+def import_file(_optional_filename=""): 
+	if(_optional_filename == ""):
+		filename = tkFileDialog.askopenfilename()
+	else:
+		filename = _optional_filename
 	if filename: 
 		file = open(filename, 'r')
 		data_list = file.readlines() #read file into a list
@@ -355,10 +390,36 @@ def import_results():
 		indiv_data = list[x].replace("FINISHED: ", "").strip()
 		race_time_value[int(indiv_data.split(' ')[0])-1].set(indiv_data.split(' ')[1])
 		print indiv_data
-	print list
 
+def import_meet_csv_file_list(directory, listbox): #Imports .csv files from the meet csv directory
+	if(directory == "" or os.path.isdir(directory) == False): 
+		listbox.delete(0, END) #clear all listbox data
+		print "Invalid meet data directory. "
+		return
+	original_directory = os.getcwd()
+	os.chdir(directory)
+	csv_file_list = glob.glob("*.csv")
+	csv_file_list = sorted(csv_file_list, key=lambda x: int(x.split('_')[0]))
+	for x in range(0, len(csv_file_list)):
+		listbox.insert(x, csv_file_list[x])
+	os.chdir(original_directory)
 
 	
+def temp():
+	file = open("meet_csv_directory.csv", "r")
+	try:
+		import_file(file.readlines()[0] + "/" + Lb1.get(ACTIVE))
+	except:
+		file.close()
+		return
+	file.close()
+	
+Lb1 = Listbox(master)
+Lb1.config(width=40,height=11)
+Lb1.grid(row=13, column=6, rowspan=10,columnspan=10, sticky='w', ipady=10, padx=(10,0), pady=(0, 10))
+Button(master, pady=0, text="Import", command=temp).grid(row=23,column=9, ipadx=0, columnspan=5,pady=(0,10),padx=(0,7),sticky="w")
+
+
 ################ IMPORT RESULTS ####################
 Label(master, text='Import Results').grid(row=14,column=1,padx=(10,0),columnspan=5,sticky='w')
 final_time_input_textbox = Text(master, width=21, height=8, borderwidth=2)
@@ -387,6 +448,9 @@ image_label.grid(row=0, column=11, rowspan=4, columnspan=5)
 ######################################################
 
 
+file = open("meet_csv_directory.csv", 'r')
+import_meet_csv_file_list(file.readlines()[0], Lb1)
+file.close()
 
 mainloop()
 
