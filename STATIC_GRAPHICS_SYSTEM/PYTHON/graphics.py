@@ -348,19 +348,29 @@ def save_split_data():
 	file.write(csv_string)
 	file.close()
 
-def save_lane_overlay_data():
-	pass
+def import_results():
+	list = final_time_input_textbox.get(1.0, END).split('\n')
+	list = filter(None, list) #remove empty elements
+	for x in range(0, len(list)):
+		indiv_data = list[x].replace("FINISHED: ", "").strip()
+		race_time_value[int(indiv_data.split(' ')[0])-1].set(indiv_data.split(' ')[1])
+		print indiv_data
+	print list
+
+
 	
-def enable_lane_overlay():
-	pass
-	
+################ IMPORT RESULTS ####################
+Label(master, text='Import Results').grid(row=14,column=1,padx=(10,0),columnspan=5,sticky='w')
+final_time_input_textbox = Text(master, width=21, height=8, borderwidth=2)
+final_time_input_textbox.grid(row=15, column=1, rowspan=10,columnspan=10, sticky='w', ipady=10, padx=(10,0), pady=(0, 10))
+Button(master, pady=0, text="Import", command=import_results).grid(row=14,column=4, ipadx=0, columnspan=2,pady=(0,3),padx=(0,7),sticky="e")
+Button(master, pady=0, text="Clear", command=lambda: final_time_input_textbox.delete("1.0",END)).grid(row=14,column=3, ipadx=0, columnspan=2,pady=(0,3),padx=(0,17),sticky="e")
+
 is_relay = IntVar()
 enable_lane_overlay = IntVar()
 Checkbutton(master, text="Relay", variable=is_relay).grid(row=0, column=6, columnspan=2,padx=(0,10))
 Button(master, pady=3, text="Import File...", command=import_file).grid(row=12,column=1, ipadx=5, columnspan=5,pady=(15,15),padx=(10,0),sticky="w")
 Button(master, pady=3, text="Save Split Data", command=save_split_data).grid(row=13,column=1, ipadx=5, columnspan=5,pady=(0,15),padx=(10,0),sticky="w")
-#Button(master, pady=3, text="Save Lane Overlay Data", command=save_lane_overlay_data).grid(row=13,column=3, ipadx=5, columnspan=7,pady=(0,15),padx=(50,0),sticky="w")
-#Checkbutton(master, text="Enable Lane Overlay", variable=enable_lane_overlay, command=enable_lane_overlay).grid(row=13, column=10, columnspan=5,padx=(10,0),pady=(0,10),sticky="w")
 
 ############## BUTTONS AND DROPDOWN ##################
 static_or_dynamic = StringVar(master)

@@ -106,9 +106,9 @@
 				function get_total_laps() {
 					$.ajax({url:'./split_race_data.csv', cache: false, async:false}).done(function(csv) {
 						csv = $.csv.toArrays(csv);
-						total_laps_of_race = parseInt(csv[0][0]); // line 1 cell 1 is total laps
+						return parseInt(csv[0][0]); // line 1 cell 1 is total laps
 					});
-					return total_laps_of_race;
+					return 0;
 				}
 				
 				var pauseRunningTime = new Boolean(); // boolean; true if running time is paused
@@ -137,7 +137,13 @@
 						data = data.split(" ").clean(""); // remove empty elements ("")
 						console.log("LANE: "+ data[0] + "  PLACE: " + data[1] + "  TIME: " + data[2] + "  LAP#: " + data[3]);
 						// data - [lane, place, time, laps]
-					
+						
+						total_laps_of_race = get_total_laps();
+						if(data[3] == total_laps_of_race) {
+							console.log("FINISH: " + data[0] +" " + data[2]);
+						}
+						
+						
 						switch(data[1]) { // switch place for splits
 							case '1':
 								$('#split_img_first').show();
@@ -150,7 +156,6 @@
 									console.log("Winning Time: " + data[2] + "    Lane: "+ data[0]);
 								}
 								$('#first_split').show();
-								//$('#split_img').show();
 								$('#split_container').show();
 								if(race_over == 1) {
 									pause_running_time(10000, data[2]);
