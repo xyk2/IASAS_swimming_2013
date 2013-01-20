@@ -365,7 +365,6 @@ def next_swimmer(): #simple function to increment lane number
 			return
 		lane_number.set(str(current_num+1))
 		
-		
 def save_split_data():
 	length = length_entry_value.get()
 	length = length.replace("M", "")
@@ -408,8 +407,7 @@ def import_meet_csv_file_list(directory, listbox): #Imports .csv files from the 
 		listbox.insert(x, csv_file_list[x])
 	os.chdir(original_directory)
 
-	
-def temp():
+def listbox_import():
 	file = open("meet_csv_directory.csv", "r")
 	try:
 		import_file(file.readlines()[0] + "/" + Lb1.get(ACTIVE))
@@ -417,11 +415,19 @@ def temp():
 		file.close()
 		return
 	file.close()
+
+def guess_race_length(string):
+	string = string.lower()
+	regexed = re.compile(r'[^\dx]+').sub('', string)
+	if(regexed.find('x') == -1):
+		return int(regexed)
+	else:
+		return int(regexed.split('x')[0]) * int(regexed.split('x')[1])
 	
 Lb1 = Listbox(master)
 Lb1.config(width=40,height=11)
 Lb1.grid(row=13, column=6, rowspan=10,columnspan=10, sticky='w', ipady=10, padx=(10,0), pady=(0, 10))
-Button(master, pady=0, text="Import", command=temp).grid(row=23,column=9, ipadx=0, columnspan=5,pady=(0,10),padx=(0,7),sticky="w")
+Button(master, pady=0, text="Import", command=listbox_import).grid(row=23,column=9, ipadx=0, columnspan=5,pady=(0,10),padx=(0,7),sticky="w")
 
 
 ################ IMPORT RESULTS ####################
