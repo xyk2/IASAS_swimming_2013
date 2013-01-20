@@ -99,7 +99,7 @@ class change_meet_directory:
 		top.wm_title("Edit Meet CSV File Directory")
 		top.wm_iconbitmap("img/icon.ico")
 		
-		Label(top, text="Enter directory for .csv meet files:").grid(row=0,column=0,columnspan=5,padx=(10,10), pady=(5,0),sticky='w')
+		Label(top, text="Directory for .csv meet files:").grid(row=0,column=0,columnspan=5,padx=(10,10), pady=(5,0),sticky='w')
 		self.directory = ""
 		self.directory_value = ""
 		directory_value = StringVar()
@@ -337,24 +337,27 @@ def import_file(_optional_filename=""):
 		file = open(filename, 'r')
 		data_list = file.readlines() #read file into a list
 		data_list = map(lambda s: s.rstrip(), data_list) #remove newline
-		if(data_list[0] == 'race_intro'): graphic_type.set("0")
-		if(data_list[0] == 'start_list'): graphic_type.set("1")
-		if(data_list[0] == 'nameplate'): 
-			graphic_type.set("2")
-			return
-		if(data_list[0] == 'winner'): graphic_type.set("3")
-		if(data_list[0] == 'results'): graphic_type.set("4")
-		change_img() #change image after gfx_type is set
+		#if(data_list[0] == 'race_intro'): graphic_type.set("0")
+		#if(data_list[0] == 'start_list'): graphic_type.set("1")
+		#if(data_list[0] == 'nameplate'): 
+		#	graphic_type.set("2")
+		#	return
+		#if(data_list[0] == 'winner'): graphic_type.set("3")
+		#if(data_list[0] == 'results'): graphic_type.set("4")
+		#change_img() #change image after gfx_type is set
 		race_title_entry_value.set(data_list[1].split(',')[0])  #set race title to line 2, cell 1
 		match_entry_value.set(data_list[1].split(',')[1]) #set match to line 2, cell 2
 		for x in range(0, 7):
 			try:
+				race_time_value[x].set("")
 				school_name_value[x].set(data_list[x+2].split(',')[1])
 				swimmer_name_value[x].set(data_list[x+2].split(',')[2])
 				race_time_value[x].set(data_list[x+2].split(',')[3])
 			except: #if out of index (ie no time data), skip
 				pass
-		
+		file.close()
+	save_split_data()
+	
 def next_swimmer(): #simple function to increment lane number
 		current_num = int(lane_number.get())
 		if(current_num == 6): 
@@ -382,6 +385,7 @@ def save_split_data():
 	file = open(r'../serial2ws/split_race_data.csv', 'w')
 	file.write(csv_string)
 	file.close()
+	print r"Split data saved to ../serial2ws/split_race_data.csv"
 
 def import_results():
 	list = final_time_input_textbox.get(1.0, END).split('\n')
@@ -451,6 +455,8 @@ image_label.grid(row=0, column=11, rowspan=4, columnspan=5)
 file = open("meet_csv_directory.csv", 'r')
 import_meet_csv_file_list(file.readlines()[0], Lb1)
 file.close()
+save_split_data()
+
 
 mainloop()
 
