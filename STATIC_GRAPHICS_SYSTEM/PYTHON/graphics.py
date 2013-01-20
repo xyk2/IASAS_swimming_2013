@@ -30,18 +30,18 @@ class edit_team_scores_dialog:
 		for x in range(0,6): #convert textVariable list to stringVars
 			team_score_value_boys_textvariable[x] = StringVar()
 			team_score_value_girls_textvariable[x] = StringVar()
-		Label(top, text='Boys').grid(row=0,column=3,pady=(6,0))
-		Label(top, text='Girls').grid(row=0,column=5,pady=(6,0))
+		Label(top, text='Boys').grid(row=0,column=4,pady=(6,0))
+		Label(top, text='Girls').grid(row=0,column=6,pady=(6,0))
 		
 		for x in range(0, 6):
-			Label(top, text=IASAS_schools[x]).grid(row=x+1,column=0,columnspan=2,padx=(10,0))
+			Label(top, text=IASAS_schools[x]).grid(row=x+1,column=1,columnspan=2,padx=(10,0))
 			self.team_score_value_boys[x] = Entry(top,width=6,textvariable=team_score_value_boys_textvariable[x])
 			self.team_score_value_boys[x].config(borderwidth=2)
-			self.team_score_value_boys[x].grid(row=x+1,column=3,padx=(4,0),pady=(3,3),ipady=1)
+			self.team_score_value_boys[x].grid(row=x+1,column=4,padx=(4,0),pady=(3,3),ipady=1)
 			
 			self.team_score_value_girls[x] = Entry(top,width=6,textvariable=team_score_value_girls_textvariable[x])
 			self.team_score_value_girls[x].config(borderwidth=2)
-			self.team_score_value_girls[x].grid(row=x+1,column=5,padx=(6,10),pady=(3,3),ipady=1)
+			self.team_score_value_girls[x].grid(row=x+1,column=6,padx=(6,10),pady=(3,3),ipady=1)
 			
 		#Import file
 		file = open('team_scores.csv', 'r')
@@ -62,7 +62,7 @@ class edit_team_scores_dialog:
 			if(data_list[x].split(',')[0] == "ISM"): team_score_value_girls_textvariable[3].set(data_list[x].split(',')[1])
 			if(data_list[x].split(',')[0] == "ISKL"): team_score_value_girls_textvariable[4].set(data_list[x].split(',')[1])
 			if(data_list[x].split(',')[0] == "JIS"): team_score_value_girls_textvariable[5].set(data_list[x].split(',')[1])
-		Button(top, text="Save", command=self.save).grid(row=10,column=4,ipadx=4,ipady=2,pady=(3,6),columnspan=2)
+		Button(top, text="Save", command=self.save).grid(row=10,column=5,ipadx=4,ipady=2,pady=(3,6),columnspan=2)
 		
     def save(self):
 		boys_list = [['TAS','0'],['SAS','0'],['ISB','0'],['ISM','0'],['ISKL','0'],['JIS','0']]
@@ -136,53 +136,54 @@ for x in range(0, 7): #convert datal list to string variables
 	race_time_value[x] = StringVar()
 
 race_title_entry_value = StringVar()
-Label(master, text='Race Title').grid(row=0,column=1,columnspan=5,sticky='w')
+Label(master, text='Race Title').grid(row=0,column=2,columnspan=5,sticky='w')
 race_title = Entry(master, width=35, textvariable=race_title_entry_value)
 race_title.config(borderwidth=2)
-race_title.grid(row=1, column=1,ipady=3,columnspan=5)
+race_title.grid(row=1, column=2,ipady=3,columnspan=5)
 
 match_entry_value = StringVar()
-Label(master, text='Match').grid(row=2,column=1,pady=(10,0),columnspan=5,sticky='w')
+Label(master, text='Match').grid(row=2,column=2,pady=(10,0),columnspan=5,sticky='w')
 match = Entry(master, width=25, textvariable=match_entry_value)
 match.config(borderwidth=2)
-match.grid(row=3, column=1,ipady=3,pady=(0,10),columnspan=5, sticky='w')
+match.grid(row=3, column=2,ipady=3,pady=(0,10),columnspan=5, sticky='w')
 
 length_entry_value = StringVar()
-Label(master, text='Length').grid(row=2,column=5,pady=(10,0),columnspan=5,sticky='w')
+Label(master, text='Length').grid(row=2,column=6,pady=(10,0),columnspan=5,sticky='w')
 length = Entry(master, width=8, textvariable=length_entry_value)
 length.config(borderwidth=2)
-length.grid(row=3, column=5,ipady=3,pady=(0,10),columnspan=5, sticky='w')
+length.grid(row=3, column=6,ipady=3,pady=(0,10),columnspan=5, sticky='w')
 
-Label(master, text='School').grid(row=4,column=0,columnspan=3,sticky='e')
-Label(master, text='Name').grid(row=4,column=3,padx=(5,0),sticky='w')
-Label(master, text='Time').grid(row=4,column=10,padx=(5,0),sticky='w')
+Label(master, text='School').grid(row=4,column=1,columnspan=3,sticky='e')
+Label(master, text='Name').grid(row=4,column=4,padx=(5,0),sticky='w')
+Label(master, text='Time').grid(row=4,column=11,padx=(5,0),sticky='w')
 
 lane_number = IntVar()
 for x in range(0, 7): #SCHOOL NAME< SWIMMER NAME, TIME
-	Radiobutton(master,  variable=lane_number, value=x).grid(row=x+5,column=0,pady=2,sticky='e')
+	Label(master, text=x+1).grid(row=x+5,column=0,columnspan=1,sticky='w',padx=(10,5))
+	Radiobutton(master,  variable=lane_number, value=x).grid(row=x+5,column=1,pady=2,sticky='e')
 	school_name[x] = Entry(master, width=5, textvariable=school_name_value[x])
 	school_name[x].config(borderwidth=2)
-	school_name[x].grid(row=x+5, column=1, pady=(2,2),ipady=1, columnspan=2, sticky='w')
+	school_name[x].grid(row=x+5, column=2, pady=(2,2),ipady=1, columnspan=2, sticky='w')
 	swimmer_name[x] = Entry(master, width=30, textvariable=swimmer_name_value[x])
 	swimmer_name[x].config(borderwidth=2)
-	swimmer_name[x].grid(row=x+5, column=3, padx=(4,0),pady=(2,2),ipady=1, columnspan=4, sticky='w')
+	swimmer_name[x].grid(row=x+5, column=4, padx=(4,0),pady=(2,2),ipady=1, columnspan=4, sticky='w')
 	race_time[x] = Entry(master, width=9, textvariable=race_time_value[x])
 	race_time[x].config(borderwidth=2)
-	race_time[x].grid(row=x+5, column=10, padx=(4,0),pady=(2,2),ipady=1,columnspan=4, sticky='w')
+	race_time[x].grid(row=x+5, column=11, padx=(4,0),pady=(2,2),ipady=1,columnspan=4, sticky='w')
 	
 def change_img(): #change image based on gfx_type radiobutton
 	int(graphic_type.get())
 	image_label.config(image=img_list[int(graphic_type.get())])
 	
 graphic_type = IntVar() #GFX TYPE
-Radiobutton(master, variable=graphic_type, text="Race Introduction", value="0", command=change_img).grid(row=4,column=14, padx=(10,15),sticky='w')
-Radiobutton(master, variable=graphic_type, text="Start List", value="1", command=change_img).grid(row=5,column=14,  padx=(10,0),sticky='w')
-Radiobutton(master, variable=graphic_type, text="Nameplate", value="2", command=change_img).grid(row=6,column=14, padx=(10,0), sticky='w')
-Radiobutton(master, variable=graphic_type, text="Lane Overlay", value="7", command=change_img).grid(row=7,column=14, padx=(10,0), sticky='w')
-Radiobutton(master, variable=graphic_type, text="Winner", value="3", command=change_img).grid(row=8,column=14, padx=(10,0), sticky='w')
-Radiobutton(master, variable=graphic_type, text="Results", value="4", command=change_img).grid(row=9, column=14, padx=(10,0), sticky='w')
-Radiobutton(master, variable=graphic_type, text="Team Scores", value="5", command=change_img).grid(row=10, column=14, padx=(10,0), sticky='w')
-Radiobutton(master, variable=graphic_type, text="Clear Graphics", value="6", command=change_img).grid(row=11, column=14, padx=(10,0), sticky='w')
+Radiobutton(master, variable=graphic_type, text="Race Introduction", value="0", command=change_img).grid(row=4,column=15, padx=(10,15),sticky='w')
+Radiobutton(master, variable=graphic_type, text="Start List", value="1", command=change_img).grid(row=5,column=15,  padx=(10,0),sticky='w')
+Radiobutton(master, variable=graphic_type, text="Nameplate", value="2", command=change_img).grid(row=6,column=15, padx=(10,0), sticky='w')
+Radiobutton(master, variable=graphic_type, text="Lane Overlay", value="7", command=change_img).grid(row=7,column=15, padx=(10,0), sticky='w')
+Radiobutton(master, variable=graphic_type, text="Winner", value="3", command=change_img).grid(row=8,column=15, padx=(10,0), sticky='w')
+Radiobutton(master, variable=graphic_type, text="Results", value="4", command=change_img).grid(row=9, column=15, padx=(10,0), sticky='w')
+Radiobutton(master, variable=graphic_type, text="Team Scores", value="5", command=change_img).grid(row=10, column=15, padx=(10,0), sticky='w')
+Radiobutton(master, variable=graphic_type, text="Clear Graphics", value="6", command=change_img).grid(row=11, column=15, padx=(10,0), sticky='w')
 
 def static_or_dynamic_change(selection):
 	if(selection == 'Static Graphics'):
@@ -355,9 +356,9 @@ def enable_lane_overlay():
 	
 is_relay = IntVar()
 enable_lane_overlay = IntVar()
-Checkbutton(master, text="Relay", variable=is_relay).grid(row=0, column=5, columnspan=2,padx=(0,10))
-Button(master, pady=3, text="Import File...", command=import_file).grid(row=12,column=0, ipadx=5, columnspan=5,pady=(15,15),padx=(10,0),sticky="w")
-Button(master, pady=3, text="Save Split Data", command=save_split_data).grid(row=13,column=0, ipadx=5, columnspan=5,pady=(0,15),padx=(10,0),sticky="w")
+Checkbutton(master, text="Relay", variable=is_relay).grid(row=0, column=6, columnspan=2,padx=(0,10))
+Button(master, pady=3, text="Import File...", command=import_file).grid(row=12,column=1, ipadx=5, columnspan=5,pady=(15,15),padx=(10,0),sticky="w")
+Button(master, pady=3, text="Save Split Data", command=save_split_data).grid(row=13,column=1, ipadx=5, columnspan=5,pady=(0,15),padx=(10,0),sticky="w")
 #Button(master, pady=3, text="Save Lane Overlay Data", command=save_lane_overlay_data).grid(row=13,column=3, ipadx=5, columnspan=7,pady=(0,15),padx=(50,0),sticky="w")
 #Checkbutton(master, text="Enable Lane Overlay", variable=enable_lane_overlay, command=enable_lane_overlay).grid(row=13, column=10, columnspan=5,padx=(10,0),pady=(0,10),sticky="w")
 
@@ -366,13 +367,13 @@ static_or_dynamic = StringVar(master)
 static_or_dynamic.set("Static Graphics") # default value
 graphic_menu = OptionMenu(master, static_or_dynamic, "Static Graphics", "Dynamic Graphics", command=static_or_dynamic_change)
 graphic_menu.config(width=15, pady=5)
-graphic_menu.grid(row=12, column=3,columnspan=5, padx=(20,0))
+graphic_menu.grid(row=12, column=4,columnspan=5, padx=(20,0))
 
-Button(master, pady=3, text="Live", command=gfx_live_pusher).grid(row=11,column=14,ipadx=10,ipady=4,pady=(15,0),columnspan=2,rowspan=2)
-Button(master, pady=3, text="Next Swimmer", command=next_swimmer).grid(row=12,column=6, columnspan=7)
+Button(master, pady=3, text="Live", command=gfx_live_pusher).grid(row=11,column=15,ipadx=10,ipady=4,pady=(15,0),columnspan=2,rowspan=2)
+Button(master, pady=3, text="Next Swimmer", command=next_swimmer).grid(row=12,column=7, columnspan=7)
 
 image_label = Label(master, image=img_list[0]) # image preview
-image_label.grid(row=0, column=10, rowspan=4, columnspan=5)
+image_label.grid(row=0, column=11, rowspan=4, columnspan=5)
 ######################################################
 
 

@@ -156,9 +156,9 @@
 									pause_running_time(10000, data[2]);
 									race_over = 0;
 								} else {
-									pause_running_time(2000, data[2]); // pause timer for first split
+									pause_running_time(3000, data[2]); // pause timer for first split
 								}
-								show_length(parseInt(data[3])*25, 6000);
+								show_length(parseInt(data[3])*25, 10000);
 								//setTimeout(function() {$('#first_split').hide();$('#split_img').hide(); }, 15000);
 								break;
 							
@@ -182,7 +182,7 @@
 									$('#split_container').hide(); 
 									$('#split_container li').hide(); 
 									$('#split_img_first').hide(); $('#split_img_second').hide(); $('#split_img_third').hide(); 
-									console.log("Hide");
+									console.log("Hide all splits");
 								}, 8000);
 								
 								break;
