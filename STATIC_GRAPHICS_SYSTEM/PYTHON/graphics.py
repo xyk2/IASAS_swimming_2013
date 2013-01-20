@@ -9,6 +9,7 @@ import webbrowser #open URL
 import Image, ImageTk #image preview
 import glob
 import os
+import re
 
 school_name = [""]*7
 swimmer_name = [""]*7
@@ -251,16 +252,16 @@ def sort_list_by_time(list):
 		if(len(list[x][3])>0 and list[x][3].find(":") == -1 and list[x][3].find(".") != -1): #skip empty times, >1 min times, and DNFs
 			list[x][3] = float(list[x][3])
 		elif(list[x][3].find(":") != -1): #if colon is present; >1 min
-			min_in_sec =  float(list[x][3].split(':')[0])*60+float(list[x][3].split(':')[1])
+			min_in_sec =  float(list[x][3].split(':')[0])*60 + float(list[x][3].split(':')[1])
 			list[x][3] = min_in_sec
 	list = sorted(list, key=lambda a_entry: a_entry[3])
 	for x in range(0,7): #convert float back to string
 		if(len(str(list[x][3])) > 0 and list[x][3] >= 60): #skip DNF; convert times >1min to : form 
 			min, sec = divmod(list[x][3], 60)
 			if(min<10): 
-				list[x][3] = "%01d:%0.2f" %(min,float(sec))
+				list[x][3] = "%01d:%05.2f" %(min,float(sec))
 			else: 
-				list[x][3] = "%02d:%0.2f" %(min,float(sec))
+				list[x][3] = "%02d:%05.2f" %(min,float(sec))
 		elif(len(str(list[x][3])) > 0 ): #if < 1 min and not blank (DNF)
 			list[x][3] = '{0:.2f}'.format(float(list[x][3])) #if for ex 46.80, include trailing 0
 		list[x][3] = str(list[x][3]) #final convert back to str
@@ -327,7 +328,15 @@ def gfx_live_pusher():
 	log_to_file("logfile.log", gfx_type, race_title_val, match_val) #log to logfile
 	save_event_to_file(gfx_type, race_title_val, match_val, csv_string) #save event to .csv
 	
-	
+def guess_race_length(string):
+	data = string.lower()
+	regexed = re.compile(r'[^\dx]+').sub('', data)
+	regexed = regexed.strip('x')
+	if(regexed.find('x') == -1):
+		return int(regexed)
+	else:
+		return int(regexed.split('x')[0]) * int(regexed.split('x')[1])
+		
 def import_file(_optional_filename=""): 
 	if(_optional_filename == ""):
 		filename = tkFileDialog.askopenfilename()
@@ -356,6 +365,7 @@ def import_file(_optional_filename=""):
 			except: #if out of index (ie no time data), skip
 				pass
 		file.close()
+	length_entry_value.set(guess_race_length(race_title_entry_value.get()))
 	save_split_data()
 	
 def next_swimmer(): #simple function to increment lane number
@@ -416,13 +426,7 @@ def listbox_import():
 		return
 	file.close()
 
-def guess_race_length(string):
-	string = string.lower()
-	regexed = re.compile(r'[^\dx]+').sub('', string)
-	if(regexed.find('x') == -1):
-		return int(regexed)
-	else:
-		return int(regexed.split('x')[0]) * int(regexed.split('x')[1])
+
 	
 Lb1 = Listbox(master)
 Lb1.config(width=40,height=11)
