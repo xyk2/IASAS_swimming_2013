@@ -390,7 +390,7 @@ def save_split_data():
 	length = length.replace("m", "")
 	if(length == '50' or length == '100' or length == '200' or length == '400' or length == '800'):
 		length = str(int(length)/25) #laps of pool
-	csv_string = length + '\n'
+	csv_string = length + ',\n'
 	for x in range(0,7):
 		csv_string = csv_string + str(x+1) + ','
 		csv_string = csv_string + school_name[x].get() + ','

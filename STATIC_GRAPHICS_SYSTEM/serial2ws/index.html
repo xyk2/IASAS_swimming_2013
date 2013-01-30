@@ -10,16 +10,10 @@
 			<script>
 				$(document).ready(function() {
 				if(window.location.search == '?anycast' || window.location.search == '?anycast/') { 
-					$('html').css("zoom", "1.27");
-					$('html').css("margin-left", "-83px");
-					$('html').css("margin-top", "-85px");
-					$('html').css("cursor", "none");
+					$('html').css("zoom", "1.27"); $('html').css("margin-left", "-83px"); $('html').css("margin-top", "-85px"); $('html').css("cursor", "none");
 				}
 			});
-				var sess = null;
-				var wsuri = "ws://" + window.location.hostname + ":9000";
-				var retryCount = 0;
-				var retryDelay = 2;
+				var sess = null; var wsuri = "ws://" + window.location.hostname + ":9000"; var retryCount = 0; var retryDelay = 2;
 
 				function connect() {
 					statusline = document.getElementById('statusline');
@@ -104,11 +98,12 @@
 				}
 				
 				function get_total_laps() {
+					var lol = 0;
 					$.ajax({url:'./split_race_data.csv', cache: false, async:false}).done(function(csv) {
 						csv = $.csv.toArrays(csv);
-						return parseInt(csv[0][0]); // line 1 cell 1 is total laps
+						lol = parseInt(csv[0][0]); // line 1 cell 1 is total laps
 					});
-					return 0;
+					return lol;
 				}
 				
 				var pauseRunningTime = new Boolean(); // boolean; true if running time is paused
@@ -135,14 +130,16 @@
 						data = data.substring(1); // remove leading datatype
 						data = data.replace(/[A-Za-z]/g, ""); // remove name and school
 						data = data.split(" ").clean(""); // remove empty elements ("")
-						console.log("LANE: "+ data[0] + "  PLACE: " + data[1] + "  TIME: " + data[2] + "  LAP#: " + data[3]);
+						
 						// data - [lane, place, time, laps]
 						
 						total_laps_of_race = get_total_laps();
 						if(data[3] == total_laps_of_race) {
-							console.log("FINISH: " + data[0] +" " + data[2]);
+							console.log("FINISHED: " + data[0] +" " + data[2]);
+						} else { 
+							console.log("LANE: "+ data[0] + "  PLACE: " + data[1] + "  TIME: " + data[2] + "  LAP#: " + data[3]);
 						}
-						
+						 
 						
 						switch(data[1]) { // switch place for splits
 							case '1':
@@ -152,8 +149,8 @@
 								first_place_split_time = convert_time(data[2]); // first place time in seconds
 								if(parseInt(data[3]) == total_laps_of_race) {  // if winner of race
 									race_over = 1;
-									console.log("WE HAVE A WINNER");
-									console.log("Winning Time: " + data[2] + "    Lane: "+ data[0]);
+									//console.log("WE HAVE A WINNER");
+									//console.log("Winning Time: " + data[2] + "    Lane: "+ data[0]);
 								}
 								$('#first_split').show();
 								$('#split_container').show();
@@ -164,7 +161,6 @@
 									pause_running_time(3000, data[2]); // pause timer for first split
 								}
 								show_length(parseInt(data[3])*25, 10000);
-								//setTimeout(function() {$('#first_split').hide();$('#split_img').hide(); }, 15000);
 								break;
 							
 							case '2': // 2nd place
@@ -173,8 +169,6 @@
 								display_time = Number((convert_time(data[2]) - first_place_split_time).toFixed(2));
 								$('#second_split .time').html("+" + display_time);
 								$('#second_split').show();
-								//$('#split_img').show();
-								//setTimeout(function() {$('#second_split').hide();$('#split_img').hide(); }, 15000);
 								break;
 							case '3': // third place
 								$('#split_img_third').show();
