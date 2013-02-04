@@ -148,7 +148,7 @@
 								$('#first_split .time').html(data[2]); // split time
 								first_place_split_time = convert_time(data[2]); // first place time in seconds
 								if(parseInt(data[3]) == total_laps_of_race) {  // if winner of race
-									race_over = 1;
+									//race_over = 1;
 									//console.log("WE HAVE A WINNER");
 									//console.log("Winning Time: " + data[2] + "    Lane: "+ data[0]);
 								}
@@ -166,14 +166,16 @@
 							case '2': // 2nd place
 								$('#split_img_second').show();
 								change_swimmer_name(2, data[0]); // place, lane
-								display_time = Number((convert_time(data[2]) - first_place_split_time).toFixed(2));
+								//display_time = Number((convert_time(data[2]) - first_place_split_time).toFixed(2));
+								display_time = (convert_time(data[2]) - first_place_split_time).toFixed(2);
 								$('#second_split .time').html("+" + display_time);
 								$('#second_split').show();
 								break;
 							case '3': // third place
 								$('#split_img_third').show();
 								change_swimmer_name(3, data[0]); // place, lane
-								display_time = Number((convert_time(data[2]) - first_place_split_time).toFixed(2));
+								//display_time = Number((convert_time(data[2]) - first_place_split_time).toFixed(2));
+								display_time = (convert_time(data[2]) - first_place_split_time).toFixed(2);
 								$('#third_split .time').html("+" + display_time);
 								$('#third_split').show();
 								//$('#split_img').show();
@@ -181,7 +183,7 @@
 									$('#split_container').hide(); 
 									$('#split_container li').hide(); 
 									$('#split_img_first').hide(); $('#split_img_second').hide(); $('#split_img_third').hide(); 
-									console.log("Hide all splits");
+									//console.log("Hide all splits");
 								}, 8000);
 								
 								break;

@@ -54,16 +54,16 @@
 						data = $.csv.toArrays(data);
 						if(data[0][0] != oldData) {
 							if(data[0][0] == 'redirect live') {
-								document.getElementById('iframe').src = document.getElementById('iframe').src;
+								//document.getElementById('iframe').src = document.getElementById('iframe').src;
 								//sleep(200);
 								$('#iframe').show();
 								$('#container').hide();
-								console.log("Dynamic redirect");
+								//console.log("Dynamic redirect");
 							}
 							if(data[0][0] == 'redirect static') {
 								$('#iframe').hide();
 								$('#container').show();
-								console.log("Static redirect");
+								//console.log("Static redirect");
 							}
 							oldData = data[0][0];
 						}
@@ -104,7 +104,7 @@
 			
 			
 			function results_handler(csv) {
-				console.log("Graphics -> results_handler()...");
+				//console.log("Graphics -> results_handler()...");
 				$("#results h1").html(csv[1][0]); // Line 2, Cell 1 (race title)
 				$("#results h2").html("Results - " + csv[1][1]); // Line 2, Cell 2 (race type/match)
 				$("#results ul li").each(function(index) {
@@ -116,7 +116,7 @@
 			}
 			
 			function start_list_handler(csv) {
-				console.log("Graphics -> start_list_handler()...");			
+				//console.log("Graphics -> start_list_handler()...");			
 				$("#start_list h1").html(csv[1][0]); // Line 2, Cell 1 (race title)
 				$("#start_list h2").html("Start List - " + csv[1][1]); // Line 2, Cell 2 (race type/match)
 				$("#start_list ul li").each(function(index) {
@@ -127,7 +127,7 @@
 			}
 			
 			function nameplate_handler(csv) {
-				console.log("Graphics -> nameplate_handler()...");		
+				//console.log("Graphics -> nameplate_handler()...");		
 				$("#nameplate h3").html(csv[1][0]); // Line 2, Cell 1 (lane number)
 				$("#nameplate h2").html(csv[1][1]); // Line 2, Cell 2 (school name)
 				$("#nameplate h1").html(csv[1][2]); // Line 2, Cell 3 (swimmer name)
@@ -136,7 +136,7 @@
 			}
 			
 			function winner_handler(csv) {
-				console.log("Graphics -> winner_handler()...");		
+				//console.log("Graphics -> winner_handler()...");		
 				$("#winner h1").html(csv[1][0]); // Line 2, Cell 1 (race title)
 				$("#winner h2").html("Winner - " + csv[1][1]); // Line 2, Cell 2 (race type/match)
 				$("#winner h6").html(csv[2][0]); // Line 2, Cell 1 (lane number)
@@ -147,13 +147,13 @@
 			}
 
 			function race_intro_handler(csv) {
-				console.log("Graphics -> race_intro_handler()...");		
+				//console.log("Graphics -> race_intro_handler()...");		
 				$("#race_intro h1").html(csv[1][0]); // Line 2, Cell 1 (race title)
 				$("#race_intro h2").html(csv[1][1]); // Line 2, Cell 2 (race type/match)
 			}
 			
 			function relay_start_list_handler(csv) {
-				console.log("Graphics -> relay_start_list_handler()...");			
+				//console.log("Graphics -> relay_start_list_handler()...");			
 				$("#relay_start_list h1").html(csv[1][0]); // Line 2, Cell 1 (race title)
 				$("#relay_start_list h2").html("Start List - " + csv[1][1]); // Line 2, Cell 2 (race type/match)
 				$("#relay_start_list ul li").each(function(index) {
@@ -164,7 +164,7 @@
 			}
 			
 			function relay_results_handler(csv) {
-				console.log("Graphics -> relay_results_handler()...");
+				//console.log("Graphics -> relay_results_handler()...");
 				$("#relay_results h1").html(csv[1][0]); // Line 2, Cell 1 (race title)
 				$("#relay_results h2").html("Results - " + csv[1][1]); // Line 2, Cell 2 (race type/match)
 				$("#relay_results ul li").each(function(index) {
@@ -176,7 +176,7 @@
 			}
 			
 			function team_scores_handler(csv) {
-				console.log("Graphics -> team_scores_handler()...");
+				//console.log("Graphics -> team_scores_handler()...");
 				$("#team_scores > #boys li").each(function(index) {
 					$(this).attr("class", csv[index+2][0].toLowerCase()); // Line n Cell 2 (school name)
 					$(this).find("h3").html(csv[index+2][0].toUpperCase()); // Line n Cell 2 (school name)
@@ -192,7 +192,7 @@
 			}	
 
 			function lane_overlay_handler(csv) {
-				console.log("Graphics -> lane_overlay_handler()...");
+				//console.log("Graphics -> lane_overlay_handler()...");
 				$($(".overlay_row").get().reverse()).each(function(index) {
 					if(csv[index+1][1] == '' && csv[index+1][2] == '') {
 						$(this).hide();
