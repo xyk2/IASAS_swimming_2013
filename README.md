@@ -9,6 +9,7 @@ The displayer is separated into two subsections: dynamic and static. The dynamic
 <img src='http://static.xyk2maker.com/github/iasas_swimming_2013/gui_sample.png'/>
 <img src='http://static.xyk2maker.com/github/iasas_swimming_2013/readme_sample.png'/>
 Static graphics are based on [dosxuk's drawings]. All of them were redone in Illustrator with custom elements.
+<img src='http://static.xyk2maker.com/github/iasas_swimming_2013/race_example.jpg'/>
 
 
 Tech
