@@ -6,8 +6,8 @@ The graphics keying and overlay engine for the IASAS 2013 swimming broadcast. Ru
 
 The displayer is separated into two subsections: dynamic and static. The dynamic side handles all the timing console graphics including the running time and splits, and the static side handles the graphics for results and intros. 
 
-<img src='https://raw.github.com/xyk2/IASAS_swimming_2013/master/_new_vector_graphics/samples/gui_sample.png'/>
-<img src='https://raw.github.com/xyk2/IASAS_swimming_2013/master/_new_vector_graphics/samples/readme_sample.png'/>
+<img src='http://static.xyk2maker.com/github/iasas_swimming_2013/gui_sample.png'/>
+<img src='http://static.xyk2maker.com/github/iasas_swimming_2013/readme_sample.png'/>
 Static graphics are based on [dosxuk's drawings]. All of them were redone in Illustrator with custom elements.
 
 
@@ -34,7 +34,7 @@ The engine uses python 2.7 and a number of open source projects:
 
 License
 -
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0;" src="https://raw.github.com/xyk2/IASAS_swimming_2013/master/_new_vector_graphics/samples/cc_a_nc_sa.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a>.
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0;" src="http://static.xyk2maker.com/github/iasas_swimming_2013/cc_a_nc_sa.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a>.
 
   [AutoBahn WebSockets]: http://autobahn.ws/
   [TKinter]: http://wiki.python.org/moin/TkInter
